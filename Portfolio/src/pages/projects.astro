@@ -1,0 +1,32 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Card from '../components/Card.astro';
+
+const response = await fetch('http://localhost:3000/api/projects');
+const projects = await response.json();
+---
+
+<Layout title="Projects - Gavin">
+	<h1 class="roboto-regular">Projects</h1>
+	<div class="projects">
+		{projects.map(project => (
+			<Card img={project.img} title={project.title} body={project.body} href={project.href} tools={project.tools}></Card>
+		))}
+	</div>
+</Layout>
+
+<style>
+h1 {
+	text-transform: uppercase;
+	letter-spacing: 2px;
+	font-size: var(--s-5);
+	position: relative;
+}
+
+.projects {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-10);
+  margin: var(--s-5) 0;
+}
+</style>

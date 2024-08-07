@@ -1,0 +1,55 @@
+---
+const tools = ["AstroJS", "Javascript", "NodeJS", "ExpressJS", "CSS", "HTML", "MongoDB"];
+const year = new Date().getFullYear();
+---
+<footer>
+    <h1 class="">- GAVIN OIAMO -</h1>
+    <p class="roboto-extralight">Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit pariatur itaque cupiditate sunt.</p>
+    <p>- PORTFOLIO TOOLS -</p>
+    <div class="tools">
+        {
+            tools.map((tool) => <span class="badge">{tool}</span>)
+        }
+    </div>
+    <ul>
+        <li><a class="roboto-light" href="/projects">Projects</a></li>
+    </ul>
+    <p>&copy Copyright { year }</p>
+</footer>
+<style>
+    footer {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        gap: var(--s-3);
+        align-items: center;
+        padding: var(--s-4) var(--s-6);
+        background-color:var(--secondary-color);
+    }
+
+    h1 {
+        font-size: var(--s-3);
+        letter-spacing: 2px;
+    }
+
+    p {
+        text-align: center;
+        letter-spacing: 1px;
+        font-size: var(--s-2);
+    }
+
+    ul {
+        display: flex;
+        flex-direction: row;
+        gap: var(--s-3);
+    }
+
+    ul li {
+        text-decoration: underline;
+    }
+
+    ul li a {
+        letter-spacing: 1px;
+        font-size: var(--s-2);
+    }
+</style>

@@ -1,0 +1,173 @@
+---
+import "../styles/global.css"
+---
+<header>
+    <ion-icon name="moon-outline"></ion-icon>
+    <ion-icon  class="hidden" name="sunny-outline"></ion-icon>
+    <div class="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+</header>
+<nav class="hidden">
+    <a class="roboto-regular" href="/">Home</a>
+    <a class="roboto-regular" href="/projects">Projects</a>
+    <div class="links">
+        <a href="https://github.com/oiamo123"><ion-icon name="logo-github"></ion-icon></a>
+        <a href="https://www.linkedin.com/in/gavin-oiamo/?originalSubdomain=ca"><ion-icon name="logo-linkedin"></ion-icon></a>
+        <a href=""></a>
+    </div>
+</nav>
+<script>
+    const moon = document.querySelector('[name="moon-outline"]');
+    const sun = document.querySelector('[name="sunny-outline"]');
+    const hamburger = document.querySelector('.hamburger')
+    const nav = document.querySelector('nav');
+
+    const switchTheme = function () {
+        // toggle button
+        moon.classList.contains('hidden') ? moon.classList.remove('hidden') : moon.classList.add('hidden')
+            sun.classList.contains('hidden') ? sun.classList.remove('hidden') : sun.classList.add('hidden')
+
+            // toggle theme
+            const theme = document.documentElement.getAttribute("data-theme")
+            theme == "dark" ? document.documentElement.setAttribute("data-theme", "light") : document.documentElement.setAttribute("data-theme", "dark")
+    }
+
+    // change hamburger and nav state
+    hamburger.addEventListener(`click`, (e) => {
+        hamburger.classList.toggle('active');
+        nav.classList.toggle('active')
+    })
+
+    moon.addEventListener(`click`, switchTheme)
+    sun.addEventListener(`click`, switchTheme)    
+</script>
+<style>
+    header {
+        display: flex;
+        align-items: center;
+        padding: var(--s-5) var(--s-5);
+        background-color: var(--header-color);
+        justify-content: space-between;
+        box-shadow: 0px 6px 5px rgba(0, 0, 0, 0.05);
+        position: fixed;
+        width: 100%;
+        top: 0%;
+        z-index: 10;
+    }
+
+    header {
+        -webkit-backdrop-filter: blur(8px);
+        backdrop-filter: blur(8px);
+    }
+
+    ion-icon {
+        scale: 1.75;
+        z-index: 10;
+        position: relative;
+    }
+
+    ion-icon[name="sunny-outline"] {
+        color: yellow;
+    }
+
+    ion-icon[name="moon-outline"] {
+        color: black;
+    }
+
+    ion-icon:hover {
+        cursor: pointer;
+    }
+
+    .hamburger {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        cursor: pointer;
+        position: relative;
+        z-index: 11;
+    }
+
+    .hamburger span {
+        display: block;
+        height: 3px;
+        width: 32px;
+        border-radius: 9999px;
+        background-color: var(--font-color);
+        opacity: 1;
+        transition: transform 0.2s ease, opacity 0.1s ease;
+    }
+
+    .hamburger span:nth-child(2) {
+        width: 16px;
+        align-self: flex-end;
+    }
+
+    .hamburger.active span:nth-child(2) {
+        opacity: 0;
+    }
+
+    .hamburger.active span:nth-child(1) {
+        transform: rotate(45deg) translate(6px, 6px);
+    }
+
+    .hamburger.active span:nth-child(3) {
+        transform: rotate(-45deg) translate(6px, -7px);
+    }
+
+    .hamburger span:nth-child(1) {
+        transform: rotate(0deg) translate(0, 0);
+    }
+
+    .hamburger span:nth-child(2) {
+        opacity: 1;
+    }
+
+    .hamburger span:nth-child(3) {
+        transform: rotate(0deg) translate(0, 0);
+    }
+
+    .hamburger:hover {
+        cursor: pointer;
+    }
+
+    nav {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        position: fixed;
+        bottom: -100%;
+        height: 100vh;
+        width: 100vw;
+        padding: var(--s-12) var(--s-7);
+        gap: var(--s-5);
+        background-color: var(--secondary-color);
+        z-index: 2;
+        transition: bottom 0.2s ease-in;
+    }
+
+    nav a {
+        font-size: var(--s-4);
+        color: var(--font-color);
+        cursor: pointer;
+        letter-spacing: 2px;
+    }
+
+    nav span {
+        height: 2px;
+        width: 100%;
+        background-color: var(--accent-color);
+    }
+
+    nav .links {
+        display: flex;
+        gap: var(--s-5);
+        margin-left: var(--s-1);
+    }
+
+    nav.active {
+        bottom: 0;
+    }
+</style>

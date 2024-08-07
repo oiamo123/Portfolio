@@ -1,0 +1,83 @@
+---
+interface Props {
+	title: string;
+	body: string;
+	href: string;
+	tools: Array<string>;
+	img: string;
+}
+
+const { img, tools, href, title, body } = Astro.props;
+---
+<div class="card">
+	<img src={img} alt="project image">
+	<div class="tools">
+		{
+			tools.map(tool => <span class="badge">{tool}</span>)
+		}
+	</div>
+	<aside>
+		<h1 class="roboto-regular">{title}</h1>
+		<p class="roboto-light">{body}</p>
+		<a class="btn" href={href}><p>Read more</p><svg width="48" height="24" viewBox="0 0 48 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+			<path d="M4 12H44M44 12L34 8M44 12L34 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+		  </svg></a>
+	</aside>	
+</div>
+<style>
+	.card {
+		display: flex;
+		flex-direction: column;
+		gap: var(--s-2);
+		background-color: var(--card);
+		margin: auto;
+		box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+	}
+
+	img {
+		object-fit: contain;
+	}
+
+	.badge {
+		font-size: 9px;
+		letter-spacing: 1px;
+		padding: var(--s-05) var(--s-4);
+	}
+
+	.card h1 {
+		text-transform: uppercase;
+		font-size: var(--s-4);
+		letter-spacing: 4px;
+	}
+
+	.card h1, .card p {
+		color: #000000;
+	}
+
+	.card p {
+		letter-spacing: 1.5px;
+	}
+
+	.card .btn:hover p {
+		color: white;
+	}
+
+	.card .btn svg {
+		color: black;
+	}
+
+	.card .btn:hover svg {
+		color: white;
+	}
+
+	.card a {
+		align-self: flex-start;
+	}
+
+	.card aside {
+		display: flex;
+		flex-direction: column;
+		gap: var(--s-2);
+		padding: var(--s-3);
+	}
+</style>
