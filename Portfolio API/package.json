@@ -1,7 +1,11 @@
 {
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.19.2",
+    "googleapis": "^140.0.1",
     "mongoose": "^8.5.2",
-    "nodemon": "^3.1.4"
+    "nodemailer": "^6.9.14",
+    "nodemon": "^3.1.4",
+    "zod": "^3.23.8"
   }
 }

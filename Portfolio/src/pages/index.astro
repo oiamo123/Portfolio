@@ -15,9 +15,12 @@ const titles = ["Backend", "Frontend", "Java", "C#"];
         <p class="roboto-light">My name is <span class="roboto-medium-italic">Gavin</span> and I'm a junior developer versed in everything frontend and backend.</p>
     </article>
     <article>
+
+    </article>
+    <article>
       <h1 class="roboto-bold">Feel free to contact me!</h1>
       <p class="roboto-light">I am always open to new opportunities, questions or proposals</p>
-      <form action="">
+      <form>
         <p class="roboto-light">Your name</p>
         <label for="name"></label>
         <input type="text" name="name" placeholder="Enter your name">
@@ -32,6 +35,7 @@ const titles = ["Backend", "Frontend", "Java", "C#"];
         </svg></button>
         </form>
       </article>
+      <p class="message-response"></p>
 </Layout>
 
 <style>
@@ -52,6 +56,41 @@ article:nth-child(1) > p {
 
 .active {
   display: inline-block;
+}
+
+article:nth-child(2) {
+  background-color: var(--secondary-color);
+}
+
+article:nth-child(3) h1 {
+  font-size: var(--s-5);
+  width: var(--s-75);
+}
+
+article:nth-child(3) > p {
+  font-size: var(--s-3);
+  letter-spacing: 2px;
+}
+
+article:nth-child(3) {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-4);
+}
+
+form {
+  margin: var(--s-1) 0px;
+}
+
+form > p {
+  font-size: var(--s-2);
+  letter-spacing: 1px;
+  margin-top: var(--s-4);
+}
+
+form input:focus, textarea:focus {
+  border-bottom: 1.5px solid var(--secondary-color);
+  transition: border-bottom 0.2s ease-in;
 }
 
 textarea {
@@ -92,37 +131,6 @@ input:-moz-placeholder, textarea::-moz-placeholder {
   letter-spacing: 1px;
 }
 
-article:nth-child(2) h1 {
-  font-size: var(--s-5);
-  width: var(--s-75);
-}
-
-article:nth-child(2) > p {
-  font-size: var(--s-3);
-  letter-spacing: 2px;
-}
-
-article:nth-child(2) {
-  display: flex;
-  flex-direction: column;
-  gap: var(--s-4);
-}
-
-form {
-  margin: var(--s-1) 0px;
-}
-
-form > p {
-  font-size: var(--s-2);
-  letter-spacing: 1px;
-  margin-top: var(--s-4);
-}
-
-form input:focus, textarea:focus {
-  border-bottom: 1.5px solid var(--secondary-color);
-  transition: border-bottom 0.2s ease-in;
-}
-
 .btn {
   margin-top: var(--s-5);
 }
@@ -146,4 +154,41 @@ form input:focus, textarea:focus {
       }, 4000);
     }
   });
+
+  document.querySelector('button[type="submit"]').addEventListener(`click`, (e) => {
+    e.preventDefault()
+
+    const nameInput = document.querySelector('input[name="name"]') as HTMLInputElement;
+    const emailInput = document.querySelector('input[name="email"]') as HTMLInputElement;
+    const messageInput = document.querySelector('textarea[name="message"]') as HTMLInputElement;
+
+    const name = nameInput.value;
+    const email = emailInput.value;
+    const message = messageInput.value;
+
+
+    fetch("http://localhost:3000/api/mail", 
+      { method: 'POST', 
+        headers: { 'Content-Type': 'application/json' }, 
+        body: JSON.stringify({ name, email, message })}).then(res => res.json()).then(data => {
+
+      nameInput.style.borderBottomColor = `#8cb0bf`;
+      emailInput.style.borderBottomColor = `#8cb0bf`; 
+      messageInput.style.borderBottomColor = `#8cb0bf`; 
+      
+      if (!data.message) {
+          data.forEach(err => {
+            const elements = document.getElementsByName(`${err.path}`)
+
+            elements.forEach(e => {
+              e.textContent = '';
+              e.setAttribute("placeholder", err.message);
+              e.style.borderBottomColor = `#FF0000`;
+            })
+          })
+      } else {
+        document.querySelector(`.message-response`).textContent = `${data.message}`
+      }
+    })
+  })
   </script>
