@@ -25,14 +25,41 @@ import "../styles/global.css"
     const hamburger = document.querySelector('.hamburger')
     const nav = document.querySelector('nav');
 
+    const toggleThemeIcons = function() {
+        moon.classList.contains('hidden') ? moon.classList.remove('hidden') : moon.classList.add('hidden')
+        sun.classList.contains('hidden') ? sun.classList.remove('hidden') : sun.classList.add('hidden')
+    }
+
+    // get user preference for dark mode
+    const darkMode = window.matchMedia('(prefers-color-scheme: dark)')
+
+    // set user preference
+    darkMode.matches && document.documentElement.getAttribute("data-theme") == null ? 
+                    document.documentElement.setAttribute("data-theme", "dark"): 
+                    document.documentElement.setAttribute("data-theme", "light")
+
+    //check localstorage for theme and set theme
+    document.addEventListener("DOMContentLoaded", () => {
+        const theme = localStorage.getItem('theme');
+        if (theme) document.documentElement.setAttribute('data-theme', theme);
+
+        // set icon for theme
+        if (theme == "light" && moon.classList.contains("hidden")) toggleThemeIcons();
+        if (theme == "dark" && sun.classList.contains("hidden")) toggleThemeIcons();
+    })
+    
+
     const switchTheme = function () {
         // toggle button
-        moon.classList.contains('hidden') ? moon.classList.remove('hidden') : moon.classList.add('hidden')
-            sun.classList.contains('hidden') ? sun.classList.remove('hidden') : sun.classList.add('hidden')
+        toggleThemeIcons();
 
-            // toggle theme
-            const theme = document.documentElement.getAttribute("data-theme")
-            theme == "dark" ? document.documentElement.setAttribute("data-theme", "light") : document.documentElement.setAttribute("data-theme", "dark")
+        // toggle theme
+        const theme = document.documentElement.getAttribute("data-theme")
+        console.log(theme)
+        theme == "dark" ? document.documentElement.setAttribute("data-theme", "light") : document.documentElement.setAttribute("data-theme", "dark")
+
+        // store theme in local storage
+        localStorage.setItem("theme", theme == "dark" ? "light": "dark")
     }
 
     // change hamburger and nav state
@@ -48,7 +75,7 @@ import "../styles/global.css"
     header {
         display: flex;
         align-items: center;
-        padding: var(--s-5) var(--s-5);
+        padding: var(--s-6) var(--s-6);
         background-color: var(--header-color);
         justify-content: space-between;
         box-shadow: 0px 6px 5px rgba(0, 0, 0, 0.05);
@@ -141,15 +168,15 @@ import "../styles/global.css"
         bottom: -100%;
         height: 100vh;
         width: 100vw;
-        padding: var(--s-12) var(--s-7);
-        gap: var(--s-5);
+        padding: var(--s-13) var(--s-8);
+        gap: var(--s-6);
         background-color: var(--secondary-color);
         z-index: 2;
         transition: bottom 0.2s ease-in;
     }
 
     nav a {
-        font-size: var(--s-4);
+        font-size: var(--s-5);
         color: var(--font-color);
         cursor: pointer;
         letter-spacing: 2px;
@@ -163,7 +190,7 @@ import "../styles/global.css"
 
     nav .links {
         display: flex;
-        gap: var(--s-5);
+        gap: var(--s-6);
         margin-left: var(--s-1);
     }
 

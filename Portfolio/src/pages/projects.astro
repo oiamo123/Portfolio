@@ -7,15 +7,20 @@ const projects = await response.json();
 ---
 
 <Layout title="Projects - Gavin">
-	<h1 class="roboto-regular">Projects</h1>
-	<div class="projects">
-		{projects.map(project => (
-			<Card img={project.img} title={project.title} body={project.body} href={project.href} tools={project.tools}></Card>
-		))}
-	</div>
+	<article>
+		<h1 class="roboto-regular">Projects</h1>
+		<div class="projects">
+			{projects.map(project => (
+				<Card img={project.img} title={project.title} body={project.body} href={project.href} tools={project.tools}></Card>
+			))}
+		</div>
+	</article>
 </Layout>
 
 <style>
+article {
+	padding: var(--s-7);
+}
 h1 {
 	text-transform: uppercase;
 	letter-spacing: 2px;
@@ -30,3 +35,9 @@ h1 {
   margin: var(--s-5) 0;
 }
 </style>
+<script>
+	document.addEventListener("DOMContentLoaded", () => {
+		const theme = localStorage.getItem("theme")
+		document.documentElement.setAttribute("data-theme", theme)
+	})
+</script>

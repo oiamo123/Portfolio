@@ -1,0 +1,131 @@
+---
+const timelineresponse = await fetch('http://localhost:3000/api/timeline')
+const timeline = await timelineresponse.json();
+---
+<article>
+{
+timeline.map(item => (
+    <div class="info">
+      <aside>
+        <span>{item.yearmo}</span>
+        <h1>{item.title}</h1>
+        <p class="roboto-light">{item.description}</p>
+      </aside>
+    </div>
+  ))
+}
+</article>
+<style>
+article {
+    position: relative;
+    padding: 5px 0;
+}
+
+article::after {
+    top: var(--s-3);
+    font-size: var(--s-5);
+    right: var(--s-7);
+    display: block;
+    position: absolute;
+    content: 'Some history';
+    font-weight: 700;
+    font-family: 'Roboto', sans-serif;
+}
+
+article > h1 {
+    font-size: var(--s-5);
+    position: absolute;
+    align-self: flex-end;
+}
+
+article aside p {
+  font-size: var(--s-2);
+  letter-spacing: 1.3px;
+}
+    /* For Time line */
+.info {
+  display: flex;
+  padding: var(--s-1) var(--s-3);
+  margin: -0.62px var(--s-4);
+  border-radius: var(--s-4);
+  position: relative;
+}
+
+.info::before {
+  content: "";
+  position: absolute;
+  width: 51%;
+  border: solid var(--accent-color);
+}
+
+.info aside {
+  margin: var(--s-7) 0;
+}
+
+.info h1 {
+    font-size: var(--s-4);
+    padding: var(--s-2) 0;
+}
+
+.info:nth-child(odd) aside {
+  padding: 30px 0 30px 30px;
+  text-align: left;
+}
+
+.info:nth-child(even) aside {
+  padding: 30px 30px 30px 0;
+}
+
+.info:nth-child(even) aside h1 {
+  text-align: right;
+}
+
+.info:nth-child(even)::before {
+  right: 0;
+  top: 0;
+  bottom: 0;
+  border-width: 5px 5px 5px 0;
+  border-radius: 0 50px 50px 0;
+}
+
+.info:nth-child(odd)::before {
+  left: 0px;
+  top: -4.5px;
+  bottom: -4.5px;
+  border-width: 5px 0 5px 5px;
+  border-radius: 50px 0 0 50px;
+}
+
+.info:first-child::before {
+  border-top: 0;
+  border-top-left-radius: 0;
+}
+
+.info:last-child:nth-child(odd)::before {
+  border-bottom: 0;
+  border-bottom-left-radius: 0;
+}
+
+.info:last-child:nth-child(even)::before {
+  border-bottom: 0;
+  border-bottom-right-radius: 0;
+}
+
+.info aside span {
+  position: absolute;
+  background-color: var(--accent-color);
+  padding: 0 var(--s-1);
+  top: 15%;
+}
+
+.info:nth-child(odd) aside span {
+  left: 1px;
+  border-left: 38px solid var(--accent-color);
+}
+
+.info:nth-child(even) aside span {
+  right: 1px;
+  border-right: 38px solid var(--accent-color);
+}
+/* For time line ^^^ */
+</style>

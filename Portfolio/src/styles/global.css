@@ -2,16 +2,17 @@
   --s-05: 3px;
   --s-1: 6px;
   --s-2: 12px;
-  --s-3: 18px;
-  --s-4: 24px;
-  --s-5: 32px;
-  --s-6: 48px;
-  --s-7: 56px;
-  --s-8: 64px;
-  --s-9: 72px;
-  --s-10: 80px;
-  --s-11: 6.5rem;
-  --s-12: 8rem;
+  --s-3: 15.5px;
+  --s-4: 18px;
+  --s-5: 24px;
+  --s-6: 32px;
+  --s-7: 48px;
+  --s-8: 56px;
+  --s-9: 64px;
+  --s-10: 72px;
+  --s-11: 80px;
+  --s-12: 6.5rem;
+  --s-13: 8rem;
   --s-15: 10rem;
   --s-20: 15rem;
   --s-50: 50%;
@@ -122,10 +123,14 @@
   font-style: italic;
 }
 
+article {
+  padding: var(--s-8);
+}
+
 .badge {
   background-color: var(--btn-primary);
   font-size: 10px;
-  padding: var(--s-1) var(--s-5);
+  padding: var(--s-1) var(--s-6);
   box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
   letter-spacing: 1.5px;
 }
@@ -149,7 +154,7 @@
   gap: var(--s-2);
   letter-spacing: 1.2px;
   border: 1px solid var(--accent-color);
-  padding: var(--s-05) var(--s-5);
+  padding: var(--s-05) var(--s-6);
   position: relative;
   overflow: hidden;
 }

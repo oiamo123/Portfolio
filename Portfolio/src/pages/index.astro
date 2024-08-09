@@ -1,6 +1,12 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Card from '../components/Card.astro';
+import Timeline from '../components/Timeline.astro';
+
+const imagesresponse = await fetch('http://localhost:3000/api/images');
+const images = await imagesresponse.json();
+
+const profileIMG = images.find(img => img.for === "profile")
 
 const titles = ["Backend", "Frontend", "Java", "C#"];
 ---
@@ -15,6 +21,14 @@ const titles = ["Backend", "Frontend", "Java", "C#"];
         <p class="roboto-light">My name is <span class="roboto-medium-italic">Gavin</span> and I'm a junior developer versed in everything frontend and backend.</p>
     </article>
     <article>
+      <p></p>
+      <div>
+        <img src={profileIMG.href} alt={profileIMG.alt}>
+      </div>
+    </article>
+    <Timeline></Timeline>
+    <article>
+      <h1>My Skills</h1>
 
     </article>
     <article>
@@ -44,14 +58,15 @@ article:nth-child(1) h1 {
 }
 
 article:nth-child(1) > p {
-  margin-top: var(--s-5);
-  font-size: var(--s-3);
+  margin-top: var(--s-6);
+  font-size: var(--s-4);
   letter-spacing: 1.4px;
-  line-height: var(--s-5);
+  line-height: var(--s-6);
 }
 
 .title {
   display: none;
+  color: var()
 }
 
 .active {
@@ -60,22 +75,51 @@ article:nth-child(1) > p {
 
 article:nth-child(2) {
   background-color: var(--secondary-color);
+  width: 100vw;
 }
 
-article:nth-child(3) h1 {
-  font-size: var(--s-5);
+article:nth-child(2) img {
+  position: relative;
+  z-index: 1;
+  margin: var(--s-8) 0;
+}
+
+article:nth-child(2) div {
+  height: fit-content;
+  width: fit-content;
+  position: relative;
+}
+
+article:nth-child(2) div::before {
+  content: '';
+  display: block;
+  height: 100%;
+  width: 100%;
+  border: 1px white solid;
+  position: absolute;
+  transform: translate(var(--s-4), var(--s-4));
+}
+
+.link {
+  cursor: pointer;
+  overflow: hidden;
+  color: var(--accent-color);
+}
+
+article:nth-child(4) h1 {
+  font-size: var(--s-6);
   width: var(--s-75);
 }
 
-article:nth-child(3) > p {
-  font-size: var(--s-3);
+article:nth-child(4) > p {
+  font-size: var(--s-4);
   letter-spacing: 2px;
 }
 
-article:nth-child(3) {
+article:nth-child(4) {
   display: flex;
   flex-direction: column;
-  gap: var(--s-4);
+  gap: var(--s-5);
 }
 
 form {
@@ -85,7 +129,7 @@ form {
 form > p {
   font-size: var(--s-2);
   letter-spacing: 1px;
-  margin-top: var(--s-4);
+  margin-top: var(--s-5);
 }
 
 form input:focus, textarea:focus {
@@ -95,7 +139,7 @@ form input:focus, textarea:focus {
 
 textarea {
   resize: none;
-  height: var(--s-10);
+  height: var(--s-11);
 }
 
 input, textarea {
@@ -132,7 +176,7 @@ input:-moz-placeholder, textarea::-moz-placeholder {
 }
 
 .btn {
-  margin-top: var(--s-5);
+  margin-top: var(--s-6);
 }
 </style>
 <script>

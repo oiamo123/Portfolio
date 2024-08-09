@@ -11,6 +11,8 @@ const { z } = require("zod");
 const Projects = require("./models/Projects.js");
 const Tools = require("./models/Tools");
 const Project_Tools = require("./models/Project-Tools.js");
+const Images = require("./models/Images.js");
+const Timeline = require("./models/Timeline.js");
 
 app.use(cors());
 app.use(express.urlencoded());
@@ -39,6 +41,22 @@ const validateSchema = function (schema) {
 
 mongoose.connect(data.uri).then(() => {
   console.log("Connected to MongoDB Atlas");
+});
+
+app.get("/api/images", async (req, res) => {
+  const images = await Images.find({}).lean();
+
+  res.status(200).json(images);
+});
+
+app.get("/api/timeline", async (req, res) => {
+  const timeline = await Timeline.find({}).lean();
+  res.status(200).json(timeline);
+});
+
+app.get("/api/skills", async (req, res) => {
+  const tools = await Tools.find({}).lean();
+  res.status(200).json(tools);
 });
 
 app.get("/api/projects", async (req, res) => {
