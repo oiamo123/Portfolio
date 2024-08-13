@@ -18,11 +18,12 @@ timeline.map(item => (
 <style>
 article {
     position: relative;
-    padding: 5px 0;
+    background-color: var(--secondary-color);
+    padding: var(--s-7) 0;
 }
 
 article::after {
-    top: var(--s-3);
+    top: var(--s-7);
     font-size: var(--s-5);
     right: var(--s-7);
     display: block;
@@ -128,4 +129,70 @@ article aside p {
   border-right: 38px solid var(--accent-color);
 }
 /* For time line ^^^ */
+
+@media (min-width: 768px) {
+  article {
+    padding: var(--s-11);
+  }
+
+  article::after {
+    font-size: var(--s-6);
+    right: var(--s-12);
+    top: var(--s-7);
+  }
+
+  .info aside span {
+    font-size: var(--s-4);
+  }
+
+  .info aside h1 {
+    font-size: var(--s-5);
+  }
+
+  .info aside p {
+    font-size: var(--s-3);
+  }
+}
+
+@media (min-width: 1024px) {
+  article {
+    padding: var(--s-10) var(--s-20);
+  }
+
+  article::after {
+    right: var(--s-20);
+  }
+}
+
+@media (min-width: 1360px) {
+  article {
+    padding: var(--s-15) var(--s-30);
+  }
+
+  article::after {
+    top: var(--s-13);
+    right: var(--s-30);
+  }
+
+  .info {
+    padding: var(--s-6) var(--s-15);
+  }
+
+  .info aside h1 {
+    font-size: var(--s-6);
+    letter-spacing: 4px;
+  }
+
+  .info aside p {
+    font-size: var(--s-4);
+    letter-spacing: 2px;
+    line-height: var(--s-6);
+    word-spacing: 3px;
+  }
+
+  .info aside span {
+    font-size: var(--s-5);
+    letter-spacing: 2px;
+  }
+}
 </style>

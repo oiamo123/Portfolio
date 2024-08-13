@@ -4,6 +4,7 @@ const ToolsSchema = new mongoose.Schema(
   {
     _id: Number,
     tool: String,
+    category: String,
   },
   { collection: "Tools" }
 );

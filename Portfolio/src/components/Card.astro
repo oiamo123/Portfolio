@@ -80,4 +80,30 @@ const { img, tools, href, title, body } = Astro.props;
 		gap: var(--s-2);
 		padding: var(--s-4);
 	}
+
+	@media (min-width: 768px) {
+		.card aside {
+			gap: var(--s-5);
+			padding: var(--s-6);
+		}
+
+		.badge {
+			font-size: var(--s-3);
+		}
+
+		.card h1 {
+			font-size: var(--s-5);
+		}
+
+		.card p {
+			font-size: var(--s-4);
+		}
+	}
+
+	@media (min-width: 1024px) {
+		.card {
+			width: 45%;
+			margin: 0
+		}
+	}
 </style>

@@ -16,7 +16,6 @@ const projects = await response.json();
 		</div>
 	</article>
 </Layout>
-
 <style>
 article {
 	padding: var(--s-7);
@@ -34,10 +33,20 @@ h1 {
   gap: var(--s-10);
   margin: var(--s-5) 0;
 }
+
+@media (min-width: 768px) {
+	article {
+		padding: var(--s-5) var(--s-15);
+	}
+
+	.projects {
+		gap: var(--s-12)
+	}
+}
+
+@media (min-width: 1024px) {
+	.projects {
+		flex-wrap: wrap;
+	}
+}
 </style>
-<script>
-	document.addEventListener("DOMContentLoaded", () => {
-		const theme = localStorage.getItem("theme")
-		document.documentElement.setAttribute("data-theme", theme)
-	})
-</script>

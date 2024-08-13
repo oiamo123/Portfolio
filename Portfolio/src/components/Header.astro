@@ -4,6 +4,12 @@ import "../styles/global.css"
 <header>
     <ion-icon name="moon-outline"></ion-icon>
     <ion-icon  class="hidden" name="sunny-outline"></ion-icon>
+    <aside>
+        <a href="/" class="roboto-light">Home</a>
+        <a href="/projects" class="roboto-light">Projects</a>
+        <a href="https://github.com/oiamo123"><ion-icon name="logo-github"></ion-icon></a>
+        <a href="https://www.linkedin.com/in/gavin-oiamo/?originalSubdomain=ca"><ion-icon name="logo-linkedin"></ion-icon></a>
+    </aside>
     <div class="hamburger">
         <span></span>
         <span></span>
@@ -16,61 +22,8 @@ import "../styles/global.css"
     <div class="links">
         <a href="https://github.com/oiamo123"><ion-icon name="logo-github"></ion-icon></a>
         <a href="https://www.linkedin.com/in/gavin-oiamo/?originalSubdomain=ca"><ion-icon name="logo-linkedin"></ion-icon></a>
-        <a href=""></a>
     </div>
 </nav>
-<script>
-    const moon = document.querySelector('[name="moon-outline"]');
-    const sun = document.querySelector('[name="sunny-outline"]');
-    const hamburger = document.querySelector('.hamburger')
-    const nav = document.querySelector('nav');
-
-    const toggleThemeIcons = function() {
-        moon.classList.contains('hidden') ? moon.classList.remove('hidden') : moon.classList.add('hidden')
-        sun.classList.contains('hidden') ? sun.classList.remove('hidden') : sun.classList.add('hidden')
-    }
-
-    // get user preference for dark mode
-    const darkMode = window.matchMedia('(prefers-color-scheme: dark)')
-
-    // set user preference
-    darkMode.matches && document.documentElement.getAttribute("data-theme") == null ? 
-                    document.documentElement.setAttribute("data-theme", "dark"): 
-                    document.documentElement.setAttribute("data-theme", "light")
-
-    //check localstorage for theme and set theme
-    document.addEventListener("DOMContentLoaded", () => {
-        const theme = localStorage.getItem('theme');
-        if (theme) document.documentElement.setAttribute('data-theme', theme);
-
-        // set icon for theme
-        if (theme == "light" && moon.classList.contains("hidden")) toggleThemeIcons();
-        if (theme == "dark" && sun.classList.contains("hidden")) toggleThemeIcons();
-    })
-    
-
-    const switchTheme = function () {
-        // toggle button
-        toggleThemeIcons();
-
-        // toggle theme
-        const theme = document.documentElement.getAttribute("data-theme")
-        console.log(theme)
-        theme == "dark" ? document.documentElement.setAttribute("data-theme", "light") : document.documentElement.setAttribute("data-theme", "dark")
-
-        // store theme in local storage
-        localStorage.setItem("theme", theme == "dark" ? "light": "dark")
-    }
-
-    // change hamburger and nav state
-    hamburger.addEventListener(`click`, (e) => {
-        hamburger.classList.toggle('active');
-        nav.classList.toggle('active')
-    })
-
-    moon.addEventListener(`click`, switchTheme)
-    sun.addEventListener(`click`, switchTheme)    
-</script>
 <style>
     header {
         display: flex;
@@ -106,6 +59,14 @@ import "../styles/global.css"
 
     ion-icon:hover {
         cursor: pointer;
+    }
+
+    header aside {
+        display: none;
+    }
+
+    header .links {
+        display: none;
     }
 
     .hamburger {
@@ -182,12 +143,6 @@ import "../styles/global.css"
         letter-spacing: 2px;
     }
 
-    nav span {
-        height: 2px;
-        width: 100%;
-        background-color: var(--accent-color);
-    }
-
     nav .links {
         display: flex;
         gap: var(--s-6);
@@ -197,4 +152,137 @@ import "../styles/global.css"
     nav.active {
         bottom: 0;
     }
+
+    @media (min-width: 768px) {
+        header {
+            padding: var(--s-6) var(--s-7);
+        }
+
+        ion-icon {
+            scale: 2;
+        }
+
+        nav {
+            gap: var(--s-6);
+            padding: var(--s-15) var(--s-11);
+        }
+
+        nav a {
+            font-size: var(--s-5);
+        }
+
+        nav .links {
+            gap: var(--s-7);
+        }
+    }
+
+    @media (min-width: 1024px) {
+        header aside {
+            display: flex;
+            width: min-content;
+            justify-content: space-between;
+            font-size: var(--s-4);
+            gap: var(--s-6);
+        }
+
+        header aside a:nth-child(-n + 2) {
+            position: relative;
+            overflow: hidden;
+        }
+
+        header aside a:nth-child(-n + 2)::after {
+            content: '';
+            display: block;
+            position: absolute;
+            height: 2px;
+            width: 100%;
+            background-color: var(--font-color);
+            right: 100%;
+            bottom: 0%;
+            transition: right 0.3s ease-in-out;
+        }
+
+        header aside a:nth-child(-n + 2):hover::after {
+            right: 0%;
+        }
+
+        .hamburger {
+            display: none;
+        }
+
+        header {
+            padding: var(--s-6) var(--s-10);
+        }
+    }
+
+    @media (min-width: 1360px) {
+        header {
+            padding: var(--s-6) var(--s-15);
+        }
+    }
 </style>
+<script>
+    const moon = document.querySelector('[name="moon-outline"]');
+    const sun = document.querySelector('[name="sunny-outline"]');
+    const hamburger = document.querySelector('.hamburger')
+    const nav = document.querySelector('nav');
+
+    
+  const changeMostUsedTheme = function () {
+    const img = document.querySelector(".mostUsed") as HTMLImageElement
+    const theme = localStorage.getItem("theme")
+
+    if (window.location.href === `${window.location.origin}/`) {
+        if (theme === "dark") {
+            img.src = `https://github-readme-stats.vercel.app/api/top-langs/?username=oiamo123&size_weight=0.6&count_weight=0.4&exclude_repo=odin-recipes,curriculum,javascript-exercises,Javascript30,css-exercises&show=Portfolio&hide_border=true&bg_color=212329&title_color=e1e1e1&text_color=e1e1e1&layout=donut-vertical`
+        } else {
+            img.src = `https://github-readme-stats.vercel.app/api/top-langs/?username=oiamo123&size_weight=0.6&count_weight=0.4&exclude_repo=odin-recipes,curriculum,javascript-exercises,Javascript30,css-exercises&show=Portfolio&hide_border=true&bg_color=ffffff&title_color=000000&text_color=000000&layout=donut-vertical`
+        }
+    }
+  }
+
+    const toggleThemeIcons = function() {
+        moon.classList.contains('hidden') ? moon.classList.remove('hidden') : moon.classList.add('hidden')
+        sun.classList.contains('hidden') ? sun.classList.remove('hidden') : sun.classList.add('hidden')
+    }
+
+    // get user preference for dark mode
+    const darkMode = window.matchMedia('(prefers-color-scheme: dark)')
+
+    // set user preference
+    darkMode.matches && document.documentElement.getAttribute("data-theme") == null ? 
+                    document.documentElement.setAttribute("data-theme", "dark"): 
+                    document.documentElement.setAttribute("data-theme", "light")
+
+    //check localstorage for theme and set theme
+    document.addEventListener("DOMContentLoaded", () => {
+        const theme = localStorage.getItem('theme');
+        if (theme) document.documentElement.setAttribute('data-theme', theme);
+        changeMostUsedTheme();
+        // set icon for theme
+        if (theme == "light" && moon.classList.contains("hidden")) toggleThemeIcons();
+        if (theme == "dark" && sun.classList.contains("hidden")) toggleThemeIcons();
+    })
+    
+
+    const switchTheme = function () {
+        // toggle button
+        toggleThemeIcons();
+
+        // toggle theme
+        const theme = document.documentElement.getAttribute("data-theme")
+        theme == "dark" ? document.documentElement.setAttribute("data-theme", "light") : document.documentElement.setAttribute("data-theme", "dark")
+        // store theme in local storage
+        localStorage.setItem("theme", theme == "dark" ? "light": "dark")
+        changeMostUsedTheme();
+    }
+
+    // change hamburger and nav state
+    hamburger.addEventListener(`click`, (e) => {
+        hamburger.classList.toggle('active');
+        nav.classList.toggle('active')
+    })
+
+    moon.addEventListener(`click`, switchTheme)
+    sun.addEventListener(`click`, switchTheme)    
+</script>

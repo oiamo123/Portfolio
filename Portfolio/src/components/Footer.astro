@@ -3,9 +3,8 @@ const tools = ["AstroJS", "Javascript", "NodeJS", "ExpressJS", "CSS", "HTML", "M
 const year = new Date().getFullYear();
 ---
 <footer>
-    <h1 class="">- GAVIN OIAMO -</h1>
     <p class="roboto-extralight">Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit pariatur itaque cupiditate sunt.</p>
-    <p>- PORTFOLIO TOOLS -</p>
+    <h1>- PORTFOLIO TOOLS -</h1>
     <div class="tools">
         {
             tools.map((tool) => <span class="badge">{tool}</span>)
@@ -25,11 +24,6 @@ const year = new Date().getFullYear();
         align-items: center;
         padding: var(--s-5) var(--s-7);
         background-color:var(--secondary-color);
-    }
-
-    h1 {
-        font-size: var(--s-4);
-        letter-spacing: 2px;
     }
 
     p {
@@ -52,4 +46,29 @@ const year = new Date().getFullYear();
         letter-spacing: 1px;
         font-size: var(--s-2);
     }
+
+@media (min-width: 768px) {
+    footer {
+        padding: var(--s-7) var(--s-12);
+        gap: var(--s-6);
+    }
+
+    p {
+        font-size: var(--s-3);
+    }
+
+    h1 {
+        font-size: var(--s-4);
+    }
+
+    ul li a {
+        font-size: var(--s-4);
+    }
+}
+
+@media (min-width: 1360px) {
+    footer {
+        padding: var(--s-10);
+    }
+}
 </style>

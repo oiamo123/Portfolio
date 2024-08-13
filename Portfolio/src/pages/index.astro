@@ -3,101 +3,130 @@ import Layout from '../layouts/Layout.astro';
 import Card from '../components/Card.astro';
 import Timeline from '../components/Timeline.astro';
 
-const imagesresponse = await fetch('http://localhost:3000/api/images');
-const images = await imagesresponse.json();
+const [imagesResponse, skillsResponse] = await Promise.all([
+  fetch('http://localhost:3000/api/images'), 
+  fetch('http://localhost:3000/api/skills')
+])
+
+const [images, skills] = await Promise.all([
+  imagesResponse.json(),
+  skillsResponse.json()
+])
 
 const profileIMG = images.find(img => img.for === "profile")
-
-const titles = ["Backend", "Frontend", "Java", "C#"];
 ---
 <Layout title="Home - Gavin">
-    <article>
-        {titles.map((title) => (
-          <h1 class="hero glitch layers">
-            <span class="title roboto-bold-italic">{title}</span>
-          </h1>
-        ))} 
-        <h1 class="roboto-bold">Developer.</h1>
-        <p class="roboto-light">My name is <span class="roboto-medium-italic">Gavin</span> and I'm a junior developer versed in everything frontend and backend.</p>
-    </article>
-    <article>
-      <p></p>
-      <div>
-        <img src={profileIMG.href} alt={profileIMG.alt}>
-      </div>
+    <article class="intro-section">
+        <section>
+          <h1 class="typewriter roboto-medium-italic"></h1>
+          <h1 class="roboto-bold">Developer.</h1>
+          <p class="roboto-light">My name is <span class="roboto-medium-italic">Gavin</span> and I'm a junior developer versed in everything frontend and backend.</p>
+        </section>
+        <div class="profile-img">
+          <img src={profileIMG.href} alt={profileIMG.alt}>
+        </div>
     </article>
     <Timeline></Timeline>
-    <article>
-      <h1>My Skills</h1>
-
+    <article class="skills-section">
+      <h1 class="roboto-bold">My Skills</h1>
+      <section>
+        <img class="mostUsed" alt="A chat of my most used languages">
+        <aside class="skills">
+          <h1 class="roboto-bold">And all of them</h1>
+          <div>
+            {
+              skills.filter(skill => skill.category === "skill").map((skill) => (
+                  <p class="skill">{skill.tool}</p>
+                ))
+              }
+          </div>          
+        </aside>
+      </section>
     </article>
-    <article>
-      <h1 class="roboto-bold">Feel free to contact me!</h1>
-      <p class="roboto-light">I am always open to new opportunities, questions or proposals</p>
-      <form>
-        <p class="roboto-light">Your name</p>
-        <label for="name"></label>
-        <input type="text" name="name" placeholder="Enter your name">
-        <p class="roboto-light">Email address</p>
-        <label for="email"></label>
-        <input type="email" name="email" placeholder="Enter your email address">
-        <p class="roboto-light">Your message</p>
-        <label for="message"></label>
-        <textarea name="message" placeholder="Hey, i've got an idea for an application and was thinking you could help me out. When would you be free?"></textarea>
-        <button class="btn" type="submit"><p>Submit</p><svg width="48" height="24" viewBox="0 0 48 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M4 12H44M44 12L34 8M44 12L34 16" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg></button>
-        </form>
+    <article class="contact-form">
+      <section>
+        <form>
+          <h1 class="roboto-bold">Feel free to contact me!</h1>
+          <p class="roboto-light">I am always open to new opportunities, questions or proposals</p>
+          <p class="roboto-light">Your name</p>
+          <label for="name"></label>
+          <input type="text" name="name" placeholder="Enter your name">
+          <p class="roboto-light">Email address</p>
+          <label for="email"></label>
+          <input type="email" name="email" placeholder="Enter your email address">
+          <p class="roboto-light">Your message</p>
+          <label for="message"></label>
+          <textarea name="message" placeholder="Hey, i've got an idea for an application and was thinking you could help me out. When would you be free?"></textarea>
+          <button class="btn" type="submit"><p>Submit</p><svg width="48" height="24" viewBox="0 0 48 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 12H44M44 12L34 8M44 12L34 16" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg></button>
+          <p class="message-response"></p>
+          </form>
+          <aside class="downloads"><p class="roboto-light">I'm excited to put what i've learned going forward as well as hone in and develop new skills as a developer.</p>
+            <a class="btn download"><p>Download Resume</p></a>
+          </aside>
+      </section>
       </article>
-      <p class="message-response"></p>
 </Layout>
 
 <style>
-article:nth-child(1) h1 {
+.contact-form, .intro-section, .skills-section {
+  padding: 0 var(--s-8);
+}
+
+.intro-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.intro-section section {
+  display: flex;
+  flex-direction: column;
+}
+
+.intro-section section h1, a {
   font-size: var(--s-5);
 }
 
-article:nth-child(1) > p {
-  margin-top: var(--s-6);
+.intro-section section h1:nth-child(1) {
+  align-self: flex-start;
+  padding-right: 3px;
+  height: var(--s-5);
+  display: flex;
+  align-items: center;
+}
+
+.intro-section > section p {
   font-size: var(--s-4);
   letter-spacing: 1.4px;
   line-height: var(--s-6);
+  margin: var(--s-7) 0;
 }
 
 .title {
   display: none;
-  color: var()
 }
 
 .active {
   display: inline-block;
 }
 
-article:nth-child(2) {
-  background-color: var(--secondary-color);
-  width: 100vw;
-}
-
-article:nth-child(2) img {
+.intro-section div {
   position: relative;
-  z-index: 1;
-  margin: var(--s-8) 0;
+  align-self: center;
+  max-width: max-content;
 }
 
-article:nth-child(2) div {
-  height: fit-content;
-  width: fit-content;
-  position: relative;
-}
-
-article:nth-child(2) div::before {
+.intro-section div::after {
   content: '';
   display: block;
   height: 100%;
   width: 100%;
-  border: 1px white solid;
+  border: 1px var(--accent-color) solid;
   position: absolute;
   transform: translate(var(--s-4), var(--s-4));
+  top: 0;
+  z-index: -1;
 }
 
 .link {
@@ -106,24 +135,91 @@ article:nth-child(2) div::before {
   color: var(--accent-color);
 }
 
-article:nth-child(4) h1 {
+.skills-section h1 {
+  font-size: var(--s-5);
+}
+
+.mostUsed {
+  box-shadow: 0px 0px var(--s-3) rgba(0, 0, 0, 0.1);
+  margin: var(--s-8) auto;
+}
+
+.skills div {
+  display: flex;
+  gap: var(--s-4);
+  flex-wrap: wrap;
+  margin: var(--s-5) 0;
+}
+
+.skill {
+  background-color: var(--accent-color);
+  padding: var(--s-1) var(--s-4);
+  font-size: var(--s-2);
+  letter-spacing: 1px;
+  position: relative;
+  overflow: hidden;
+  transition: 0.1s scale ease-in-out;
+}
+
+.skill:hover {
+  cursor: default;
+  scale: 1.1;
+}
+
+.skill::before {
+  content: '';
+  position: absolute;
+  display: block;
+  height: 100%;
+  width: 100%;
+  right: 100%;
+  background-color: var(--secondary-color);
+  top: 0%;
+  transition: 0.1s right ease-in;
+  z-index: -1;
+}
+
+.skill:hover::before {
+  right: 0%;
+}
+
+.downloads {
+  display: flex;
+  flex-direction: column;
+  margin-top: var(--s-8);
+}
+
+.btn {
+  align-self: center;
+}
+
+.downloads > p {
+  letter-spacing: 1px;
+  font-size: var(--s-4);
+}
+
+.download {
+  cursor: pointer;
+}
+
+.contact-form h1 {
   font-size: var(--s-6);
   width: var(--s-75);
 }
 
-article:nth-child(4) > p {
+.contact-form > p {
   font-size: var(--s-4);
   letter-spacing: 2px;
 }
 
-article:nth-child(4) {
+.contact-form {
   display: flex;
   flex-direction: column;
-  gap: var(--s-5);
+  gap: var(--s-7);
 }
 
-form {
-  margin: var(--s-1) 0px;
+form > p:nth-child(1) {
+  margin-top: 0;
 }
 
 form > p {
@@ -173,35 +269,220 @@ input:-moz-placeholder, textarea::-moz-placeholder {
   font-family: "Roboto", sans-serif;
   font-weight: 200;
   letter-spacing: 1px;
+  font-size: var(--s-2);
 }
 
 .btn {
   margin-top: var(--s-6);
 }
+
+@media (min-width: 768px) {
+  .contact-form, .intro-section, .skills-section {
+     padding: 0 var(--s-13);
+  }
+
+  .mostUsed {
+    width: 70%;
+  }
+
+  .skills-section h1 {
+    font-size: var(--s-6);
+  }
+
+  .skill {
+    font-size: var(--s-3);
+  }
+
+  .downloads p {
+    font-size: var(--s-4);
+  }
+
+  .contact-form p {
+    font-size: var(--s-4);
+  }
+
+  .contact-form input, textarea {
+    font-size: var(--s-4);
+  }
+
+  .contact-form input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
+  font-size: var(--s-4);
+  }
+
+  .contact-form input:-ms-input-placeholder, textarea::-ms-input-placeholder {
+    font-size: var(--s-4);
+  }
+
+  .contact-form input:-moz-placeholder, textarea::-moz-placeholder {
+    font-size: var(--s-4);
+  }
+}
+
+@media (min-width: 1024px) {
+  .contact-form, .intro-section, .skills-section {
+     padding: 0 var(--s-15);
+  }
+
+  .intro-section {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .intro-section section h1:nth-child(1) {
+    height: var(--s-5);
+  }
+
+  .skills-section section {
+    display: flex;
+    align-items: center;
+    gap: var(--s-7);
+  }
+
+  .skills-section section .mostUsed, aside {
+    width: 50%;
+  }
+
+  .skills-section section aside {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .skills div {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .contact-form section {
+    display: flex;
+    flex-direction: row;
+    gap: var(--s-6);
+  }
+
+  .contact-form section form, aside {
+    width: 50%;
+  }
+
+  textarea {
+    height: var(--s-13);
+  }
+
+  .downloads {
+    justify-content: center;
+  }
+}
+
+@media (min-width: 1360px) {
+  .intro-section, .skills-section, .contact-form {
+    padding: 0 var(--s-20);
+  }
+
+  .intro-section {
+    gap: var(--s-10);
+    padding-top: var(--s-8);
+  }
+
+  .intro-section section h1:nth-child(1) {
+    height: var(--s-7);
+  }
+
+  .intro-section section h1 {
+    font-size: var(--s-9);
+  }
+
+  .intro-section section p {
+    font-size: var(--s-6);
+  }
+
+  .intro-section section, div {
+    width: var(--s-50);
+  }
+
+  .skills-section section {
+    gap: var(--s-15);
+  }
+
+  .skills div {
+    width: 100%;
+  }
+
+  .contact-form section {
+    gap: var(--s-12);
+  }
+
+  .contact-form > p {
+    width: 40%;
+  }
+}
 </style>
 <script>
+  const typewriter = document.querySelector(`.typewriter`) as HTMLElement;
+  const titles = ["Frontend", "Backend", "C#", "Java"]
+  let curTitle = 0;
+
+  const typing = function(title) {
+    const time = 1200 / title.length
+
+    let char = 0;
+    const int = setInterval(() => {
+
+
+      typewriter.textContent += title[char]
+      char++
+
+      if (typewriter.textContent.length === title.length) {
+        clearInterval(int);
+        waiting(title)
+      }
+    }, time);
+  }
+
+  const waiting = async function(title) {
+    await setTimeout(() => {removing(title)}, 2000)
+  }
+
+  const removing = function(title) {
+    const time = 1200 / title.length
+
+    let titlelength = title.length
+    const int = setInterval(() => {
+      titlelength--
+      typewriter.textContent = title.substring(0, titlelength)
+
+      if (typewriter.textContent.length === 0) {
+        clearInterval(int);
+        curTitle++
+        if (curTitle === 4) curTitle = 0;
+        typing(titles[curTitle])
+      }
+    }, time)
+  }
+
+  const blinker = function () {
+    setInterval(() => {
+        typewriter.style.borderRight = typewriter.style.borderRight === '2px solid var(--font-color)' ? 'none': '2px solid var(--font-color)'
+      }, 520)
+  }
+
   document.addEventListener('DOMContentLoaded', () => {
-    const titles = document.querySelectorAll('.title');
-  
+    // set typing animation
+    blinker()
     if (titles.length > 0) {
-      // Set the first title as active
-      titles[0].classList.add('active');
-  
+      
+      //typing animation
       let curTitle = 0;
-      setInterval(() => {
-        titles[curTitle].classList.remove('active');
-  
-        curTitle++;
-        if (curTitle === titles.length) curTitle = 0;
-  
-        titles[curTitle].classList.add('active');
-      }, 4000);
+      typing(titles[curTitle]);
     }
   });
 
-  document.querySelector('button[type="submit"]').addEventListener(`click`, (e) => {
-    e.preventDefault()
-
+  document.querySelector('button[type="submit"]').addEventListener(`click`, async (e) => {
+    e.preventDefault();
+    await grecaptcha.enterprise.ready(async () => {
+      const token = await grecaptcha.enterprise.execute('6LfFhCUqAAAAAM9bDteptB1xCa4GPfVAq2-rNIMx', {action: 'LOGIN'});
+      
     const nameInput = document.querySelector('input[name="name"]') as HTMLInputElement;
     const emailInput = document.querySelector('input[name="email"]') as HTMLInputElement;
     const messageInput = document.querySelector('textarea[name="message"]') as HTMLInputElement;
@@ -210,11 +491,11 @@ input:-moz-placeholder, textarea::-moz-placeholder {
     const email = emailInput.value;
     const message = messageInput.value;
 
-
+    // for emails
     fetch("http://localhost:3000/api/mail", 
       { method: 'POST', 
         headers: { 'Content-Type': 'application/json' }, 
-        body: JSON.stringify({ name, email, message })}).then(res => res.json()).then(data => {
+        body: JSON.stringify({ name, email, message, token })}).then(res => res.json()).then(data => {
 
       nameInput.style.borderBottomColor = `#8cb0bf`;
       emailInput.style.borderBottomColor = `#8cb0bf`; 
@@ -232,7 +513,44 @@ input:-moz-placeholder, textarea::-moz-placeholder {
           })
       } else {
         document.querySelector(`.message-response`).textContent = `${data.message}`
+        nameInput.textContent = "";
+        emailInput.textContent = "";
+        messageInput.textContent = "";
       }
     })
+  });
+})
+
+document.querySelector('.download').addEventListener(`click`, async () => {
+  await grecaptcha.enterprise.ready(async () => {
+    const token = await grecaptcha.enterprise.execute('6LfFhCUqAAAAAM9bDteptB1xCa4GPfVAq2-rNIMx', {action: 'LOGIN'})
+
+    const response = await fetch(`http://localhost:3000/api/resume`, { 
+      method: "POST", 
+      body: JSON.stringify({ token }), 
+      headers: { "Content-Type": "application/json" }
+    });
+
+    const data = await response.json();
+
+    const files = [data.resume, data.coverletter]
+
+    files.forEach(async file => {
+      if (file) {
+      // Create a temporary download link
+        const fileResponse = await fetch(file.href)
+        const blob = await fileResponse.blob();
+
+        const blobUrl = URL.createObjectURL(blob)
+
+        const link = document.createElement('a');
+        link.href = blobUrl;
+        link.download = `${file.for}.png`; // Optionally set a default file name
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
+    });
   })
-  </script>
+})
+</script>
