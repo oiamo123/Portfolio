@@ -221,7 +221,7 @@ import "../styles/global.css"
         }
     }
 </style>
-<script>
+<script type="module">
     const moon = document.querySelector('[name="moon-outline"]');
     const sun = document.querySelector('[name="sunny-outline"]');
     const hamburger = document.querySelector('.hamburger')
@@ -229,7 +229,7 @@ import "../styles/global.css"
 
     
   const changeMostUsedTheme = function () {
-    const img = document.querySelector(".mostUsed") as HTMLImageElement
+    const img = document.querySelector(".mostUsed")
     const theme = localStorage.getItem("theme")
 
     if (window.location.href === `${window.location.origin}/`) {

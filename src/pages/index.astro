@@ -48,22 +48,22 @@ const profileIMG = images.find(img => img.for === "profile")
         <form>
           <h1 class="roboto-bold fade-in">Feel free to contact me!</h1>
           <p class="roboto-light fade-in">I am always open to new opportunities, questions or proposals</p>
-          <div class="fade-in-slower">
-            <label for="name">You name</label>
+          <div class="fade-in-slow">
+            <label for="name">Your name</label>
             <input type="text" name="name" placeholder="Enter your name">
           </div>
-          <div class="fade-in-slower">
+          <div class="fade-in-slow">
             <label for="email">Email address</label>
             <input type="email" name="email" placeholder="Enter your email address">
           </div>
-          <div class="fade-in-slower">
+          <div class="fade-in-slow">
             <label for="message">Your message</label>
             <textarea name="message" placeholder="Hey, i've got an idea for an application and was thinking you could help me out. When would you be free?"></textarea>
           </div>
-          <button class="btn fade-in-slower" type="submit"><p>Submit</p><svg width="48" height="24" viewBox="0 0 48 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <p class="message-response"></p>
+          <button class="btn fade-in-slow" type="submit"><p>Submit</p><svg width="48" height="24" viewBox="0 0 48 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M4 12H44M44 12L34 8M44 12L34 16" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
           </svg></button>
-          <p class="message-response"></p>
           </form>
           <aside class="downloads fade-in-slow"><p class="roboto-light">I'm excited to apply what I've learned while continuing to hone and develop new skills as a developer. If you're interested in working with me, feel free to download my resume and coverletter.</p>
             <a class="btn download fade-in-slower"><p>Download Resume</p><svg width="48" height="24" viewBox="0 0 48 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -72,7 +72,6 @@ const profileIMG = images.find(img => img.for === "profile")
           </aside>
       </article>
 </Layout>
-
 <style>
 .contact-form, .skills-section {
   padding: 0 var(--s-8);
@@ -535,14 +534,18 @@ input:-moz-placeholder, textarea::-moz-placeholder {
   }
 }
 </style>
-<script>
-  const typewriter = document.querySelector(`.typewriter`) as HTMLElement;
-  const titles = ["Frontend", "Backend", "Full-stack"]
-  const articles = document.querySelectorAll(`article`)
-	let sectionButtons;
-  let curTitle = 0;
+<script type="module">
+const typewriter = document.querySelector(`.typewriter`)
+const titles = ["Frontend", "Backend", "Full-stack"]
+const articles = document.querySelectorAll(`article`)
+const nameInput = document.querySelector('input[name="name"]')
+const emailInput = document.querySelector('input[name="email"]')
+const messageInput = document.querySelector('textarea[name="message"]')
 
-  const typing = function(title) {
+let sectionButtons;
+let curTitle = 0;
+
+const typing = function(title) {
     const time = 1200 / title.length
 
     let char = 0;
@@ -555,13 +558,13 @@ input:-moz-placeholder, textarea::-moz-placeholder {
         waiting(title)
       }
     }, time);
-  }
+}
 
-  const waiting = async function(title) {
+const waiting = async function(title) {
     await setTimeout(() => {removing(title)}, 2000)
-  }
+}
 
-  const removing = function(title) {
+const removing = function(title) {
     const time = 1200 / title.length
 
     let titlelength = title.length
@@ -576,50 +579,57 @@ input:-moz-placeholder, textarea::-moz-placeholder {
         typing(titles[curTitle])
       }
     }, time)
-  }
+}
 
-  const blinker = function () {
+const blinker = function () {
     setInterval(() => {
         typewriter.style.borderRight = typewriter.style.borderRight === '2px solid var(--font-color)' ? 'none': '2px solid var(--font-color)'
       }, 520)
-  }
+}
 
-  document.querySelector('button[type="submit"]').addEventListener(`click`, async (e) => {
-    e.preventDefault();
-    await grecaptcha.enterprise.ready(async () => {
-      const token = await grecaptcha.enterprise.execute('6LfFhCUqAAAAAM9bDteptB1xCa4GPfVAq2-rNIMx', {action: 'LOGIN'});
-      
-    const nameInput = document.querySelector('input[name="name"]') as HTMLInputElement;
-    const emailInput = document.querySelector('input[name="email"]') as HTMLInputElement;
-    const messageInput = document.querySelector('textarea[name="message"]') as HTMLInputElement;
+// submit button on form
+document.querySelector('button[type="submit"]').addEventListener(`click`, async (e) => {
+  e.preventDefault();
 
+  const messageResponse = document.querySelector(`.message-response`)  
+  messageResponse.textContent = `Just a moment...`
+
+  // fire up grecaptcha and get token
+  await grecaptcha.enterprise.ready(async () => {
+    const token = await grecaptcha.enterprise.execute('6LfFhCUqAAAAAM9bDteptB1xCa4GPfVAq2-rNIMx', {action: 'LOGIN'});
+
+    // input values
     const name = nameInput.value;
     const email = emailInput.value;
     const message = messageInput.value;
 
-    // for emails
     fetch("http://localhost:3000/api/mail", 
       { method: 'POST', 
         headers: { 'Content-Type': 'application/json' }, 
-        body: JSON.stringify({ name, email, message, token })}).then(res => res.json()).then(data => {
-
+        body: JSON.stringify({ name, email, message, token })
+      }).then(res => res.json())
+      .then(data => {
+      
+      // set border bottom
       nameInput.style.borderBottomColor = `#8cb0bf`;
       emailInput.style.borderBottomColor = `#8cb0bf`; 
       messageInput.style.borderBottomColor = `#8cb0bf`;
 
+      // shows invalid inputs
       if (!data.message) {
-          data.forEach(error => {
-            const elements = document.getElementsByName(`${error.path}`)
+        data.forEach(error => {
+          const elements = document.getElementsByName(`${error.path}`)
 
-            elements.forEach(e => {
-              const input = e as HTMLInputElement;
-              input.value = "";
-              input.setAttribute("placeholder", error.message);
-              input.style.borderBottomColor = `#FF0000`;
-            })
+          elements.forEach(e => {
+            const input = e
+            input.value = "";
+            input.setAttribute("placeholder", error.message);
+            input.style.borderBottomColor = `#FF0000`;
           })
+        })
+      // show message and clear inputs
       } else {
-        document.querySelector(`.message-response`).textContent = `${data.message}`
+        messageResponse.textContent = `${data.message}`
         nameInput.textContent = "";
         emailInput.textContent = "";
         messageInput.textContent = "";
@@ -628,31 +638,36 @@ input:-moz-placeholder, textarea::-moz-placeholder {
   });
 })
 
+// button for downloading resume
 document.querySelector('.download').addEventListener(`click`, async () => {
+
+  // fire up grecatpcha and get token
   await grecaptcha.enterprise.ready(async () => {
     const token = await grecaptcha.enterprise.execute('6LfFhCUqAAAAAM9bDteptB1xCa4GPfVAq2-rNIMx', {action: 'LOGIN'})
 
+    // fetch to api
     const response = await fetch(`http://localhost:3000/api/resume`, { 
       method: "POST", 
       body: JSON.stringify({ token }), 
       headers: { "Content-Type": "application/json" }
     });
-
+    // parse data and create array
     const data = await response.json();
-
     const files = [data.resume, data.coverletter]
+
 
     files.forEach(async file => {
       if (file) {
-      // Create a temporary download link
+        // Create a temporary download link with download attribute
         const fileResponse = await fetch(file.href)
         const blob = await fileResponse.blob();
-
         const blobUrl = URL.createObjectURL(blob)
-
         const link = document.createElement('a');
+
         link.href = blobUrl;
-        link.download = `${file.for}.png`; // Optionally set a default file name
+        link.download = `${file.for}.png`;
+
+        // append, click and remove
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -661,56 +676,56 @@ document.querySelector('.download').addEventListener(`click`, async () => {
   })
 })
 
-	const setSectionButton = function() {
-    const yScreen = window.scrollY;
+// 
+const setSectionButton = function() {
+  const yScreen = window.scrollY;
+  // Clear previous highlights
+  sectionButtons.forEach(button => button.classList.remove("current-section"));
 
-    // Clear previous highlights
-    sectionButtons.forEach(button => button.classList.remove("current-section"));
+  articles.forEach(article => {
+    if (article.offsetTop <= yScreen && (article.offsetTop + article.offsetHeight) >= yScreen) {
+      const button = document.querySelector(`.goto-section-button[section="${article.getAttribute("section")}"]`);
+     	if (button) {
+       	button.classList.add("current-section"); // Highlight the button
+     	}
+ 		}
+ 	});
+};
 
-    articles.forEach(article => {
-        if (article.offsetTop <= yScreen && (article.offsetTop + article.offsetHeight) >= yScreen) {
-            const button = document.querySelector(`.goto-section-button[section="${article.getAttribute("section")}"]`);
-            	if (button) {
-                	button.classList.add("current-section"); // Highlight the button
-            	}
-       		}
-    	});
-	};
+articles.forEach((article, i) => {
+	document.querySelector(`.goto-section`).insertAdjacentHTML("beforeend", `
+		<span class="goto-section-button" section="${i}"></span>
+	`)
 
-	articles.forEach((article, i) => {
-		document.querySelector(`.goto-section`).insertAdjacentHTML("beforeend", `
-			<span class="goto-section-button" section="${i}"></span>
-		`)
+	article.setAttribute("section", `${i}`)
+});
 
-		article.setAttribute("section", `${i}`)
-	});
+document.addEventListener(`scroll`, setSectionButton)
 
-	document.addEventListener(`scroll`, setSectionButton)
-
-	document.addEventListener("DOMContentLoaded", () => {
-    // set typing animation
-    blinker()
-    if (titles.length > 0) {
+document.addEventListener("DOMContentLoaded", () => {
+  // set typing animation
+  blinker()
+  if (titles.length > 0) {
       
-      //typing animation
-      let curTitle = 0;
-      typing(titles[curTitle]);
-    }
+    //typing animation
+    let curTitle = 0;
+    typing(titles[curTitle]);
+  }
 
-		sectionButtons = document.querySelectorAll('.goto-section-button'); 
-		setSectionButton()
+  sectionButtons = document.querySelectorAll('.goto-section-button'); 
+	setSectionButton()
 
-		sectionButtons.forEach(button => {
-			button.addEventListener(`click`, () => {
-				const article = document.querySelector(`article[section="${button.getAttribute("section")}"]`)
+	sectionButtons.forEach(button => {
+		button.addEventListener(`click`, () => {
+			const article = document.querySelector(`article[section="${button.getAttribute("section")}"]`)
 
-				const { top } = article.getBoundingClientRect()
-				window.scrollTo({
-					top: window.scrollY + top + 1,
-					left: 0,
-					behavior: "smooth"
-				})
+			const { top } = article.getBoundingClientRect()
+			window.scrollTo({
+				top: window.scrollY + top + 1,
+				left: 0,
+				behavior: "smooth"
 			})
 		})
 	})
+})
 </script>
