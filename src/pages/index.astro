@@ -625,6 +625,7 @@ document.querySelector('button[type="submit"]').addEventListener(`click`, async 
       if (!data.message) {
         data.forEach(error => {
           const elements = document.getElementsByName(`${error.path}`)
+          messageResponse.textContent = "Please fix any issues";
 
           elements.forEach(e => {
             const input = e
