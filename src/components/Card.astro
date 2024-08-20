@@ -52,7 +52,6 @@ const { img, tools, href, title, body } = Astro.props;
 		left: 0;
 		height: 100%;
 		width: 100%;
-		background: linear-gradient(to top, var(--card) -20%, rgba(0, 0, 0, 0.2) 120%) ;
 	}
 
 	.card .img-container h1 {
@@ -67,14 +66,11 @@ const { img, tools, href, title, body } = Astro.props;
 		letter-spacing: 1px;
 	}
 
-	html[data-theme=light] .card .img-container h1 {
-		color: black;
-	}
-
 	img {
 		position: absolute;
 		scale: 1.2;
 		top: 5%;
+		height: 100%;
 	}
 
 	.badge {
