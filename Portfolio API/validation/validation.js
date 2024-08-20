@@ -1,9 +1,10 @@
 const { z } = require("zod");
 const sanitizer = require("sanitize-html");
-const request = require("../request.json");
 const { decrypt } = require("../crypto/crypto.js");
 
 const Data = require("../models/Data.js");
+
+require("dotenv").config();
 
 const sanitize = function (string) {
   const sanitized = sanitizer(string, {
@@ -30,6 +31,13 @@ const validateSchema = function (schema) {
       };
 
       schema.parse(dataToValidate);
+
+      req.body = {
+        name: dataToValidate.name,
+        email: dataToValidate.email,
+        message: dataToValidate.message,
+      };
+
       next();
     } catch (err) {
       const errors = err.errors.map((e) => ({
@@ -42,11 +50,16 @@ const validateSchema = function (schema) {
 };
 
 const validateRecaptcha = async function (req, res, next) {
-  request.event.token = sanitize(req.body.token);
-  request.event.expectedAction = "mail";
-
   const apiKey = await Data.findOne({ for: "APIKey" }).lean();
-  const apiKeyDecrypted = decrypt(apiKey.key);
+  const apiKeyDecrypted = await decrypt("APIKey", apiKey.key);
+
+  const request = {
+    event: {
+      token: req.body.token,
+      expectedAction: "submit",
+      siteKey: process.env.SITE_KEY,
+    },
+  };
 
   const recaptchaResponse = await fetch(
     `https://recaptchaenterprise.googleapis.com/v1/projects/numeric-camp-431804-f4/assessments?key=${apiKeyDecrypted}`,

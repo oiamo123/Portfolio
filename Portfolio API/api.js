@@ -5,12 +5,11 @@ const nodemailer = require("nodemailer");
 const { google } = require("googleapis");
 const dotenv = require("dotenv");
 const rateLimit = require("express-rate-limit");
-const { decrypt, encrypt } = require("./crypto/crypto.js");
+const { decrypt } = require("./crypto/crypto.js");
 const {
   emailSchema,
   validateSchema,
   validateRecaptcha,
-  sanitize,
 } = require("./validation/validation.js");
 
 const limiter = rateLimit({
@@ -80,8 +79,12 @@ app.get("/api/skills", async (req, res) => {
 
 app.post("/api/resume", validateRecaptcha, async (req, res) => {
   try {
-    const resume = await Images.findOne({ for: "resume" }).lean();
-    const coverletter = await Images.findOne({ for: "coverletter" }).lean();
+    const images = await Images.find({
+      $or: [{ for: "resume" }, { for: "coverletter" }],
+    }).lean();
+
+    const resume = await images.find((img) => img.for === "resume");
+    const coverletter = await images.find((img) => img.for === "coverletter");
 
     if (!resume || !coverletter) {
       res
@@ -98,9 +101,11 @@ app.post("/api/resume", validateRecaptcha, async (req, res) => {
 app.get("/api/projects", async (req, res) => {
   try {
     // get projects, tools and project tools
-    const projects = await Projects.find({}).lean();
-    const tools = await Tools.find({}).lean();
-    const project_tools = await Project_Tools.find({}).lean();
+    const [projects, tools, project_tools] = await Promise.all([
+      Projects.find({}).lean(),
+      Tools.find({}).lean(),
+      Project_Tools.find({}).lean(),
+    ]);
 
     const projectsAndTools = projects.map((project) => {
       project.tools = [];
@@ -131,33 +136,48 @@ app.post(
   validateRecaptcha,
   validateSchema(emailSchema),
   async (req, res) => {
-    const name = sanitize(req.body.name);
-    const email = sanitize(req.body.email);
-    const message = sanitize(req.body.message);
+    console.log(req.body);
+
+    const name = req.body.name;
+    const email = req.body.email;
+    const message = req.body.message;
 
     const data = await Data.find({
       for: { $in: ["ClientID", "ClientSecret", "RefreshToken"] },
     });
-    const clientID = data.find((item) => item.for === "ClientID");
-    const clientSecret = data.find((item) => item.for === "ClientSecret");
-    const refreshToken = data.find((item) => item.for === "RefreshToken");
 
-    const clientIDKeydecrypted = decrypt(clientID.key);
-    const clientSecretKeyDecrypted = decrypt(clientSecret.key);
-    const refreshTokenKeyDecrypted = decrypt(refreshToken.key);
+    const { clientID, clientSecret, refreshToken } = {
+      clientID: data.find((item) => item.for === "ClientID"),
+      clientSecret: data.find((item) => item.for === "ClientSecret"),
+      refreshToken: data.find((item) => item.for === "RefreshToken"),
+    };
 
-    if (!clientID || !clientSecret || !refreshToken) {
+    const [
+      clientIDKeydecrypted,
+      clientSecretKeyDecrypted,
+      refreshTokenKeyDecrypted,
+    ] = await Promise.all([
+      decrypt(clientID.for, clientID.key),
+      decrypt(clientSecret.for, clientSecret.key),
+      decrypt(refreshToken.for, refreshToken.key),
+    ]);
+
+    if (
+      !clientIDKeydecrypted ||
+      !clientSecretKeyDecrypted ||
+      !refreshTokenKeyDecrypted
+    ) {
       throw new Error("Unable to retrieve necessary credentials");
     }
 
     try {
-      const oauth2Client = new google.auth.OAuth2(
+      const oauth2Client = await new google.auth.OAuth2(
         clientIDKeydecrypted,
         clientSecretKeyDecrypted,
         process.env.REDIRECT_URI
       );
 
-      oauth2Client.setCredentials({
+      await oauth2Client.setCredentials({
         refresh_token: refreshTokenKeyDecrypted,
       });
 
@@ -165,7 +185,7 @@ app.post(
         .getRequestHeaders()
         .then((headers) => headers["Authorization"].split(" ")[1]);
 
-      const transporter = nodemailer.createTransport({
+      const transporter = await nodemailer.createTransport({
         service: "gmail",
         auth: {
           type: "OAuth2",
@@ -184,22 +204,10 @@ app.post(
         text: message,
       };
 
-      transporter.sendMail(mailOptions, async (err, info) => {
-        if (err) {
-          res
-            .status(500)
-            .json({ message: "There was an issue sending the email" });
-        } else {
-          await Data.updateOne(
-            { for: "AccessToken" },
-            { $set: { key: encrypt(accessToken) } }
-          );
+      await transporter.sendMail(mailOptions);
 
-          res.status(200).json({ message: "Email successfully sent" });
-        }
-      });
+      res.status(200).json({ message: "Email successfully sent" });
     } catch (error) {
-      console.log(error);
       res.status(500).json({ message: "An error occurred" });
     }
   }
