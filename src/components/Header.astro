@@ -36,11 +36,7 @@ import "../styles/global.css"
         width: 100%;
         top: 0%;
         z-index: 10;
-    }
-
-    header {
-        -webkit-backdrop-filter: blur(8px);
-        backdrop-filter: blur(8px);
+        transition: top 0.4s ease-in-out;
     }
 
     ion-icon {
@@ -126,14 +122,14 @@ import "../styles/global.css"
         flex-direction: column;
         justify-content: flex-start;
         position: fixed;
-        bottom: -100%;
+        top: 100vh;
         height: 100vh;
         width: 100vw;
         padding: var(--s-13) var(--s-8);
         gap: var(--s-6);
         background-color: var(--secondary-color);
         z-index: 2;
-        transition: bottom 0.2s ease-in;
+        transition: top 0.2s ease-in;
     }
 
     nav a {
@@ -150,7 +146,7 @@ import "../styles/global.css"
     }
 
     nav.active {
-        bottom: 0;
+        top: 0;
     }
 
     @media (min-width: 768px) {

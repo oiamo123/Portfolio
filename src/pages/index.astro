@@ -44,7 +44,7 @@ const profileIMG = images.find(img => img.for === "profile")
             <path d="M4 12H44M44 12L34 8M44 12L34 16" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
           </svg></a>
     </article>
-    <article class="contact-form fade-in-fast">
+    <article class="contact-form">
         <form>
           <h1 class="roboto-bold fade-in">Feel free to contact me!</h1>
           <p class="roboto-light fade-in">I am always open to new opportunities, questions or proposals</p>
@@ -87,10 +87,11 @@ const profileIMG = images.find(img => img.for === "profile")
 
 .goto-section {
   position: fixed;
+  display: none;
   top: 50%;
   left: 2%;
   transform: translateY(-50%);
-  display: flex;
+  display: none;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -262,17 +263,17 @@ form div label {
   letter-spacing: 1px;
 }
 
-form input:focus, textarea:focus {
+.contact-form form input:focus, .contact-form textarea:focus {
   border-bottom: 1.5px solid var(--secondary-color);
   transition: border-bottom 0.2s ease-in;
 }
 
-textarea {
+.contact-form textarea {
   resize: none;
   height: var(--s-11);
 }
 
-input, textarea {
+.contact-form input, .contact-form textarea {
   width: var(--s-100);
   background-color: var(--primary-color);
   padding: var(--s-1) 0px;
@@ -280,25 +281,25 @@ input, textarea {
   font-size: var(--s-2);
 }
 
-input:focus, textarea:focus {
+.contact-form input:focus, .contact-form textarea:focus {
   outline: none;
 }
 
-input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
+.contact-form input::-webkit-input-placeholder, .contact-form textarea::-webkit-input-placeholder {
   font-family: "Roboto", sans-serif;
   font-weight: 200;
   letter-spacing: 1px;
   font-size: var(--s-2);
 }
 
-input:-ms-input-placeholder, textarea::-ms-input-placeholder {
+.contact-form input:-ms-input-placeholder, .contact-form textarea::-ms-input-placeholder {
   font-family: "Roboto", sans-serif;
   font-weight: 200;
   letter-spacing: 1px;
   font-size: var(--s-2);
 }
 
-input:-moz-placeholder, textarea::-moz-placeholder {
+.contact-form input:-moz-placeholder, .contact-form textarea::-moz-placeholder {
   font-family: "Roboto", sans-serif;
   font-weight: 200;
   letter-spacing: 1px;
@@ -380,20 +381,24 @@ input:-moz-placeholder, textarea::-moz-placeholder {
     font-size: var(--s-4);
   }
 
-  .contact-form input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
+  .contact-form input::-webkit-input-placeholder, .contact-form textarea::-webkit-input-placeholder {
   font-size: var(--s-4);
   }
 
-  .contact-form input:-ms-input-placeholder, textarea::-ms-input-placeholder {
+  .contact-form input:-ms-input-placeholder, .contact-form textarea::-ms-input-placeholder {
     font-size: var(--s-4);
   }
 
-  .contact-form input:-moz-placeholder, textarea::-moz-placeholder {
+  .contact-form input:-moz-placeholder, .contact-form textarea::-moz-placeholder {
     font-size: var(--s-4);
   }
 }
 
 @media (min-width: 1024px) {
+  .goto-section {
+    display: flex;
+  }
+
   .contact-form, .intro-section, .skills-section {
      padding-left: var(--s-15);
      padding-right: var(--s-15);
@@ -467,7 +472,7 @@ input:-moz-placeholder, textarea::-moz-placeholder {
     max-width: 776.72px;
   }
 
-  textarea {
+  .contact-form textarea {
     height: var(--s-13);
   }
 
@@ -541,6 +546,7 @@ const articles = document.querySelectorAll(`article`)
 const nameInput = document.querySelector('input[name="name"]')
 const emailInput = document.querySelector('input[name="email"]')
 const messageInput = document.querySelector('textarea[name="message"]')
+const header = document.querySelector('header')
 
 let sectionButtons;
 let curTitle = 0;
@@ -700,7 +706,19 @@ articles.forEach((article, i) => {
 	article.setAttribute("section", `${i}`)
 });
 
-document.addEventListener(`scroll`, setSectionButton)
+let prevScrollPos = window.scrollY;
+document.addEventListener(`scroll`, () => {
+  setSectionButton()
+
+  const currentScrollPos = window.scrollY;
+  if (prevScrollPos > currentScrollPos) {
+    header.style.top = "0px"
+  } else {
+    header.style.top = "-100%"
+  }
+
+  prevScrollPos = currentScrollPos
+})
 
 document.addEventListener("DOMContentLoaded", () => {
   // set typing animation
