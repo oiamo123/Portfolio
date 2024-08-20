@@ -3,8 +3,8 @@ import Layout from '../layouts/Layout.astro';
 import Timeline from '../components/Timeline.astro';
 
 const [imagesResponse, skillsResponse] = await Promise.all([
-  fetch('http://api.goiamo.dev/api/images'), 
-  fetch('http://api.goiamo.dev/api/skills')
+  fetch('https://api.goiamo.dev/api/images'), 
+  fetch('https://api.goiamo.dev/api/skills')
 ])
 
 const [images, skills] = await Promise.all([
@@ -603,7 +603,7 @@ document.querySelector('button[type="submit"]').addEventListener(`click`, async 
     const email = emailInput.value;
     const message = messageInput.value;
 
-    fetch("http://api.goiamo.dev/api/mail", 
+    fetch("https://api.goiamo.dev/api/mail", 
       { method: 'POST', 
         headers: { 'Content-Type': 'application/json' }, 
         body: JSON.stringify({ name, email, message, token })
@@ -646,7 +646,7 @@ document.querySelector('.download').addEventListener(`click`, async () => {
     const token = await grecaptcha.enterprise.execute('6LfFhCUqAAAAAM9bDteptB1xCa4GPfVAq2-rNIMx', {action: 'LOGIN'})
 
     // fetch to api
-    const response = await fetch(`http://api.goiamo.dev/api/resume`, { 
+    const response = await fetch(`https://api.goiamo.dev/api/resume`, { 
       method: "POST", 
       body: JSON.stringify({ token }), 
       headers: { "Content-Type": "application/json" }
