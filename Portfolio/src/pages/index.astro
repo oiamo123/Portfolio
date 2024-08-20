@@ -1,6 +1,5 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Card from '../components/Card.astro';
 import Timeline from '../components/Timeline.astro';
 
 const [imagesResponse, skillsResponse] = await Promise.all([
@@ -16,67 +15,99 @@ const [images, skills] = await Promise.all([
 const profileIMG = images.find(img => img.for === "profile")
 ---
 <Layout title="Home - Gavin">
+		<div class="goto-section"></div>
     <article class="intro-section">
         <section>
-          <h1 class="typewriter roboto-medium-italic"></h1>
+          <h1 class="typewriter roboto-bold-italic"></h1>
           <h1 class="roboto-bold">Developer.</h1>
-          <p class="roboto-light">My name is <span class="roboto-medium-italic">Gavin</span> and I'm a junior developer versed in everything frontend and backend.</p>
+          <p class="roboto-light">My name is <span class="roboto-medium-italic">Gavin</span> and I'm a junior developer based out of Calgary, Alberta. I'm passionate about designing and building scalable full-stack projects. I love music, motorcycles and the outdoors.</p>
         </section>
-        <div class="profile-img">
-          <img src={profileIMG.href} alt={profileIMG.alt}>
+        <div>
+          <div class="profile-img-border">
+            <img src={profileIMG.href} alt={profileIMG.alt}>
+          </div>
         </div>
     </article>
     <Timeline></Timeline>
     <article class="skills-section">
-      <h1 class="roboto-bold">My Skills</h1>
-      <section>
-        <img class="mostUsed" alt="A chat of my most used languages">
-        <aside class="skills">
-          <h1 class="roboto-bold">And all of them</h1>
-          <div>
+          <img class="mostUsed fade-in-fast" alt="A chat of my most used languages">    
+          <div class="skills fade-in-slower">
             {
               skills.filter(skill => skill.category === "skill").map((skill) => (
                   <p class="skill">{skill.tool}</p>
                 ))
-              }
-          </div>          
-        </aside>
-      </section>
+            }
+          </div>
+          <p class="roboto-light fade-in">While attending SAIT, I learned and practiced a wide variety of technical and theoretical skills to help me tackle projects. These skills range from languages to project management. On top of what I learned in school, I regularly spend time reading into new technology and best practices to continue to improve my technical skills and build scalable, efficient and secure applications.</p>
+          <p class="roboto-light fade-in-slow">However as with most programs, they only cover so much material. With that being said, during my time as an electrician I coordinated closely with co-workers, management and clients to tackle problems and produce products in a timely manner while balancing cost and performance.</p>
+          <a class="btn fade-in-slower" href="/projects"><p>Projects</p><svg width="48" height="24" viewBox="0 0 48 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 12H44M44 12L34 8M44 12L34 16" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg></a>
     </article>
-    <article class="contact-form">
-      <section>
+    <article class="contact-form fade-in-fast">
         <form>
-          <h1 class="roboto-bold">Feel free to contact me!</h1>
-          <p class="roboto-light">I am always open to new opportunities, questions or proposals</p>
-          <p class="roboto-light">Your name</p>
-          <label for="name"></label>
-          <input type="text" name="name" placeholder="Enter your name">
-          <p class="roboto-light">Email address</p>
-          <label for="email"></label>
-          <input type="email" name="email" placeholder="Enter your email address">
-          <p class="roboto-light">Your message</p>
-          <label for="message"></label>
-          <textarea name="message" placeholder="Hey, i've got an idea for an application and was thinking you could help me out. When would you be free?"></textarea>
-          <button class="btn" type="submit"><p>Submit</p><svg width="48" height="24" viewBox="0 0 48 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <h1 class="roboto-bold fade-in">Feel free to contact me!</h1>
+          <p class="roboto-light fade-in">I am always open to new opportunities, questions or proposals</p>
+          <div class="fade-in-slower">
+            <label for="name">You name</label>
+            <input type="text" name="name" placeholder="Enter your name">
+          </div>
+          <div class="fade-in-slower">
+            <label for="email">Email address</label>
+            <input type="email" name="email" placeholder="Enter your email address">
+          </div>
+          <div class="fade-in-slower">
+            <label for="message">Your message</label>
+            <textarea name="message" placeholder="Hey, i've got an idea for an application and was thinking you could help me out. When would you be free?"></textarea>
+          </div>
+          <button class="btn fade-in-slower" type="submit"><p>Submit</p><svg width="48" height="24" viewBox="0 0 48 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M4 12H44M44 12L34 8M44 12L34 16" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
           </svg></button>
           <p class="message-response"></p>
           </form>
-          <aside class="downloads"><p class="roboto-light">I'm excited to put what i've learned going forward as well as hone in and develop new skills as a developer.</p>
-            <a class="btn download"><p>Download Resume</p></a>
+          <aside class="downloads fade-in-slow"><p class="roboto-light">I'm excited to apply what I've learned while continuing to hone and develop new skills as a developer. If you're interested in working with me, feel free to download my resume and coverletter.</p>
+            <a class="btn download fade-in-slower"><p>Download Resume</p><svg width="48" height="24" viewBox="0 0 48 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M4 12H44M44 12L34 8M44 12L34 16" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg></a>
           </aside>
-      </section>
       </article>
 </Layout>
 
 <style>
-.contact-form, .intro-section, .skills-section {
+.contact-form, .skills-section {
   padding: 0 var(--s-8);
+}
+
+.contact-form, .skills-section {
+  padding-top: var(--s-12);
+}
+
+.contact-form {
+  padding-bottom: var(--s-12);
+}
+
+.goto-section {
+  position: fixed;
+  top: 50%;
+  left: 2%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  gap: var(--s-3);
+  width: 10px;
+  height: var(--s-20);
+  z-index: 1;
 }
 
 .intro-section {
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
+  justify-content: center;
+  padding: 18vh var(--s-8);
 }
 
 .intro-section section {
@@ -84,8 +115,9 @@ const profileIMG = images.find(img => img.for === "profile")
   flex-direction: column;
 }
 
-.intro-section section h1, a {
-  font-size: var(--s-5);
+.intro-section section h1 {
+  font-size: var(--s-6);
+  text-transform: uppercase;
 }
 
 .intro-section section h1:nth-child(1) {
@@ -100,7 +132,7 @@ const profileIMG = images.find(img => img.for === "profile")
   font-size: var(--s-4);
   letter-spacing: 1.4px;
   line-height: var(--s-6);
-  margin: var(--s-7) 0;
+  margin: var(--s-5) 0;
 }
 
 .title {
@@ -114,10 +146,10 @@ const profileIMG = images.find(img => img.for === "profile")
 .intro-section div {
   position: relative;
   align-self: center;
-  max-width: max-content;
+  max-width: var(--s-30);
 }
 
-.intro-section div::after {
+.profile-img-border::after {
   content: '';
   display: block;
   height: 100%;
@@ -135,20 +167,29 @@ const profileIMG = images.find(img => img.for === "profile")
   color: var(--accent-color);
 }
 
-.skills-section h1 {
-  font-size: var(--s-5);
+.skills-section {
+  display: grid;
+  grid-template-columns: auto;
+  gap: var(--s-8);
 }
 
 .mostUsed {
   box-shadow: 0px 0px var(--s-3) rgba(0, 0, 0, 0.1);
-  margin: var(--s-8) auto;
 }
 
-.skills div {
+.skills {
   display: flex;
-  gap: var(--s-4);
   flex-wrap: wrap;
-  margin: var(--s-5) 0;
+  gap: var(--s-3);
+}
+
+.skills-section > p:nth-child(3), .skills-section > p:nth-child(4) {
+  font-size: var(--s-3);
+  letter-spacing: 1px;
+}
+
+.skills-section .btn {
+  justify-self: flex-start;
 }
 
 .skill {
@@ -164,6 +205,7 @@ const profileIMG = images.find(img => img.for === "profile")
 .skill:hover {
   cursor: default;
   scale: 1.1;
+  color: var(--btn-fonthover);
 }
 
 .skill::before {
@@ -186,11 +228,6 @@ const profileIMG = images.find(img => img.for === "profile")
 .downloads {
   display: flex;
   flex-direction: column;
-  margin-top: var(--s-8);
-}
-
-.btn {
-  align-self: center;
 }
 
 .downloads > p {
@@ -198,34 +235,32 @@ const profileIMG = images.find(img => img.for === "profile")
   font-size: var(--s-4);
 }
 
-.download {
-  cursor: pointer;
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-10);
 }
 
-.contact-form h1 {
+form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-5);
+}
+
+form > h1 {
   font-size: var(--s-6);
   width: var(--s-75);
+  letter-spacing: 1px;
 }
 
-.contact-form > p {
+form > p {
   font-size: var(--s-4);
   letter-spacing: 2px;
 }
 
-.contact-form {
-  display: flex;
-  flex-direction: column;
-  gap: var(--s-7);
-}
-
-form > p:nth-child(1) {
-  margin-top: 0;
-}
-
-form > p {
+form div label {
   font-size: var(--s-2);
   letter-spacing: 1px;
-  margin-top: var(--s-5);
 }
 
 form input:focus, textarea:focus {
@@ -243,7 +278,6 @@ input, textarea {
   background-color: var(--primary-color);
   padding: var(--s-1) 0px;
   border-bottom: 1px solid var(--accent-color);
-  padding-bottom: var(--s-1);
   font-size: var(--s-2);
 }
 
@@ -272,36 +306,78 @@ input:-moz-placeholder, textarea::-moz-placeholder {
   font-size: var(--s-2);
 }
 
-.btn {
+.contact-form .btn {
   margin-top: var(--s-6);
 }
 
 @media (min-width: 768px) {
-  .contact-form, .intro-section, .skills-section {
-     padding: 0 var(--s-13);
+  .contact-form, .skills-section {
+     padding-left: var(--s-13);
+     padding-right: var(--s-13);
   }
 
-  .mostUsed {
-    width: 70%;
+  .contact-form, .skills-section {
+    padding-top: var(--s-15);
   }
 
-  .skills-section h1 {
+  .contact-form {
+    padding-bottom: var(--s-15);
+  }
+
+  .intro-section {
+    flex-direction: row;
+    align-items: center;
+    gap: var(--s-5);
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  .intro-section img {
+    min-width: var(--s-20);
+  }
+
+  .intro-section section h1 {
     font-size: var(--s-6);
   }
 
-  .skill {
+  .intro-section section p {
     font-size: var(--s-3);
+    line-height: var(--s-5);
   }
 
-  .downloads p {
+  .skills-section aside p {
+    font-size: var(--s-4);
+    letter-spacing: 1px;
+  }
+
+  .mostUsed {
+  }
+
+  .skill {
+    font-size: var(--s-2);
+  }
+
+  .btn p {
     font-size: var(--s-4);
   }
 
-  .contact-form p {
+  form {
+    gap: var(--s-6);
+  }
+
+  form > h1 {
+    font-size: var(--s-7);
+  }
+
+  form > p {
+    font-size: var(--s-5);
+  }
+
+  form div label {
     font-size: var(--s-4);
   }
 
-  .contact-form input, textarea {
+  form input, form textarea {
     font-size: var(--s-4);
   }
 
@@ -320,7 +396,8 @@ input:-moz-placeholder, textarea::-moz-placeholder {
 
 @media (min-width: 1024px) {
   .contact-form, .intro-section, .skills-section {
-     padding: 0 var(--s-15);
+     padding-left: var(--s-15);
+     padding-right: var(--s-15);
   }
 
   .intro-section {
@@ -330,40 +407,65 @@ input:-moz-placeholder, textarea::-moz-placeholder {
     align-items: center;
   }
 
+  .intro-section section, .intro-section > div {
+    width: 50%;
+  }
+
+  .intro-section div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .profile-img-border {
+    width: 70%;
+  }
+
   .intro-section section h1:nth-child(1) {
     height: var(--s-5);
   }
 
-  .skills-section section {
-    display: flex;
-    align-items: center;
-    gap: var(--s-7);
+  .skills-section {
+    grid-template-columns: minmax(auto, 30rem) auto;
+    grid-template-rows: repeat(3, auto);
+    margin: 0 auto;
+    max-width: 1700px;
+    column-gap: var(--s-12);
   }
 
-  .skills-section section .mostUsed, aside {
-    width: 50%;
+  .mostUsed {
+    grid-row: 1 / 3;
+    justify-self: center;
+    align-self: center;
   }
 
-  .skills-section section aside {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .skills div {
-    display: flex;
-    flex-direction: row;
+  .skills {
+    grid-column: 1 / 2;
     justify-content: center;
   }
 
-  .contact-form section {
-    display: flex;
-    flex-direction: row;
-    gap: var(--s-6);
+  .skills-section .btn {
+    grid-area: 3 / 2 / 3 / 3;
+    align-self: center;
+    justify-self: flex-start;
   }
 
-  .contact-form section form, aside {
-    width: 50%;
+  .skills-section p:nth-child(3) {
+    grid-area: 1 / 2 / 2 / 3;
+    align-self: center;
+  }
+
+  .skills-section p:nth-child(4) {
+    grid-area: 2 / 2 / 2 / 3;
+    align-self: center;
+  }
+
+  .contact-form {
+    align-items: center;
+  }
+
+  .contact-form form, .downloads {
+    max-width: 776.72px;
   }
 
   textarea {
@@ -376,51 +478,68 @@ input:-moz-placeholder, textarea::-moz-placeholder {
 }
 
 @media (min-width: 1360px) {
-  .intro-section, .skills-section, .contact-form {
-    padding: 0 var(--s-20);
+  .skills-section, .contact-form {
+    padding-left: var(--s-20);
+    padding-right: var(--s-20);
   }
 
   .intro-section {
     gap: var(--s-10);
-    padding-top: var(--s-8);
+    padding-left: var(--s-30);
+    padding-right: var(--s-30);
   }
 
   .intro-section section h1:nth-child(1) {
     height: var(--s-7);
+    padding-right: 6px;
   }
 
   .intro-section section h1 {
-    font-size: var(--s-9);
+    font-size: var(--s-7);
+    line-height: var(--s-7);
   }
 
   .intro-section section p {
-    font-size: var(--s-6);
+    font-size: var(--s-5);
+    line-height: var(--s-6);
   }
 
-  .intro-section section, div {
-    width: var(--s-50);
+  .skills-section > p:nth-child(3), .skills-section > p:nth-child(4) {
+    font-size: var(--s-4);
   }
 
-  .skills-section section {
-    gap: var(--s-15);
-  }
-
-  .skills div {
-    width: 100%;
+  .mostUsed {
+    height: auto;
+    max-width: 70%;
+    align-self: center;
   }
 
   .contact-form section {
     gap: var(--s-12);
   }
 
-  .contact-form > p {
-    width: 40%;
+  .contact-form section h1 {
+    font-size: var(--s-7);
+  }
+
+  form p:nth-child(2) {
+    font-size: var(--s-5);
+  }
+
+  .downloads {
+    gap: var(--s-5);
+  }
+
+  .downloads > p {
+    font-size: var(--s-5);
   }
 }
 </style>
 <script>
   const typewriter = document.querySelector(`.typewriter`) as HTMLElement;
-  const titles = ["Frontend", "Backend", "C#", "Java"]
+  const titles = ["Frontend", "Backend", "Full-stack"]
+  const articles = document.querySelectorAll(`article`)
+	let sectionButtons;
   let curTitle = 0;
 
   const typing = function(title) {
@@ -428,8 +547,6 @@ input:-moz-placeholder, textarea::-moz-placeholder {
 
     let char = 0;
     const int = setInterval(() => {
-
-
       typewriter.textContent += title[char]
       char++
 
@@ -455,7 +572,7 @@ input:-moz-placeholder, textarea::-moz-placeholder {
       if (typewriter.textContent.length === 0) {
         clearInterval(int);
         curTitle++
-        if (curTitle === 4) curTitle = 0;
+        if (curTitle === titles.length) curTitle = 0;
         typing(titles[curTitle])
       }
     }, time)
@@ -466,17 +583,6 @@ input:-moz-placeholder, textarea::-moz-placeholder {
         typewriter.style.borderRight = typewriter.style.borderRight === '2px solid var(--font-color)' ? 'none': '2px solid var(--font-color)'
       }, 520)
   }
-
-  document.addEventListener('DOMContentLoaded', () => {
-    // set typing animation
-    blinker()
-    if (titles.length > 0) {
-      
-      //typing animation
-      let curTitle = 0;
-      typing(titles[curTitle]);
-    }
-  });
 
   document.querySelector('button[type="submit"]').addEventListener(`click`, async (e) => {
     e.preventDefault();
@@ -499,16 +605,17 @@ input:-moz-placeholder, textarea::-moz-placeholder {
 
       nameInput.style.borderBottomColor = `#8cb0bf`;
       emailInput.style.borderBottomColor = `#8cb0bf`; 
-      messageInput.style.borderBottomColor = `#8cb0bf`; 
-      
+      messageInput.style.borderBottomColor = `#8cb0bf`;
+
       if (!data.message) {
-          data.forEach(err => {
-            const elements = document.getElementsByName(`${err.path}`)
+          data.forEach(error => {
+            const elements = document.getElementsByName(`${error.path}`)
 
             elements.forEach(e => {
-              e.textContent = '';
-              e.setAttribute("placeholder", err.message);
-              e.style.borderBottomColor = `#FF0000`;
+              const input = e as HTMLInputElement;
+              input.value = "";
+              input.setAttribute("placeholder", error.message);
+              input.style.borderBottomColor = `#FF0000`;
             })
           })
       } else {
@@ -553,4 +660,57 @@ document.querySelector('.download').addEventListener(`click`, async () => {
     });
   })
 })
+
+	const setSectionButton = function() {
+    const yScreen = window.scrollY;
+
+    // Clear previous highlights
+    sectionButtons.forEach(button => button.classList.remove("current-section"));
+
+    articles.forEach(article => {
+        if (article.offsetTop <= yScreen && (article.offsetTop + article.offsetHeight) >= yScreen) {
+            const button = document.querySelector(`.goto-section-button[section="${article.getAttribute("section")}"]`);
+            	if (button) {
+                	button.classList.add("current-section"); // Highlight the button
+            	}
+       		}
+    	});
+	};
+
+	articles.forEach((article, i) => {
+		document.querySelector(`.goto-section`).insertAdjacentHTML("beforeend", `
+			<span class="goto-section-button" section="${i}"></span>
+		`)
+
+		article.setAttribute("section", `${i}`)
+	});
+
+	document.addEventListener(`scroll`, setSectionButton)
+
+	document.addEventListener("DOMContentLoaded", () => {
+    // set typing animation
+    blinker()
+    if (titles.length > 0) {
+      
+      //typing animation
+      let curTitle = 0;
+      typing(titles[curTitle]);
+    }
+
+		sectionButtons = document.querySelectorAll('.goto-section-button'); 
+		setSectionButton()
+
+		sectionButtons.forEach(button => {
+			button.addEventListener(`click`, () => {
+				const article = document.querySelector(`article[section="${button.getAttribute("section")}"]`)
+
+				const { top } = article.getBoundingClientRect()
+				window.scrollTo({
+					top: window.scrollY + top + 1,
+					left: 0,
+					behavior: "smooth"
+				})
+			})
+		})
+	})
 </script>

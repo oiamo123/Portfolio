@@ -18,9 +18,16 @@ const projects = await response.json();
 </Layout>
 <style>
 article {
-	padding: var(--s-7);
+	margin: 0 auto;
+	padding: var(--s-15) var(--s-7);
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 }
+
 h1 {
+	grid-column: span 2;
 	text-transform: uppercase;
 	letter-spacing: 2px;
 	font-size: var(--s-5);
@@ -28,25 +35,28 @@ h1 {
 }
 
 .projects {
-  display: flex;
-  flex-direction: column;
-  gap: var(--s-10);
-  margin: var(--s-5) 0;
+  display: grid;
+  grid-template-columns: minmax(auto, var(--s-30));
+  justify-content: center;
+  gap: var(--s-8);
+  margin-top: var(--s-9);
 }
 
 @media (min-width: 768px) {
-	article {
-		padding: var(--s-5) var(--s-15);
+	.projects {
+		grid-template-columns: repeat(2, minmax(auto, var(--s-25)));
+		grid-template-rows: repeat(auto, 1fr);
+		gap: var(--s-10);
 	}
 
-	.projects {
-		gap: var(--s-12)
+	h1 {
+		text-align: center;
 	}
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 1360px) {
 	.projects {
-		flex-wrap: wrap;
+		grid-template-columns: repeat(3, minmax(auto, var(--s-30)));
 	}
 }
 </style>

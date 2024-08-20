@@ -1,106 +1,98 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const data = require("./data.json");
 const cors = require("cors");
 const nodemailer = require("nodemailer");
 const { google } = require("googleapis");
-const fs = require("fs");
-const { z } = require("zod");
-const request = require("./request.json");
+const dotenv = require("dotenv");
+const rateLimit = require("express-rate-limit");
+const { decrypt, encrypt } = require("./crypto/crypto.js");
+const {
+  emailSchema,
+  validateSchema,
+  validateRecaptcha,
+  sanitize,
+} = require("./validation/validation.js");
+
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 100,
+});
+
+const app = express();
+app.use(limiter);
+app.use(cors());
+app.use(express.urlencoded());
+app.use(express.json());
+dotenv.config();
 
 const Projects = require("./models/Projects.js");
 const Tools = require("./models/Tools");
 const Project_Tools = require("./models/Project-Tools.js");
 const Images = require("./models/Images.js");
 const Timeline = require("./models/Timeline.js");
-
-const app = express();
-
-app.use(cors());
-app.use(express.urlencoded());
-app.use(express.json());
+const Data = require("./models/Data.js");
 
 // middleware
-const emailSchema = z.object({
-  name: z.string().min(2, { message: "Name must be at least 2 characters" }),
-  email: z.string().email(),
-  message: z.string().min(10, "Message must be at least 20 characters"),
-});
-
-const validateSchema = function (schema) {
-  return (req, res, next) => {
-    try {
-      const dataToValidate = {
-        name: req.body.name,
-        email: req.body.email,
-        message: req.body.message,
-      };
-
-      schema.parse(dataToValidate);
-      next();
-    } catch (err) {
-      const errors = err.errors.map((e) => ({
-        path: e.path.join("."),
-        message: e.message,
-      }));
-      res.status(400).json(err.errors);
-    }
-  };
-};
-
-const validateRecaptcha = async function (req, res, next) {
-  request.event.token = req.body.token;
-  request.event.expectedAction = "mail";
-
-  const recaptchaResponse = await fetch(
-    `https://recaptchaenterprise.googleapis.com/v1/projects/numeric-camp-431804-f4/assessments?key=${data.APIKey}`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(request),
-    }
-  );
-
-  const response = await recaptchaResponse.json();
-
-  if (response.riskAnalysis.score <= 0.3) {
-    res.status(400).json({
-      message:
-        "Sorry, your email can't be sent right now due to suspicious activity.",
-    });
-  } else {
-    next();
-  }
-};
-
-mongoose.connect(data.uri).then(() => {
+mongoose.connect(process.env.URI).then(() => {
   console.log("Connected to MongoDB Atlas");
 });
 
 // routes
 app.get("/api/images", async (req, res) => {
-  const images = await Images.find({ for: "profile" }).lean();
+  try {
+    const images = await Images.find({ for: "profile" }).lean();
+    if (!images) {
+      res.status(400).json({ message: "Unable to retrieve image" });
+    }
 
-  res.status(200).json(images);
+    res.status(200).json(images);
+  } catch (err) {
+    res.status(400).json({ message: "An error occured" });
+  }
 });
 
 app.get("/api/timeline", async (req, res) => {
-  const timeline = await Timeline.find({}).lean();
-  res.status(200).json(timeline);
+  try {
+    const timeline = await Timeline.find({}).lean();
+    if (!timeline) {
+      res
+        .status(400)
+        .json({ message: "There was an issue receiving the timeline data" });
+    }
+
+    res.status(200).json(timeline);
+  } catch (err) {
+    res.status(400).json({ message: "An error occured" });
+  }
 });
 
 app.get("/api/skills", async (req, res) => {
-  const tools = await Tools.find({}).lean();
-  res.status(200).json(tools);
+  try {
+    const tools = await Tools.find({}).lean();
+    if (!tools) {
+      res.status(400).json({ message: "There was an issue loading the tools" });
+    }
+    res.status(200).json(tools);
+  } catch (err) {
+    res.status(400).json({ message: "An error occured" });
+  }
 });
 
 app.post("/api/resume", validateRecaptcha, async (req, res) => {
-  const resume = await Images.findOne({ for: "resume" }).lean();
-  const coverletter = await Images.findOne({ for: "coverletter" }).lean();
+  try {
+    const resume = await Images.findOne({ for: "resume" }).lean();
+    const coverletter = await Images.findOne({ for: "coverletter" }).lean();
 
-  res.status(200).json({ resume, coverletter });
+    if (!resume || !coverletter) {
+      res
+        .status(400)
+        .json({ message: "There was an issue retrieving the images" });
+    }
+
+    res.status(200).json({ resume, coverletter });
+  } catch (err) {
+    res.status(400).json({ message: "An error occured" });
+  }
 });
 
 app.get("/api/projects", async (req, res) => {
@@ -128,7 +120,9 @@ app.get("/api/projects", async (req, res) => {
 
     res.status(200).json(projectsAndTools);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res
+      .status(500)
+      .json({ message: "There was an issue loading the projects" });
   }
 });
 
@@ -137,60 +131,80 @@ app.post(
   validateRecaptcha,
   validateSchema(emailSchema),
   async (req, res) => {
-    const { name, email, message } = req.body;
+    const name = sanitize(req.body.name);
+    const email = sanitize(req.body.email);
+    const message = sanitize(req.body.message);
+
+    const data = await Data.find({
+      for: { $in: ["ClientID", "ClientSecret", "RefreshToken"] },
+    });
+    const clientID = data.find((item) => item.for === "ClientID");
+    const clientSecret = data.find((item) => item.for === "ClientSecret");
+    const refreshToken = data.find((item) => item.for === "RefreshToken");
+
+    const clientIDKeydecrypted = decrypt(clientID.key);
+    const clientSecretKeyDecrypted = decrypt(clientSecret.key);
+    const refreshTokenKeyDecrypted = decrypt(refreshToken.key);
+
+    if (!clientID || !clientSecret || !refreshToken) {
+      throw new Error("Unable to retrieve necessary credentials");
+    }
+
     try {
       const oauth2Client = new google.auth.OAuth2(
-        data.ClientID,
-        data.ClientSecret,
-        data.RedirectURI
+        clientIDKeydecrypted,
+        clientSecretKeyDecrypted,
+        process.env.REDIRECT_URI
       );
 
       oauth2Client.setCredentials({
-        refresh_token: data.RefreshToken,
+        refresh_token: refreshTokenKeyDecrypted,
       });
 
-      const { token: accessToken } = await oauth2Client.getAccessToken();
-      data.AccessToken = accessToken;
+      const accessToken = await oauth2Client
+        .getRequestHeaders()
+        .then((headers) => headers["Authorization"].split(" ")[1]);
 
       const transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
           type: "OAuth2",
-          user: data.email,
-          accessToken: data.AccessToken,
-          clientId: data.ClientID,
-          clientSecret: data.ClientSecret,
-          refreshToken: data.RefreshToken,
+          user: process.env.EMAIL,
+          accessToken: accessToken,
+          clientId: clientIDKeydecrypted,
+          clientSecret: clientSecretKeyDecrypted,
+          refreshToken: refreshTokenKeyDecrypted,
         },
       });
 
       const mailOptions = {
         from: email,
-        to: data.email,
+        to: process.env.EMAIL,
         subject: `${name} - Portfolio`,
         text: message,
       };
 
-      transporter.sendMail(mailOptions, (err, info) => {
+      transporter.sendMail(mailOptions, async (err, info) => {
         if (err) {
-          console.log(err);
           res
             .status(500)
             .json({ message: "There was an issue sending the email" });
         } else {
-          fs.writeFileSync(
-            "./data.json",
-            JSON.stringify({ ...data, AccessToken: accessToken }, null, 2)
+          await Data.updateOne(
+            { for: "AccessToken" },
+            { $set: { key: encrypt(accessToken) } }
           );
-          res.status(200).json({ message: "Email successfully sent!" });
+
+          res.status(200).json({ message: "Email successfully sent" });
         }
       });
     } catch (error) {
+      console.log(error);
       res.status(500).json({ message: "An error occurred" });
     }
   }
 );
 
-app.listen(data.port, () => {
+app.listen(process.env.PORT, () => {
   console.log("Server is listening");
 });

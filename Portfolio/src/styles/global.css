@@ -25,27 +25,29 @@
   --s-vh: 100vh;
   --s-2\4v: 50vh;
 
-  --primary-color: #fffafa;
-  --secondary-color: #457b9d;
-  --header-color: #457b9d;
-  --font-color: #000000;
-  --accent-color: #8cb0bf;
-  --btn-primary: #76abae;
-  --btn-hover: #1d3557;
-  --btn-fonthover: #ffffff;
-  --card: #ffffff;
+  --primary-color: #f8f9fa; /* Slightly softer white for a more comfortable reading experience */
+  --secondary-color: #457b9d; /* This blue works well for consistent branding */
+  --header-color: #457b9d; /* Keep the header consistent with secondary color */
+  --font-color: #2d2d2d; /* A dark gray instead of pure black for a softer contrast */
+  --accent-color: #76abae; /* Brighter accent color to bring subtle highlights */
+  --btn-primary: #5d9ca7; /* A slightly deeper button color for better contrast */
+  --btn-hover: #1d3557; /* The dark blue for hover is solid */
+  --btn-fonthover: #ffffff; /* Keep white font hover for good contrast */
+  --card: #ffffff; /* Keep the card white for a clean look */
+  --timeline-accent-color: #adb5bd;
 }
 
 [data-theme="dark"] {
-  --primary-color: #31363f;
-  --secondary-color: #212329;
-  --header-color: #212329;
-  --font-color: #e1e1e1;
+  --primary-color: #121417;
+  --secondary-color: #1d2025;
+  --header-color: #1d2025;
+  --font-color: #e0e0e0;
   --accent-color: #76abae;
-  --btn-primary: #1d3557;
+  --btn-primary: #2a4a62;
   --btn-hover: #457b9d;
   --btn-fonthover: #ffffff;
-  --card: #f5f5dc;
+  --card: #1d2025;
+  --timeline-accent-color: #76abae;
 }
 
 /* #a8dadc */
@@ -125,13 +127,9 @@
   font-style: italic;
 }
 
-article {
-  padding: var(--s-8);
-}
-
 .badge {
   cursor: default;
-  background-color: var(--btn-primary);
+  background-color: var(--accent-color);
   font-size: 10px;
   padding: var(--s-1) var(--s-6);
   box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
@@ -161,6 +159,8 @@ article {
   padding: var(--s-05) var(--s-6);
   position: relative;
   overflow: hidden;
+  cursor: pointer;
+  align-self: flex-start;
 }
 
 .btn svg {
@@ -185,7 +185,8 @@ article {
   transition: right 0.15s ease;
 }
 
-.btn:hover p {
+.btn:hover p,
+.btn:hover a > p {
   color: white;
 }
 
@@ -193,8 +194,62 @@ article {
   right: 0%;
 }
 
+.goto-section-button {
+  height: var(--s-2);
+  width: var(--s-2);
+  background-color: var(--timeline-accent-color);
+  cursor: pointer;
+}
+
+.current-section {
+  border: 2px solid var(--font-color);
+  background-color: transparent;
+  transform: rotate(45deg);
+}
+
 @media (min-width: 768px) {
   .badge {
     font-size: var(--s-2);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .fade-in-fast {
+    opacity: 0;
+    transform: translateY(50%);
+    animation: fade-in linear forwards;
+    animation-timeline: view();
+    animation-range: -100px 300px;
+  }
+
+  .fade-in {
+    opacity: 0;
+    transform: translateY(50%);
+    animation: fade-in linear forwards;
+    animation-timeline: view();
+    animation-range: -175px 350px;
+  }
+
+  .fade-in-slow {
+    opacity: 0;
+    transform: translateY(50%);
+    animation: fade-in linear forwards;
+    animation-timeline: view();
+    animation-range: -200px 400px;
+  }
+
+  .fade-in-slower {
+    opacity: 0;
+    transform: translateY(100%);
+    animation: fade-in linear forwards;
+    animation-timeline: view();
+    animation-range: -250px 500px;
+  }
+
+  @keyframes fade-in {
+    to {
+      opacity: 1;
+      transform: none;
+    }
   }
 }

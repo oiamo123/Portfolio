@@ -8,8 +8,8 @@ timeline.map(item => (
     <div class="info">
       <aside>
         <span>{item.yearmo}</span>
-        <h1>{item.title}</h1>
-        <p class="roboto-light">{item.description}</p>
+        <h1 class="roboto-medium fade-in-slow">{item.title}</h1>
+        <p class="roboto-light fade-in-slower">{item.description}</p>
       </aside>
     </div>
   ))
@@ -19,29 +19,26 @@ timeline.map(item => (
 article {
     position: relative;
     background-color: var(--secondary-color);
-    padding: var(--s-7) 0;
+    padding: var(--s-12) var(--s-2);
+    color: #f1faee;
 }
 
 article::after {
-    top: var(--s-7);
+    top: var(--s-12);
     font-size: var(--s-5);
     right: var(--s-7);
     display: block;
     position: absolute;
-    content: 'Some history';
+    content: 'My background';
     font-weight: 700;
     font-family: 'Roboto', sans-serif;
+    letter-spacing: 1px;
+    text-transform: uppercase;
 }
 
-article > h1 {
-    font-size: var(--s-5);
-    position: absolute;
-    align-self: flex-end;
-}
-
-article aside p {
-  font-size: var(--s-2);
-  letter-spacing: 1.3px;
+.info aside p {
+  font-size: var(--s-3);
+  letter-spacing: 1.5px;
 }
     /* For Time line */
 .info {
@@ -56,7 +53,7 @@ article aside p {
   content: "";
   position: absolute;
   width: 51%;
-  border: solid var(--accent-color);
+  border: solid var(--timeline-accent-color);
 }
 
 .info aside {
@@ -66,6 +63,7 @@ article aside p {
 .info h1 {
     font-size: var(--s-4);
     padding: var(--s-2) 0;
+    letter-spacing: 1px;
 }
 
 .info:nth-child(odd) aside {
@@ -114,31 +112,31 @@ article aside p {
 
 .info aside span {
   position: absolute;
-  background-color: var(--accent-color);
+  background-color: var(--timeline-accent-color);
   padding: 0 var(--s-1);
-  top: 15%;
+  top: 10%;
 }
 
 .info:nth-child(odd) aside span {
   left: 1px;
-  border-left: 38px solid var(--accent-color);
+  border-left: 38px solid var(--timeline-accent-color);
 }
 
 .info:nth-child(even) aside span {
   right: 1px;
-  border-right: 38px solid var(--accent-color);
+  border-right: 38px solid var(--timeline-accent-color);
 }
 /* For time line ^^^ */
 
 @media (min-width: 768px) {
   article {
-    padding: var(--s-11);
+    padding: var(--s-15) var(--s-11);
   }
 
   article::after {
     font-size: var(--s-6);
-    right: var(--s-12);
-    top: var(--s-7);
+    right: var(--s-11);
+    top: var(--s-15);
   }
 
   .info aside span {
@@ -156,7 +154,7 @@ article aside p {
 
 @media (min-width: 1024px) {
   article {
-    padding: var(--s-10) var(--s-20);
+    padding: var(--s-15);
   }
 
   article::after {
@@ -166,12 +164,14 @@ article aside p {
 
 @media (min-width: 1360px) {
   article {
-    padding: var(--s-15) var(--s-30);
+    padding: var(--s-15) var(--s-20);
   }
 
   article::after {
     top: var(--s-13);
-    right: var(--s-30);
+    right: var(--s-20);
+    font-size: var(--s-7);
+    letter-spacing: 2px;
   }
 
   .info {
