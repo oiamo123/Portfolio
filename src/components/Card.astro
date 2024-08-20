@@ -52,7 +52,7 @@ const { img, tools, href, title, body } = Astro.props;
 		left: 0;
 		height: 100%;
 		width: 100%;
-		background: linear-gradient(to top, var(--card) 0%, rgba(0, 0, 0, 0.2) 100%) ;
+		background: linear-gradient(to top, var(--card) -20%, rgba(0, 0, 0, 0.2) 120%) ;
 	}
 
 	.card .img-container h1 {
@@ -73,8 +73,8 @@ const { img, tools, href, title, body } = Astro.props;
 
 	img {
 		position: absolute;
-		top: -50%;
-		transform: translateY(25%);
+		scale: 1.2;
+		top: 5%;
 	}
 
 	.badge {
