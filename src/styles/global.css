@@ -25,15 +25,15 @@
   --s-vh: 100vh;
   --s-2\4v: 50vh;
 
-  --primary-color: #f8f9fa; /* Slightly softer white for a more comfortable reading experience */
-  --secondary-color: #457b9d; /* This blue works well for consistent branding */
-  --header-color: #457b9d; /* Keep the header consistent with secondary color */
-  --font-color: #2d2d2d; /* A dark gray instead of pure black for a softer contrast */
-  --accent-color: #76abae; /* Brighter accent color to bring subtle highlights */
-  --btn-primary: #5d9ca7; /* A slightly deeper button color for better contrast */
-  --btn-hover: #1d3557; /* The dark blue for hover is solid */
-  --btn-fonthover: #ffffff; /* Keep white font hover for good contrast */
-  --card: #ffffff; /* Keep the card white for a clean look */
+  --primary-color: #f8f9fa;
+  --secondary-color: #457b9d;
+  --header-color: #457b9d;
+  --font-color: #2d2d2d;
+  --accent-color: #76abae;
+  --btn-primary: #5d9ca7;
+  --btn-hover: #1d3557;
+  --btn-fonthover: #ffffff;
+  --card: #ffffff;
   --timeline-accent-color: #adb5bd;
 }
 
@@ -214,42 +214,16 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .fade-in-fast {
-    opacity: 0;
-    transform: translateY(50%);
-    animation: fade-in linear forwards;
-    animation-timeline: view();
-    animation-range: -100px 300px;
-  }
-
   .fade-in {
-    opacity: 0;
     transform: translateY(50%);
     animation: fade-in linear forwards;
     animation-timeline: view();
     animation-range: -175px 350px;
   }
 
-  .fade-in-slow {
-    opacity: 0;
-    transform: translateY(50%);
-    animation: fade-in linear forwards;
-    animation-timeline: view();
-    animation-range: -200px 400px;
-  }
-
-  .fade-in-slower {
-    opacity: 0;
-    transform: translateY(100%);
-    animation: fade-in linear forwards;
-    animation-timeline: view();
-    animation-range: -250px 500px;
-  }
-
   @keyframes fade-in {
     to {
-      opacity: 1;
-      transform: none;
+      transform: translateY(0);
     }
   }
 }

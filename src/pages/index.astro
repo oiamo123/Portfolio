@@ -30,8 +30,8 @@ const profileIMG = images.find(img => img.for === "profile")
     </article>
     <Timeline></Timeline>
     <article class="skills-section">
-          <img class="mostUsed fade-in-fast" alt="A chat of my most used languages">    
-          <div class="skills fade-in-slower">
+          <img class="mostUsed fade-in" alt="A chat of my most used languages">    
+          <div class="skills fade-in">
             {
               skills.filter(skill => skill.category === "skill").map((skill) => (
                   <p class="skill">{skill.tool}</p>
@@ -39,8 +39,8 @@ const profileIMG = images.find(img => img.for === "profile")
             }
           </div>
           <p class="roboto-light fade-in">While attending SAIT, I learned and practiced a wide variety of technical and theoretical skills to help me tackle projects. These skills range from languages to project management. On top of what I learned in school, I regularly spend time reading into new technology and best practices to continue to improve my technical skills and build scalable, efficient and secure applications.</p>
-          <p class="roboto-light fade-in-slow">However as with most programs, they only cover so much material. With that being said, during my time as an electrician I coordinated closely with co-workers, management and clients to tackle problems and produce products in a timely manner while balancing cost and performance.</p>
-          <a class="btn fade-in-slower" href="/projects"><p>Projects</p><svg width="48" height="24" viewBox="0 0 48 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <p class="roboto-light fade-in">However as with most programs, they only cover so much material. With that being said, during my time as an electrician I coordinated closely with co-workers, management and clients to tackle problems and produce products in a timely manner while balancing cost and performance.</p>
+          <a class="btn fade-in" href="/projects"><p>Projects</p><svg width="48" height="24" viewBox="0 0 48 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M4 12H44M44 12L34 8M44 12L34 16" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
           </svg></a>
     </article>
@@ -48,25 +48,25 @@ const profileIMG = images.find(img => img.for === "profile")
         <form>
           <h1 class="roboto-bold fade-in">Feel free to contact me!</h1>
           <p class="roboto-light fade-in">I am always open to new opportunities, questions or proposals</p>
-          <div class="fade-in-slow">
+          <div class="fade-in">
             <label for="name">Your name</label>
             <input type="text" name="name" placeholder="Enter your name">
           </div>
-          <div class="fade-in-slow">
+          <div class="fade-in">
             <label for="email">Email address</label>
             <input type="email" name="email" placeholder="Enter your email address">
           </div>
-          <div class="fade-in-slow">
+          <div class="fade-in">
             <label for="message">Your message</label>
             <textarea name="message" placeholder="Hey, i've got an idea for an application and was thinking you could help me out. When would you be free?"></textarea>
           </div>
           <p class="message-response"></p>
-          <button class="btn fade-in-slow" type="submit"><p>Submit</p><svg width="48" height="24" viewBox="0 0 48 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <button class="btn fade-in" type="submit"><p>Submit</p><svg width="48" height="24" viewBox="0 0 48 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M4 12H44M44 12L34 8M44 12L34 16" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
           </svg></button>
           </form>
-          <aside class="downloads fade-in-slow"><p class="roboto-light">I'm excited to apply what I've learned while continuing to hone and develop new skills as a developer. If you're interested in working with me, feel free to download my resume and coverletter.</p>
-            <a class="btn download fade-in-slower"><p>Download Resume</p><svg width="48" height="24" viewBox="0 0 48 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <aside class="downloads fade-in"><p class="roboto-light">I'm excited to apply what I've learned while continuing to hone and develop new skills as a developer. If you're interested in working with me, feel free to download my resume and coverletter.</p>
+            <a class="btn download fade-in"><p>Download Resume</p><svg width="48" height="24" viewBox="0 0 48 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M4 12H44M44 12L34 8M44 12L34 16" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
             </svg></a>
           </aside>
@@ -279,6 +279,7 @@ form div label {
   padding: var(--s-1) 0px;
   border-bottom: 1px solid var(--accent-color);
   font-size: var(--s-2);
+  letter-spacing: 1px;
 }
 
 .contact-form input:focus, .contact-form textarea:focus {
@@ -350,9 +351,6 @@ form div label {
     letter-spacing: 1px;
   }
 
-  .mostUsed {
-  }
-
   .skill {
     font-size: var(--s-2);
   }
@@ -377,12 +375,16 @@ form div label {
     font-size: var(--s-4);
   }
 
-  form input, form textarea {
+  form div input, form div textarea {
     font-size: var(--s-4);
   }
 
+  form div textarea {
+    height: var(--s-15);
+  }
+
   .contact-form input::-webkit-input-placeholder, .contact-form textarea::-webkit-input-placeholder {
-  font-size: var(--s-4);
+    font-size: var(--s-4);
   }
 
   .contact-form input:-ms-input-placeholder, .contact-form textarea::-ms-input-placeholder {
