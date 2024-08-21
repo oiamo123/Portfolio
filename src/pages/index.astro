@@ -653,17 +653,16 @@ document.querySelector('.download').addEventListener(`click`, async () => {
     const token = await grecaptcha.enterprise.execute('6LfFhCUqAAAAAM9bDteptB1xCa4GPfVAq2-rNIMx', {action: 'LOGIN'})
 
     // fetch to api
-    const response = await fetch(`https://api.goiamo.dev/api/resume`, { 
+    const response = await fetch(`http://api.goiamo.dev/api/resume`, { 
       method: "POST", 
       body: JSON.stringify({ token }), 
       headers: { "Content-Type": "application/json" }
     });
+
     // parse data and create array
     const data = await response.json();
-    const files = [data.resume, data.coverletter]
 
-
-    files.forEach(async file => {
+    data.forEach(async file => {
       if (file) {
         // Create a temporary download link with download attribute
         const fileResponse = await fetch(file.href)
