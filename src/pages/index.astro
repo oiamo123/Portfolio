@@ -20,7 +20,7 @@ const profileIMG = images.find(img => img.for === "profile")
         <section>
           <h1 class="typewriter roboto-bold-italic"></h1>
           <h1 class="roboto-bold">Developer.</h1>
-          <p class="roboto-light">My name is <span class="roboto-medium-italic">Gavin</span> and I'm a junior developer based out of Calgary, Alberta. I'm passionate about designing and building scalable full-stack projects. I love music, motorcycles and the outdoors.</p>
+          <p class="roboto-light">My name is <span class="roboto-medium-italic">Gavin</span> and I'm a developer based out of Calgary, Alberta. I'm passionate about designing and building scalable full-stack projects. I love music, motorcycles and the outdoors.</p>
         </section>
         <div>
           <div class="profile-img-border">
@@ -58,7 +58,7 @@ const profileIMG = images.find(img => img.for === "profile")
           </div>
           <div class="fade-in">
             <label for="message">Your message</label>
-            <textarea name="message" placeholder="Hey, i've got an idea for an application and was thinking you could help me out. When would you be free?"></textarea>
+            <textarea name="message" placeholder="Hey, I've got an idea for an application and was thinking you could help me out. When would you be free?"></textarea>
           </div>
           <p class="message-response"></p>
           <button class="btn fade-in" type="submit"><p>Submit</p><svg width="48" height="24" viewBox="0 0 48 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -73,6 +73,7 @@ const profileIMG = images.find(img => img.for === "profile")
       </article>
 </Layout>
 <style>
+
 .contact-form, .skills-section {
   padding: 0 var(--s-8);
 }
@@ -245,6 +246,7 @@ form {
   display: flex;
   flex-direction: column;
   gap: var(--s-5);
+  transition: display 0.3s ease-in;
 }
 
 form > h1 {
@@ -549,6 +551,7 @@ const nameInput = document.querySelector('input[name="name"]')
 const emailInput = document.querySelector('input[name="email"]')
 const messageInput = document.querySelector('textarea[name="message"]')
 const header = document.querySelector('header')
+const form = document.querySelector('form')
 
 let sectionButtons;
 let curTitle = 0;
@@ -595,6 +598,12 @@ const blinker = function () {
       }, 520)
 }
 
+const setBorderBottom = function(color) {
+  nameInput.style.borderBottomColor = color;
+  emailInput.style.borderBottomColor = color; 
+  messageInput.style.borderBottomColor = color;
+}
+
 // submit button on form
 document.querySelector('button[type="submit"]').addEventListener(`click`, async (e) => {
   e.preventDefault();
@@ -619,9 +628,7 @@ document.querySelector('button[type="submit"]').addEventListener(`click`, async 
       .then(data => {
       
       // set border bottom
-      nameInput.style.borderBottomColor = `#8cb0bf`;
-      emailInput.style.borderBottomColor = `#8cb0bf`; 
-      messageInput.style.borderBottomColor = `#8cb0bf`;
+      setBorderBottom(`#8cb0bf`)
 
       // shows invalid inputs
       if (!data.message) {
@@ -638,10 +645,10 @@ document.querySelector('button[type="submit"]').addEventListener(`click`, async 
         })
       // show message and clear inputs
       } else {
-        messageResponse.textContent = `${data.message}`
-        nameInput.textContent = "";
-        emailInput.textContent = "";
-        messageInput.textContent = "";
+        messageResponse.innerHTML = `${data.message} <ion-icon name="checkmark-done-circle-outline"></ion-icon>`
+        nameInput.value = "";
+        emailInput.value = "";
+        messageInput.value = "";
       }
     })
   });
@@ -748,4 +755,5 @@ document.addEventListener("DOMContentLoaded", () => {
 		})
 	})
 })
+
 </script>
