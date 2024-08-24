@@ -644,8 +644,13 @@ document.querySelector('button[type="submit"]').addEventListener(`click`, async 
           })
         })
       // show message and clear inputs
-      } else {
+      } else if (data.message === "Email successfully sent") {
         messageResponse.innerHTML = `${data.message} <ion-icon name="checkmark-done-circle-outline"></ion-icon>`
+        nameInput.value = "";
+        emailInput.value = "";
+        messageInput.value = "";
+      } else {
+        messageResponse.innerHTML = `${data.message} <ion-icon name="close-circle-outline"></ion-icon>`
         nameInput.value = "";
         emailInput.value = "";
         messageInput.value = "";

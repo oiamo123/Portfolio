@@ -214,9 +214,16 @@
   height: auto;
 }
 
-ion-icon[name="checkmark-done-circle-outline"] {
+.message-response > ion-icon {
   scale: 1.5;
+}
+
+.message-response > ion-icon[name="checkmark-done-circle-outline"] {
   color: green;
+}
+
+.message-response > ion-icon[name="close-circle-outline"] {
+  color: red;
 }
 
 @media (min-width: 768px) {
@@ -230,7 +237,7 @@ ion-icon[name="checkmark-done-circle-outline"] {
     gap: var(--s-5);
   }
 
-  ion-icon[name="checkmark-done-circle-outline"] {
+  .message-response > ion-icon {
     scale: 1.7;
     margin-bottom: -4px;
   }
