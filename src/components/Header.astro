@@ -7,6 +7,7 @@ import "../styles/global.css"
     <aside>
         <a href="/" class="roboto-light">Home</a>
         <a href="/projects" class="roboto-light">Projects</a>
+        <a class="roboto-light contact-button" href="#">Contact</a>
         <a href="https://github.com/oiamo123"><ion-icon name="logo-github"></ion-icon></a>
         <a href="https://www.linkedin.com/in/gavin-oiamo/?originalSubdomain=ca"><ion-icon name="logo-linkedin"></ion-icon></a>
     </aside>
@@ -19,6 +20,7 @@ import "../styles/global.css"
 <nav class="hidden">
     <a class="roboto-regular" href="/">Home</a>
     <a class="roboto-regular" href="/projects">Projects</a>
+    <a class="roboto-regular contact-button" href="#">Contact</a>
     <div class="links">
         <a href="https://github.com/oiamo123"><ion-icon name="logo-github"></ion-icon></a>
         <a href="https://www.linkedin.com/in/gavin-oiamo/?originalSubdomain=ca"><ion-icon name="logo-linkedin"></ion-icon></a>
@@ -181,12 +183,13 @@ import "../styles/global.css"
             gap: var(--s-6);
         }
 
-        header aside a:nth-child(-n + 2) {
+        header aside a:nth-child(-n + 3) {
             position: relative;
             overflow: hidden;
+            cursor: pointer;
         }
 
-        header aside a:nth-child(-n + 2)::after {
+        header aside a:nth-child(-n + 3)::after {
             content: '';
             display: block;
             position: absolute;
@@ -198,7 +201,7 @@ import "../styles/global.css"
             transition: right 0.3s ease-in-out;
         }
 
-        header aside a:nth-child(-n + 2):hover::after {
+        header aside a:nth-child(-n + 3):hover::after {
             right: 0%;
         }
 
@@ -222,8 +225,34 @@ import "../styles/global.css"
     const sun = document.querySelector('[name="sunny-outline"]');
     const hamburger = document.querySelector('.hamburger')
     const nav = document.querySelector('nav');
+    const contactBtns = document.querySelectorAll(`.contact-button`);
+    
+    contactBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const contactSection = document.querySelector(`.contact-form`);
+        const { top } = contactSection.getBoundingClientRect();
+
+        const threshold = 100; // Adjust this value as needed
+
+        // Check if the contact section is already in view
+        if (top >= 0 && top <= threshold) return; // Exit if already in view
+
+        if (nav.classList.contains("active")) {
+            nav.classList.remove("active")
+            hamburger.classList.remove("active")
+        }
+
+        window.scrollTo({
+				top: window.scrollY + top + 1,
+				left: 0,
+				behavior: "smooth"
+			})
+        });
+    })
 
     
+
   const changeMostUsedTheme = function () {
     const img = document.querySelector(".mostUsed")
     const theme = localStorage.getItem("theme")
