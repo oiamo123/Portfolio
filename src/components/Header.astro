@@ -8,6 +8,7 @@ import "../styles/global.css"
         <a href="/" class="roboto-light">Home</a>
         <a href="/projects" class="roboto-light">Projects</a>
         <a class="roboto-light contact-button" href="#">Contact</a>
+        <a class="roboto-light" href="/notes">Coming soon</a>
         <a href="https://github.com/oiamo123"><ion-icon name="logo-github"></ion-icon></a>
         <a href="https://www.linkedin.com/in/gavin-oiamo/?originalSubdomain=ca"><ion-icon name="logo-linkedin"></ion-icon></a>
     </aside>
@@ -21,6 +22,7 @@ import "../styles/global.css"
     <a class="roboto-regular" href="/">Home</a>
     <a class="roboto-regular" href="/projects">Projects</a>
     <a class="roboto-regular contact-button" href="#">Contact</a>
+    <a class="roboto-regular" href="/notes">Coming soon</a>
     <div class="links">
         <a href="https://github.com/oiamo123"><ion-icon name="logo-github"></ion-icon></a>
         <a href="https://www.linkedin.com/in/gavin-oiamo/?originalSubdomain=ca"><ion-icon name="logo-linkedin"></ion-icon></a>
@@ -177,19 +179,18 @@ import "../styles/global.css"
     @media (min-width: 1024px) {
         header aside {
             display: flex;
-            width: min-content;
             justify-content: space-between;
             font-size: var(--s-4);
             gap: var(--s-6);
         }
 
-        header aside a:nth-child(-n + 3) {
+        header aside a:nth-child(-n + 4) {
             position: relative;
             overflow: hidden;
             cursor: pointer;
         }
 
-        header aside a:nth-child(-n + 3)::after {
+        header aside a:nth-child(-n + 4)::after {
             content: '';
             display: block;
             position: absolute;
@@ -201,7 +202,7 @@ import "../styles/global.css"
             transition: right 0.3s ease-in-out;
         }
 
-        header aside a:nth-child(-n + 3):hover::after {
+        header aside a:nth-child(-n + 4):hover::after {
             right: 0%;
         }
 
@@ -230,6 +231,14 @@ import "../styles/global.css"
     contactBtns.forEach(btn => {
         btn.addEventListener('click', (e) => {
         e.preventDefault();
+        const currentPath = window.location.pathname;
+
+        if (currentPath !== "/") {
+            // Redirect to the main page with a hash for the contact section
+            window.location.href = `/#contact`;
+            return; // Stop further execution
+        }
+        
         const contactSection = document.querySelector(`.contact-form`);
         const { top } = contactSection.getBoundingClientRect();
 

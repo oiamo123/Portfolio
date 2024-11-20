@@ -44,7 +44,7 @@ const profileIMG = images.find(img => img.for === "profile")
             <path d="M4 12H44M44 12L34 8M44 12L34 16" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
           </svg></a>
     </article>
-    <article class="contact-form">
+    <article id="contact" class="contact-form">
         <form>
           <h1 class="roboto-bold fade-in">Feel free to contact me!</h1>
           <p class="roboto-light fade-in">I am always open to new opportunities, questions or proposals</p>
@@ -619,7 +619,7 @@ document.querySelector('button[type="submit"]').addEventListener(`click`, async 
     const email = emailInput.value;
     const message = messageInput.value;
 
-    fetch("https://api.goiamo.dev/api/mail", 
+    fetch("http://localhost:3000/api/mail", 
       { method: 'POST', 
         headers: { 'Content-Type': 'application/json' }, 
         body: JSON.stringify({ name, email, message, token })

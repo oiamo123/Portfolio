@@ -1,0 +1,158 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+<Layout title="Gavin - Coming Soon">
+        <article>
+            <section>
+              <h1 class="typewriter roboto-bold-italic"></h1>
+              <h1 class="roboto-bold">By Gavin</h1>
+              <p class="roboto-light">I've decided to create a notes/blog section for my portfolio. My goal is to use it as a personal reference to revisit topics I’ve learned while tracking my progress as a developer. It will also serve as a resource for anyone interested in these topics.</p>
+              <p class="roboto-light">There are a few challenges at the moment—I'm managing priorities like school and job hunting, and on top of that, I’m recovering from a fractured hand (silly me). Despite these setbacks, I’m excited to bring this idea to life.</p>
+              <p class="roboto-light">In addition, I’m planning a complete overhaul of my portfolio to transition it into a server-side rendered (SSR) application. This change will allow me to make the site dynamic and better suited to the evolving content I'll be adding.
+              </p>
+            </section>
+        </article>
+</Layout>
+<style>
+    article {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  min-height: 100vh;
+  justify-content: center;
+  padding: 18vh var(--s-8);
+  padding-bottom: 10vh;
+}
+
+article section {
+  display: flex;
+  flex-direction: column;
+}
+
+article section h1 {
+  font-size: var(--s-6);
+  text-transform: uppercase;
+}
+
+article section h1:nth-child(1) {
+  align-self: flex-start;
+  padding-right: 3px;
+  height: var(--s-5);
+  display: flex;
+  align-items: center;
+}
+
+article > section p {
+  font-size: var(--s-4);
+  letter-spacing: 1.4px;
+  line-height: var(--s-6);
+  margin: var(--s-5) 0;
+}
+
+@media (min-width: 1024px) {
+  article {
+     padding-left: var(--s-15);
+     padding-right: var(--s-15);
+  }
+
+  article {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  article div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .profile-img-border {
+    width: 70%;
+  }
+
+  article section h1:nth-child(1) {
+    height: var(--s-5);
+  }
+}
+
+@media (min-width: 1360px) {
+  article {
+    gap: var(--s-10);
+    padding-left: var(--s-30);
+    padding-right: var(--s-30);
+  }
+
+  article section h1:nth-child(1) {
+    height: var(--s-7);
+    padding-right: 6px;
+  }
+
+  article section h1 {
+    font-size: var(--s-7);
+    line-height: var(--s-7);
+  }
+
+  article section p {
+    font-size: var(--s-5);
+    line-height: var(--s-6);
+  }
+}
+</style>
+<script>
+    
+const typewriter = document.querySelector(`.typewriter`)
+const titles = ["Notes", "Blogs"]
+let curTitle = 0;
+    const typing = function(title) {
+    const time = 1200 / title.length
+
+    let char = 0;
+    const int = setInterval(() => {
+      typewriter.textContent += title[char]
+      char++
+
+      if (typewriter.textContent.length === title.length) {
+        clearInterval(int);
+        waiting(title)
+      }
+    }, time);
+}
+
+const waiting = async function(title) {
+    await setTimeout(() => {removing(title)}, 2000)
+}
+
+const removing = function(title) {
+    const time = 1200 / title.length
+
+    let titlelength = title.length
+    const int = setInterval(() => {
+      titlelength--
+      typewriter.textContent = title.substring(0, titlelength)
+
+      if (typewriter.textContent.length === 0) {
+        clearInterval(int);
+        curTitle++
+        if (curTitle === titles.length) curTitle = 0;
+        typing(titles[curTitle])
+      }
+    }, time)
+}
+
+const blinker = function () {
+    setInterval(() => {
+        typewriter.style.borderRight = typewriter.style.borderRight === '2px solid var(--font-color)' ? 'none': '2px solid var(--font-color)'
+      }, 520)
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    blinker()
+    if (titles.length > 0) {
+      //typing animation
+      let curTitle = 0;
+      typing(titles[curTitle]);
+    }
+})
+</script>
