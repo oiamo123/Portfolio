@@ -11,9 +11,37 @@ import Layout from "../layouts/Layout.astro";
               <p class="roboto-light">In addition, I’m planning a complete overhaul of my portfolio to transition it into a server-side rendered (SSR) application. This change will allow me to make the site dynamic and better suited to the evolving content I'll be adding.
               </p>
             </section>
+            <ul class="roboto-bold">
+                <p>What's been done so far?</p>
+                <li class="roboto-light"><ion-icon name="close-circle-outline"></ion-icon>Convert project to SSR</li>
+                <li class="roboto-light"><ion-icon name="close-circle-outline"></ion-icon>Set up database table and schema</li>
+                <li class="roboto-light"><ion-icon name="close-circle-outline"></ion-icon>Create astro template for blog entries</li>
+                <li class="roboto-light"><ion-icon name="close-circle-outline"></ion-icon>Create navigation page</li>
+                <li class="roboto-light"><ion-icon name="close-circle-outline"></ion-icon>Setup backend routes for generating pages</li>
+                <li class="roboto-light"><ion-icon name="help-outline"></ion-icon>Create admin panel</li>
+            </ul>
         </article>
 </Layout>
 <style>
+    ul {
+        display: flex;
+        flex-direction: column;
+        gap: var(--s-2);
+        font-size: var(--s-5);
+    }
+
+    ul p {
+        margin-bottom: var(--s-3);
+    }
+
+    ul li {
+        font-size: var(--s-3);
+    }
+
+    ion-icon {
+        margin-right: var(--s-1);
+    }
+    
     article {
   display: flex;
   flex-direction: column;
@@ -50,6 +78,14 @@ article > section p {
 }
 
 @media (min-width: 1024px) {
+    ul p {
+        font-size: var(--s-5);
+    }
+    
+    ul li {
+        font-size: var(--s-4);
+    }
+
   article {
      padding-left: var(--s-15);
      padding-right: var(--s-15);
@@ -57,7 +93,6 @@ article > section p {
 
   article {
     display: flex;
-    flex-direction: row;
     justify-content: space-between;
     align-items: center;
   }
@@ -78,6 +113,14 @@ article > section p {
 }
 
 @media (min-width: 1360px) {
+    ul p {
+        font-size: var(--s-7);
+    }
+    
+    ul li {
+        font-size: var(--s-5);
+    }
+
   article {
     gap: var(--s-10);
     padding-left: var(--s-30);

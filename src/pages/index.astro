@@ -545,7 +545,7 @@ form div label {
 </style>
 <script type="module">
 const typewriter = document.querySelector(`.typewriter`)
-const titles = ["Frontend", "Backend", "Full-stack"]
+const titles = ["Frontend", "Backend", "Full-stack", "Embedded"]
 const articles = document.querySelectorAll(`article`)
 const nameInput = document.querySelector('input[name="name"]')
 const emailInput = document.querySelector('input[name="email"]')
@@ -619,7 +619,7 @@ document.querySelector('button[type="submit"]').addEventListener(`click`, async 
     const email = emailInput.value;
     const message = messageInput.value;
 
-    fetch("http://localhost:3000/api/mail", 
+    fetch("https://api.goiamo.dev/api/mail", 
       { method: 'POST', 
         headers: { 'Content-Type': 'application/json' }, 
         body: JSON.stringify({ name, email, message, token })

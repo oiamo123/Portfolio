@@ -226,6 +226,14 @@
   color: red;
 }
 
+ul li > ion-icon[name="close-circle-outline"] {
+  color: red;
+}
+
+ul li > ion-icon[name="checkmark-done-circle-outline"] {
+  color: green;
+}
+
 @media (min-width: 768px) {
   .badge {
     font-size: var(--s-2);
