@@ -122,17 +122,18 @@ import Layout from "../layouts/Layout.astro";
                 'beforeend',
                     `
                     <li>
-                        <a class="post-link" post="${post.replace(".html", "")}" topic="${topic}" href="/notes/${topic}/${post}">${postFormatted}</a>
+                        <a class="nav-link" post="${post.replace(".html", "")}" topic="${topic}" href="/notes/${topic}/${post}">${postFormatted}</a>
                     </li>
                     `
                 );
             }
         }                
 
-        const postLinks = document.querySelectorAll(`.post-link`)
-        postLinks.forEach(post => {
-            post.addEventListener(`click`, (e) => {
+        const navLinks = document.querySelectorAll(`.nav-link`)
+        navLinks.forEach(link => {
+            link.addEventListener(`click`, (e) => {
                 e.preventDefault()
+                    window.scrollTo(0, 0);
                     const post = e.target.getAttribute("post")
                     const topic = e.target.getAttribute("topic")
                     sidebar.classList.toggle("open")
@@ -172,6 +173,7 @@ import Layout from "../layouts/Layout.astro";
         postLinks.forEach(post => {
             post.addEventListener(`click`, (e) => {
                 e.preventDefault()
+                    window.scrollTo(0, 0);
                     const post = e.target.getAttribute("post")
                     const topic = e.target.getAttribute("topic")
                     loadPost(topic, post)
