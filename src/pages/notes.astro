@@ -81,7 +81,7 @@ import Layout from "../layouts/Layout.astro";
     })
 
     async function renderSideBar() {
-        const response = await fetch("http://localhost:3000/api/notes");
+        const response = await fetch("https://api.goiamo.dev/api/notes");
         const topics = await response.json();
 
         for (const topic of Object.keys(topics)) {
@@ -143,7 +143,7 @@ import Layout from "../layouts/Layout.astro";
     }
 
     async function loadPost(topic, post) {
-        const response = await fetch(`http://localhost:3000/api/notes/${topic}/${post}`);
+        const response = await fetch(`https://api.goiamo.dev/api/notes/${topic}/${post}`);
         const { content } = await response.json();
 
         document.querySelector(".content").innerHTML = content;
