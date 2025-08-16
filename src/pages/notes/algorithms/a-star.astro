@@ -1,96 +1,97 @@
 ---
 import NotesLayout from "../../../layouts/NotesLayout.astro";
-
 ---
-<NotesLayout>
-    <h1 class="roboto-bold title">A* aka A-Star</h1>
 
-<p class="roboto-light">
-  A while back after diving into Dijkstra's algorithm, I decided to make Knights
-  Travails. It's an application that when given a starting square and an end
-  square on a chess board, find the shortest path for a knight--a piece that can
-  only move in L's. You can check it out
-  <a class="roboto-italic" href="https://oiamo123.github.io/Knights-Travails/"
-    >here</a
-  >
-  if you'd like.
-</p>
+<NotesLayout title="Data Structures | Breadth First Search">
+  <h1 class="roboto-bold title">A* aka A-Star</h1>
 
-<p class="roboto-light">
-  A* is very similar to Dijkstra's in that it's a "shortest path" algorithm, but
-  the only difference is that it uses a heuristic to ensure that it's searching
-  relatively in the right direction.
-</p>
+  <p class="roboto-light">
+    A while back after diving into Dijkstra's algorithm, I decided to make
+    Knights Travails. It's an application that when given a starting square and
+    an end square on a chess board, find the shortest path for a knight--a piece
+    that can only move in L's. You can check it out
+    <a class="roboto-italic" href="https://oiamo123.github.io/Knights-Travails/"
+      >here</a
+    >
+    if you'd like.
+  </p>
 
-<h2 class="roboto-bold">What's a heuristic?</h2>
+  <p class="roboto-light">
+    A* is very similar to Dijkstra's in that it's a "shortest path" algorithm,
+    but the only difference is that it uses a heuristic to ensure that it's
+    searching relatively in the right direction.
+  </p>
 
-<p class="roboto-light">
-  Simply put, a
-  <span class="bold"
-    >heuristic is a rule or formula that helps guide the search process toward
-    the goal more efficiently</span
-  >. For example, say you want to get from your house to a given McDonalds
-  nearby. You could drive down every road in an attempt to find it which, let's
-  be real you're probably hungry so that's not very practical. Another option is
-  to use the addresses.
-</p>
+  <h2 class="roboto-bold">What's a heuristic?</h2>
 
-<p class="roboto-light">
-  Say you're on 3rd Street and 2nd Ave and said McDonalds is on 5th Street and
-  6th Ave. By comparing the street numbers and ensuring that they're increasing
-  towards your destination (ie 2nd -> 3rd -> 4th vs 2nd -> 1st), you're using a
-  heuristic. Similarly, in A*, heuristics help algorithms focus on promising
-  paths first, avoiding unnecessary exploration.
-</p>
+  <p class="roboto-light">
+    Simply put, a
+    <span class="bold"
+      >heuristic is a rule or formula that helps guide the search process toward
+      the goal more efficiently</span
+    >. For example, say you want to get from your house to a given McDonalds
+    nearby. You could drive down every road in an attempt to find it which,
+    let's be real you're probably hungry so that's not very practical. Another
+    option is to use the addresses.
+  </p>
 
-<img
-  src="https://res.cloudinary.com/dusakygel/image/upload/v1734684238/Screenshot_2024-12-20_014232_xwceqy.png"
-/>
+  <p class="roboto-light">
+    Say you're on 3rd Street and 2nd Ave and said McDonalds is on 5th Street and
+    6th Ave. By comparing the street numbers and ensuring that they're
+    increasing towards your destination (ie 2nd -> 3rd -> 4th vs 2nd -> 1st),
+    you're using a heuristic. Similarly, in A*, heuristics help algorithms focus
+    on promising paths first, avoiding unnecessary exploration.
+  </p>
 
-<p class="roboto-light">
-  As you can see in my poorly drawn photo above, the issue with Dijkstra's is
-  that it explores all possible paths whether or not the search is headed in the
-  right direction. And it will continue to search until it's explored all
-  potential routes. However we know that the bottom and right addresses are
-  actually closer.
-</p>
+  <img
+    src="https://res.cloudinary.com/dusakygel/image/upload/v1734684238/Screenshot_2024-12-20_014232_xwceqy.png"
+  />
 
-<img
-  src="https://res.cloudinary.com/dusakygel/image/upload/v1734684238/Screenshot_2024-12-20_014002_jbeqxo.png"
-/>
+  <p class="roboto-light">
+    As you can see in my poorly drawn photo above, the issue with Dijkstra's is
+    that it explores all possible paths whether or not the search is headed in
+    the right direction. And it will continue to search until it's explored all
+    potential routes. However we know that the bottom and right addresses are
+    actually closer.
+  </p>
 
-<p class="roboto-light">
-  We could apply a heuristic (this particular one is known as the
-  <span class="italic">"Manhatten Distance"</span>) by using the (current x -
-  destination x) + (current y - destination y). For example if say the first
-  address we explored was the top house which is at 3rd and 1st, well then (3 -
-  5) + (1 - 6) = -7, whereas the bottom address that we explore would be located
-  at 3rd and 3rd which would sum to (3 - 5) + (3 - 6) = -5.
-</p>
+  <img
+    src="https://res.cloudinary.com/dusakygel/image/upload/v1734684238/Screenshot_2024-12-20_014002_jbeqxo.png"
+  />
 
-<p class="roboto-light">
-  One thing to note though, is that we use the
-  <span class="bold">absolute value</span> meaning that the -5 and -7 become 5
-  and 7. The reason why is because
-  <span class="bold"
-    >non-negative numbers reflect the distance traveled irrespective of the
-    direction traveled.</span
-  >
-  So now we have a way to calculate which address is actually closer to
-  McDonalds. There are other heuristics but today we'll give Manhattan Distance
-  a go.
-</p>
+  <p class="roboto-light">
+    We could apply a heuristic (this particular one is known as the
+    <span class="italic">"Manhatten Distance"</span>) by using the (current x -
+    destination x) + (current y - destination y). For example if say the first
+    address we explored was the top house which is at 3rd and 1st, well then (3
+    - 5) + (1 - 6) = -7, whereas the bottom address that we explore would be
+    located at 3rd and 3rd which would sum to (3 - 5) + (3 - 6) = -5.
+  </p>
 
-<h2 class="roboto-bold">Applying the heuristic:</h2>
+  <p class="roboto-light">
+    One thing to note though, is that we use the
+    <span class="bold">absolute value</span> meaning that the -5 and -7 become 5
+    and 7. The reason why is because
+    <span class="bold"
+      >non-negative numbers reflect the distance traveled irrespective of the
+      direction traveled.</span
+    >
+    So now we have a way to calculate which address is actually closer to McDonalds.
+    There are other heuristics but today we'll give Manhattan Distance a go.
+  </p>
 
-<div class="code">
-  <ul class="tabs">
-    <li class="active">Java</li>
-    <li>Python</li>
-    <li>JavaScript</li>
-  </ul>
-  <div class="code-content">
-    <pre class="active" is:raw>
+  <h2 class="roboto-bold">Applying the heuristic:</h2>
+
+  <div class="code">
+    <ul class="tabs">
+      <li class="active">Java</li>
+      <li>Python</li>
+      <li>JavaScript</li>
+    </ul>
+    <div class="code-content">
+      <pre
+        class="active"
+        is:raw>
 
     public int heuristic(int[] current, int[] dest) {
         // Compute how off the "x" direction is
@@ -102,9 +103,9 @@ import NotesLayout from "../../../layouts/NotesLayout.astro";
         // Add the two values together and return the result
         return dx + dy; 
     }
-        </pre
-    >
-    <pre is:raw>
+        </pre>
+      <pre
+        is:raw>
 
     def heuristic(current, dest):   
         # Compute how off the "x" direction is
@@ -115,9 +116,9 @@ import NotesLayout from "../../../layouts/NotesLayout.astro";
     
         # Add the two values together and return the result
         return dx + dy  
-        </pre
-    >
-    <pre is:raw>
+        </pre>
+      <pre
+        is:raw>
 
     const heuristic = function(current, dest) {
         const [currentSt, currentAve] = current;
@@ -127,75 +128,74 @@ import NotesLayout from "../../../layouts/NotesLayout.astro";
         // Return the result
         return Math.abs(currentSt - destSt) + Math.abs(currentAve - destAve);
     }
-        </pre
-    >
+        </pre>
+    </div>
   </div>
-</div>
-<h2 class="roboto-bold">Using the heuristic</h2>
-<p class="roboto-light">
-  Now that we have a heuristic, all we have to do is apply it. Going back to our
-  example before with the addresses:
-</p>
-<ul class="roboto-light">
-  <li>Our house: 3rd St & 2nd Ave (3, 2)</li>
-  <li>1st Visited: 3rd St & 1st Ave (3, 1)</li>
-  <li>2nd Visited: 3rd St & 3rd Ave (3, 3)</li>
-  <li>McDonalds: 6th St & 5th Ave (6, 5)</li>
-</ul>
-<p class="roboto-light">
-  Traveling from our address to either the first visited or the second visited
-  is exactly one step. If we add that value to the calculated heuristic, we get
-  the
-  <span class="italic bold">total accumulated distance</span>. In this case, the
-  first would have an accumulated value of ((3 - 6) + (1 - 5)) + 1 and the
-  second would have an accumulated value of ((3 - 6) + (3 - 5)) + 1 which would
-  be 8 and 6 respectively.
-</p>
-<img
-  src="https://res.cloudinary.com/dusakygel/image/upload/v1734815934/Screenshot_2024-12-21_135924_kqo05m.png"
-/>
-<img
-  src="https://res.cloudinary.com/dusakygel/image/upload/v1734815934/Screenshot_2024-12-21_140604_vxwnf4.png"
-/>
-<img
-  src="https://res.cloudinary.com/dusakygel/image/upload/v1734816417/Screenshot_2024-12-21_142627_oyhzqg.png"
-/>
-<p class="roboto-light" is:raw>
-  With the calculated values, we can put the addresses into a
-  <span class="bold">min-heap</span> and use the calculated value in the
-  comparator. This means that the first item in the heap will always be either
-  <span class="italic">the</span> or <span class="italic">one of the</span> most
-  promising routes to our destination. For reference, a heap is a type of tree
-  that organizes its content based on a comparator. The comparator compares two
-  pieces of data. For example, num1 < num2 or string1.length() > string2.length() are both comparators. Depending on how you compare the data
-  determines whether the heap organizes the data from the smallest to the
-  largest or vice-versa.
-</p>
-<p class="roboto-light">
-  Putting all of this additional information together, we can now apply it to a
-  <span class="bold">Breadth-First Search</span>. I've previously covered
-  Breadth-First Search
-  <a
-    class="post-link"
-    href="/notes/algorithms/breadth-first-search"
-    >here</a
-  >
-  but for a quick recap:
-</p>
-<ul class="roboto-light">
-  <li>Add the first node to a queue</li>
-  <li>While the queue is not empty</li>
-  <li>Pull the first item from the queue, check if it's our destination</li>
-  <li>Add it's neighbours to the queue, rinse and repeat</li>
-</ul>
-<div class="code">
-  <ul class="tabs">
-    <li class="active">Java</li>
-    <li>Python</li>
-    <li>JavaScript</li>
+  <h2 class="roboto-bold">Using the heuristic</h2>
+  <p class="roboto-light">
+    Now that we have a heuristic, all we have to do is apply it. Going back to
+    our example before with the addresses:
+  </p>
+  <ul class="roboto-light">
+    <li>Our house: 3rd St & 2nd Ave (3, 2)</li>
+    <li>1st Visited: 3rd St & 1st Ave (3, 1)</li>
+    <li>2nd Visited: 3rd St & 3rd Ave (3, 3)</li>
+    <li>McDonalds: 6th St & 5th Ave (6, 5)</li>
   </ul>
-  <div class="code-content">
-    <pre class="active" is:raw>
+  <p class="roboto-light">
+    Traveling from our address to either the first visited or the second visited
+    is exactly one step. If we add that value to the calculated heuristic, we
+    get the
+    <span class="italic bold">total accumulated distance</span>. In this case,
+    the first would have an accumulated value of ((3 - 6) + (1 - 5)) + 1 and the
+    second would have an accumulated value of ((3 - 6) + (3 - 5)) + 1 which
+    would be 8 and 6 respectively.
+  </p>
+  <img
+    src="https://res.cloudinary.com/dusakygel/image/upload/v1734815934/Screenshot_2024-12-21_135924_kqo05m.png"
+  />
+  <img
+    src="https://res.cloudinary.com/dusakygel/image/upload/v1734815934/Screenshot_2024-12-21_140604_vxwnf4.png"
+  />
+  <img
+    src="https://res.cloudinary.com/dusakygel/image/upload/v1734816417/Screenshot_2024-12-21_142627_oyhzqg.png"
+  />
+  <p class="roboto-light" is:raw>
+    With the calculated values, we can put the addresses into a <span
+    class="bold">min-heap</span> and use the calculated value in the comparator.
+    This means that the first item in the heap will always be either <span
+    class="italic">the</span> or <span class="italic">one of the</span> most
+    promising routes to our destination. For reference, a heap is a type of tree
+    that organizes its content based on a comparator. The comparator compares
+    two pieces of data. For example, num1 < num2 or string1.length() >
+    string2.length() are both comparators. Depending on how you compare the data
+    determines whether the heap organizes the data from the smallest to the
+    largest or vice-versa.
+  </p>
+  <p class="roboto-light">
+    Putting all of this additional information together, we can now apply it to
+    a
+    <span class="bold">Breadth-First Search</span>. I've previously covered
+    Breadth-First Search
+    <a class="post-link" href="/notes/algorithms/breadth-first-search">here</a>
+    but for a quick recap:
+  </p>
+  <ul class="roboto-light">
+    <li>Add the first node to a queue</li>
+    <li>While the queue is not empty</li>
+    <li>Pull the first item from the queue, check if it's our destination</li>
+    <li>Add it's neighbours to the queue, rinse and repeat</li>
+  </ul>
+  <div class="code">
+    <ul class="tabs">
+      <li class="active">Java</li>
+      <li>Python</li>
+      <li>JavaScript</li>
+    </ul>
+    <div class="code-content">
+      <pre
+        class="active"
+        is:raw>
 
       // start = [3, 2] = home, end = [6, 5] = McDonalds
       public int[] BFS(int[] start, int[] dest) {
@@ -249,7 +249,8 @@ import NotesLayout from "../../../layouts/NotesLayout.astro";
       }
       
     </pre>
-    <pre is:raw>
+      <pre
+        is:raw>
       # start = [3, 2] = home, end = [6, 5] = McDonalds
       def BFS(start, dest):
         # Initialize the queue and a visited set
@@ -287,7 +288,8 @@ import NotesLayout from "../../../layouts/NotesLayout.astro";
             visited.add(str(neighbour))
             queue.append(neighbour)
     </pre>
-    <pre is:raw>
+      <pre
+        is:raw>
 
       // start = [3, 2] = home, end = [6, 5] = McDonalds
       const BFS = function(start, dest) {
@@ -333,40 +335,48 @@ import NotesLayout from "../../../layouts/NotesLayout.astro";
         return [-1, -1];
       }
     </pre>
+    </div>
   </div>
-</div>
-<h2 class="roboto-bold">Implementing A*</h2>
-<p class="roboto-light">
-  Above are the examples for BFS. As mentioned before though, there's only two
-  minor differences between A* and BFS and that's applying our heuristic from
-  before and using a min-heap over a queue for exploring neighbors.
-  Additionally, we're going to use a custom node class to keep track of the address, accumulated cost, previously visisted address and the distance we've traveled so far. The nice thing with the previous variable is that we can use it to re-trace the path we took.
-</p>
-<p class="roboto-light">The general outline for A* is as follows:</p>
-<ul class="roboto-light">
-  <li>Initialize a min-heap with our comparator</li>
-  <li>Initialize a visited set</li>
-  <li>Add the starting position to the heap and visited set</li>
-  <li>While the min-heap is not empty</li>
-  <li>
-    Pull the smallest item from the heap and check if it's equal to our
-    destination
-  </li>
-  <li>If not, loop over all neighbouring addresses</li>
-  <li>Add the neighbour to the heap and compare neighbours using the accumulated value (heuristic + distance traveled) as well as to the visited set</li>
-  <li>
-    To keep track of the path, we're going to use a custom node with a previous
-    variable
-  </li>
-</ul>
-<div class="code">
-  <ul class="tabs">
-    <li class="active">Java</li>
-    <li>Python</li>
-    <li>JavaScript</li>
+  <h2 class="roboto-bold">Implementing A*</h2>
+  <p class="roboto-light">
+    Above are the examples for BFS. As mentioned before though, there's only two
+    minor differences between A* and BFS and that's applying our heuristic from
+    before and using a min-heap over a queue for exploring neighbors.
+    Additionally, we're going to use a custom node class to keep track of the
+    address, accumulated cost, previously visisted address and the distance
+    we've traveled so far. The nice thing with the previous variable is that we
+    can use it to re-trace the path we took.
+  </p>
+  <p class="roboto-light">The general outline for A* is as follows:</p>
+  <ul class="roboto-light">
+    <li>Initialize a min-heap with our comparator</li>
+    <li>Initialize a visited set</li>
+    <li>Add the starting position to the heap and visited set</li>
+    <li>While the min-heap is not empty</li>
+    <li>
+      Pull the smallest item from the heap and check if it's equal to our
+      destination
+    </li>
+    <li>If not, loop over all neighbouring addresses</li>
+    <li>
+      Add the neighbour to the heap and compare neighbours using the accumulated
+      value (heuristic + distance traveled) as well as to the visited set
+    </li>
+    <li>
+      To keep track of the path, we're going to use a custom node with a
+      previous variable
+    </li>
   </ul>
-  <div class="code-content">
-    <pre class="active" is:raw>
+  <div class="code">
+    <ul class="tabs">
+      <li class="active">Java</li>
+      <li>Python</li>
+      <li>JavaScript</li>
+    </ul>
+    <div class="code-content">
+      <pre
+        class="active"
+        is:raw>
 public class Node {
     public int[] address;
     public int distanceTraveled;
@@ -444,7 +454,8 @@ public void AStar(int[] start, int[] dest) {
     }
 }
     </pre>
-    <pre is:raw>
+      <pre
+        is:raw>
 import heapq
 
 class PriorityQueue:
@@ -531,7 +542,8 @@ def A_star(start, dest):
       visited.add(str(neighbour.address))
       minheap.offer(neighbour)
     </pre>
-    <pre is:raw>
+      <pre
+        is:raw>
 import PriorityQueue from "./PriorityQueue.js";
 
 class Node {
@@ -611,15 +623,22 @@ const AStar = function (start, dest) {
   }
 };
     </pre>
+    </div>
   </div>
-</div>
-<p class="roboto-light note">
-  *Note: Python doesn't have a min-heap / priority queue data structure so you can use heapq, similarly JavaScript doesn't have one however you can grab
-  mine from
-  <a
-    href="https://github.com/oiamo123/Knights-Travails/blob/main/scripts/PriorityQueue.js"
-    >here</a
-  > or import another.
-</p>
-<p class="roboto-light">I know that was a lot of reading and a lot of code, but I hope that it all came together towards the end. I also hope it's a little easier now to see the potential applications of A*. It's widely used in video games for NPC's, AI systems such as machine learning, networks, robotics as well as surprise surprise, route planning.</p>
+  <p class="roboto-light note">
+    *Note: Python doesn't have a min-heap / priority queue data structure so you
+    can use heapq, similarly JavaScript doesn't have one however you can grab
+    mine from
+    <a
+      href="https://github.com/oiamo123/Knights-Travails/blob/main/scripts/PriorityQueue.js"
+      >here</a
+    > or import another.
+  </p>
+  <p class="roboto-light">
+    I know that was a lot of reading and a lot of code, but I hope that it all
+    came together towards the end. I also hope it's a little easier now to see
+    the potential applications of A*. It's widely used in video games for NPC's,
+    AI systems such as machine learning, networks, robotics as well as surprise
+    surprise, route planning.
+  </p>
 </NotesLayout>

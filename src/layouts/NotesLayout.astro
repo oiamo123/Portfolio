@@ -1,8 +1,10 @@
 ---
 import Layout from "./Layout.astro"
 import NotesSidebar from "../components/NotesSidebar.astro"
+
+const { title } = Astro.props;
 ---
-<Layout title="Gavin Oiamo | Software Developer Posts">
+<Layout title={title + " - Gavin Oiamo"}>
     <article>
         <NotesSidebar />
         <div class="content">
