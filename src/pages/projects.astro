@@ -1,9 +1,40 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Card from '../components/Card.astro';
+import project_data from '../../data/projects.json';
+import project_tools from '../../data/project_tools.json';
+import tools from '../../data/skills.json';
 
-const response = await fetch('https://api.goiamo.dev/api/projects');
-const projects = await response.json();
+interface Project {
+  id: number;
+  tools: string[];
+  body: string;
+  img: string;
+  href: string;
+  title: string;
+}
+
+const toolsById = new Map(
+  tools.skills.map(skill => [Number(skill.id), skill.tool])
+);
+
+const projectToolsByProjectId = new Map(
+  project_tools.project_tools.map(pt => [Number(pt.ProjectID), pt.ToolIDS])
+);
+
+const projects: Project[] = project_data.projects.map(project => {
+  const projectId = Number(project.id);
+  const toolIds = projectToolsByProjectId.get(projectId) ?? [];
+  const toolNames = toolIds
+    .map(id => toolsById.get(Number(id))) // also convert here just in case
+    .filter(Boolean);
+
+  return {
+    ...project,
+    id: projectId,
+    tools: toolNames,
+  };
+});
 ---
 
 <Layout title="Projects - Gavin">

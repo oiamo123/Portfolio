@@ -1,0 +1,99 @@
+---
+import Layout from "./Layout.astro"
+import NotesSidebar from "../components/NotesSidebar.astro"
+---
+<Layout title="Gavin Oiamo | Software Developer Posts">
+    <article>
+        <NotesSidebar />
+        <div class="content">
+            <section>
+            <slot />
+            </section>
+        </div>
+    </article>
+</Layout>
+<style>
+    article section {
+        display: flex;
+        flex-direction: column;
+    }
+
+    article section h1 {
+        font-size: var(--s-6);
+        text-transform: uppercase;
+        padding-top: 0px;
+    }
+
+    article section h1:nth-child(1) {
+        align-self: flex-start;
+        padding-right: 3px;
+        height: var(--s-5);
+        display: flex;
+        align-items: center;
+    }
+
+    .content {
+        margin-bottom: var(--s-10);
+        margin-top: var(--s-13);
+        width: 100%;
+        padding: var(--s-5);
+        display: flex;
+        flex-direction: column;
+    }
+
+    article {
+        margin-top: var(--s-11);
+    }
+
+    @media (min-width: 768px) {
+        .content {
+            padding: var(--s-10) var(--s-12);
+        }
+
+        .content p {
+            font-size: var(--s-5);
+            line-height: var(--s-6);
+            padding: var(--s-6) var(--s-2);
+        }
+
+        article section h1 {
+            font-size: var(--s-7);
+        }
+
+        article section h1:nth-child(1) {
+            height: var(--s-7);
+        }
+    }
+
+    @media (min-width: 1024px) {
+        .content {
+            padding: var(--s-12) var(--s-17);
+            gap: var(--s-5);
+        }
+
+        .sidebar {
+            width: 35vw;
+            top: 91px;
+        }
+
+        .sidebar-content {
+            font-size: var(--s-5);
+            padding: var(--s-10) var(--s-7);
+        }
+    }
+
+    @media (min-width: 1360px) {
+        .content {
+            padding: var(--s-12) var(--s-35);
+            gap: var(--s-5);
+        }
+
+        .sidebar {
+            width: 20vw;
+        }
+
+        .sidebar-content {
+            padding: var(--s-11) var(--s-8);
+        }
+    }
+</style>

@@ -1,0 +1,134 @@
+{
+  "skills": [
+    {
+      "id": "1",
+      "tool": "Node JS",
+      "category": "skill"
+    },
+    {
+      "id": "2",
+      "tool": "ASP .NET",
+      "category": "skill"
+    },
+    {
+      "id": "3",
+      "tool": "Bootstrap",
+      "category": "category"
+    },
+    {
+      "id": "4",
+      "tool": "HTML",
+      "category": "category"
+    },
+    {
+      "id": "5",
+      "tool": "CSS",
+      "category": "skill"
+    },
+    {
+      "id": "6",
+      "tool": "Javascript",
+      "category": "skill"
+    },
+    {
+      "id": "7",
+      "tool": "MySQL",
+      "category": "skill"
+    },
+    {
+      "id": "8",
+      "tool": "MS SQL",
+      "category": "skill"
+    },
+    {
+      "id": "9",
+      "tool": "Entity",
+      "category": "category"
+    },
+    {
+      "id": "10",
+      "tool": "Identity",
+      "category": "category"
+    },
+    {
+      "id": "11",
+      "tool": "AstroJS",
+      "category": "skill"
+    },
+    {
+      "id": "12",
+      "tool": "ExpressJS",
+      "category": "category"
+    },
+    {
+      "id": "13",
+      "tool": "C#",
+      "category": "skill"
+    },
+    {
+      "id": "14",
+      "tool": "MongoDB",
+      "category": "skill"
+    },
+    {
+      "id": "15",
+      "tool": "OAuth2",
+      "category": "category"
+    },
+    {
+      "id": "16",
+      "tool": "Krypto",
+      "category": "category"
+    },
+    {
+      "id": "17",
+      "tool": "Kotlin",
+      "category": "skill"
+    },
+    {
+      "id": "18",
+      "tool": "Jetpack Compose",
+      "category": "category"
+    },
+    {
+      "id": "19",
+      "tool": "Room",
+      "category": "category"
+    },
+    {
+      "id": "20",
+      "tool": "Sanitization",
+      "category": "category"
+    },
+    {
+      "id": "21",
+      "tool": "JWT",
+      "category": "category"
+    },
+    {
+      "id": "22",
+      "tool": "Data Structures",
+      "category": "category"
+    },
+    {
+      "id": "23",
+      "tool": "Algorithms",
+      "category": "category"
+    },
+    {
+      "id": "24",
+      "tool": "Go",
+      "category": "skill"
+    },
+    {
+      "id": "25",
+      "tool": "gRPC",
+      "category": "category"
+    },
+    {
+      "id": "26",
+      "tool": "AWS",
+      "category": "category"
+    }
+  ]
+}

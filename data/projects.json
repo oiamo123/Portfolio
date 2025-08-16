@@ -1,0 +1,46 @@
+{
+  "projects": [
+    {
+      "id": "1",
+      "body": "A .NET ASP Core project developed in my .NET Web applications course. Incorporates Microsft Identity for authentication and Microsoft Entity for database management..",
+      "img": "https://res.cloudinary.com/dusakygel/image/upload/v1724191801/st56kjh6kdmhxuz93viw.png",
+      "href": "https://github.com/oiamo123/CSharp/tree/main/NET%20ASP%20Core%20MVC/InlandMarina",
+      "title": ".NET ASP Core Project"
+    },
+    {
+      "id": "2",
+      "body": "A fullstack project I built for my front-end/NodeJS Course. Includes a frontend built with tailwind and a backend with express and mySQL",
+      "img": "https://res.cloudinary.com/dusakygel/image/upload/v1724191810/k0l9oj0rnccjkhz1nvh0.png",
+      "href": "https://github.com/oiamo123/Web-Development/tree/main/Travel-Agency-Assignment-1",
+      "title": "Full-Stack WebDev Project"
+    },
+    {
+      "id": "3",
+      "body": "My portfolio. Built using Astro, MongoDB and Nodejs. Learned and implemented features such as recaptcha and encryption/decryption",
+      "img": "https://res.cloudinary.com/dusakygel/image/upload/v1724205314/tsgdyh1ysctaozdkmlzq.png",
+      "href": "https://github.com/oiamo123/Portfolio",
+      "title": "Portfolio"
+    },
+    {
+      "id": "4",
+      "body": "An Android app using Jetpack Compose and Kotlin to manage agents in the 'Travel Experts' database. Supports full CRUD functionality.",
+      "img": "https://res.cloudinary.com/dusakygel/image/upload/v1730765696/agents_app.png",
+      "href": "https://github.com/oiamo123/Agents-App-Android",
+      "title": "Android App"
+    },
+    {
+      "id": "5",
+      "body": "Web app focused on security, with XSS and SQL Injection protection, authentication, and authorization. Built with Sequelize and data sanitization.",
+      "img": "https://res.cloudinary.com/dusakygel/image/upload/v1730764356/security_project.png",
+      "href": "https://github.com/oiamo123/security_project/blob/main/README.md",
+      "title": "Security Project"
+    },
+    {
+      "id": "6",
+      "body": "A project I built that demonstrates my knowledge of data structures and algorithms, featuring a custom implementation of Dijkstra’s Algorithm and a hand-made Priority Queue with an optional comparator.",
+      "img": "https://res.cloudinary.com/dusakygel/image/upload/v1733778025/Screenshot_194_xzqcki.png",
+      "href": "https://oiamo123.github.io/Knights-Travails/",
+      "title": "Knights Travails"
+    }
+  ]
+}
