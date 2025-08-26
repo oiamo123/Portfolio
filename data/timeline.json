@@ -1,0 +1,24 @@
+{
+  "timeline": [
+    {
+      "yearmo": "July 2018",
+      "title": "Electrical Apprenticeship",
+      "description": "Before transitioning to software development, I started my career as an electrician. This role required creative problem-solving, effective communication, and teamwork to diagnose issues and deliver solutions under tight deadlines. Working closely with teams and clients also strengthened my adaptability and time management skills—qualities that are essential for any developer. I’m eager to bring these skills into the tech world and contribute to building innovative, scalable solutions."
+    },
+    {
+      "yearmo": "Dec 2021",
+      "title": "Beginning Software Development",
+      "description": "In December 2021, I was seeking new career challenges and exploring different opportunities. After researching software development, I began teaching myself through online resources in my spare time. Eventually, my dedication led me to apply to SAIT to further my skills and pursue a career in software development."
+    },
+    {
+      "yearmo": "May 2024",
+      "title": "Continuing Education",
+      "description": "I began my Object-Oriented Software Development course in May. The course was a compressed 9 month course that replicates their 2 year diploma. I learned a multitude of different technical skills such as Java and C#."
+    },
+    {
+      "yearmo": "Jan 2024",
+      "title": "Software Devlopment Internship",
+      "description": "In January 2025, I started an internship at PatronScan, a company specializing in fraudulent document detection for access control. During this time, I worked on hardware integration, mobile development, and machine learning to improve fake ID detection. From implementing NFC passport scanning to building a mobile app for access control and developing backend APIs, I tackled a wide range of challenges. By the end of the internship, I was offered a full-time position. I am excited to continue working with PatronScan and their team to implement new solutions."
+    }
+  ]
+}

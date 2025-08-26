@@ -1,18 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Timeline from '../components/Timeline.astro';
-
-const [imagesResponse, skillsResponse] = await Promise.all([
-  fetch('https://api.goiamo.dev/api/images'), 
-  fetch('https://api.goiamo.dev/api/skills')
-])
-
-const [images, skills] = await Promise.all([
-  imagesResponse.json(),
-  skillsResponse.json()
-])
-
-const profileIMG = images.find(img => img.for === "profile")
+import * as skills from '../../data/skills.json';
 ---
 <Layout title="Gavin Oiamo | Software Developer Portfolio">
 		<div class="goto-section"></div>
@@ -24,7 +13,7 @@ const profileIMG = images.find(img => img.for === "profile")
         </section>
         <div>
           <div class="profile-img-border">
-            <img src={profileIMG.href} alt={profileIMG.alt}>
+            <img src="https://res.cloudinary.com/dusakygel/image/upload/v1723140204/mountain-img.jpg" alt="Gavin in the mountains with his motorcycle">
           </div>
         </div>
     </article>
@@ -33,7 +22,7 @@ const profileIMG = images.find(img => img.for === "profile")
           <img class="mostUsed fade-in" alt="A chat of my most used languages">    
           <div class="skills fade-in">
             {
-              skills.filter(skill => skill.category === "skill").map((skill) => (
+              skills["skills"].filter(skill => skill.category === "skill").map((skill) => (
                   <p class="skill">{skill.tool}</p>
                 ))
             }
@@ -614,7 +603,7 @@ document.querySelector('button[type="submit"]').addEventListener(`click`, async 
     const email = emailInput.value;
     const message = messageInput.value;
 
-    fetch("https://api.goiamo.dev/api/mail", 
+    fetch("http://localhost:3000/api/mail", 
       { method: 'POST', 
         headers: { 'Content-Type': 'application/json' }, 
         body: JSON.stringify({ name, email, message, token })

@@ -1,0 +1,150 @@
+---
+import NotesLayout from "../../layouts/NotesLayout.astro";
+---
+<NotesLayout title="Gavin Oiamo | Software Developer Posts">
+    <h1 class="typewriter roboto-bold-italic"></h1>
+    <h1 class="roboto-bold">By Gavin</h1>
+    <p class="roboto-light">Welcome to my note's / blog section. Here, I like to write about different topics I've been diving into that I find interesting. Some of the topics can be somewhat technical however, I try my best to explain things as clearly as possible using analogies and the occasional drawing.</p>
+    <p class="roboto-light">For the most part, I like to use this as a means of reference as well as to really grasp the concepts myself. As a wise man once said, <em class="roboto-italic">"Teaching is the best form of learning".</em></p>
+    <p class="roboto-light">With that being said, I do also enjoy teaching people new things and I encourage you to take a look around. Who know's maybe you'll also find something interesting or something that was a little unclear will click.</p>
+</NotesLayout>
+<script>
+    const typewriter = document.querySelector(`.typewriter`)
+    const titles = ["Notes", "Blogs"]
+    let curTitle = 0;
+    const typing = function(title) {
+        const time = 1200 / title.length
+
+        let char = 0;
+        const int = setInterval(() => {
+          typewriter.textContent += title[char]
+          char++
+
+          if (typewriter.textContent.length === title.length) {
+            clearInterval(int);
+            waiting(title)
+          }
+        }, time);
+    }
+
+    const waiting = async function(title) {
+        await setTimeout(() => {removing(title)}, 2000)
+    }
+
+    const removing = function(title) {
+        const time = 1200 / title.length
+
+        let titlelength = title.length
+        const int = setInterval(() => {
+          titlelength--
+          typewriter.textContent = title.substring(0, titlelength)
+
+          if (typewriter.textContent.length === 0) {
+            clearInterval(int);
+            curTitle++
+            if (curTitle === titles.length) curTitle = 0;
+            typing(titles[curTitle])
+          }
+        }, time)
+    }
+
+    const blinker = function () {
+        setInterval(() => {
+            typewriter.style.borderRight = typewriter.style.borderRight === '2px solid var(--font-color)' ? 'none': '2px solid var(--font-color)'
+          }, 520)
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        blinker()
+        if (titles.length > 0) {
+          //typing animation
+          let curTitle = 0;
+          typing(titles[curTitle]);
+        }
+    })
+</script>
+<style>
+    article section {
+        display: flex;
+        flex-direction: column;
+    }
+
+    h1 {
+        font-size: var(--s-6);
+        text-transform: uppercase;
+        padding-top: 0px;
+    }
+
+    h1:nth-child(1) {
+        align-self: flex-start;
+        padding-right: 3px;
+        height: var(--s-5);
+        display: flex;
+        align-items: center;
+    }
+
+    .content {
+        margin-bottom: var(--s-10);
+        margin-top: var(--s-13);
+        width: 100%;
+        padding: var(--s-5);
+        display: flex;
+        flex-direction: column;
+    }
+
+    article {
+        margin-top: var(--s-11);
+    }
+
+    @media (min-width: 768px) {
+        .content {
+            padding: var(--s-10) var(--s-12);
+        }
+
+        .content p {
+            font-size: var(--s-5);
+            line-height: var(--s-6);
+            padding: var(--s-6) var(--s-2);
+        }
+
+        h1 {
+            font-size: var(--s-7);
+        }
+
+        h1:nth-child(1) {
+            height: var(--s-7);
+        }
+    }
+
+    @media (min-width: 1024px) {
+        .content {
+            padding: var(--s-12) var(--s-17);
+            gap: var(--s-5);
+        }
+
+        .sidebar {
+            width: 35vw;
+            top: 91px;
+        }
+
+        .sidebar-content {
+            font-size: var(--s-5);
+            padding: var(--s-10) var(--s-7);
+        }
+    }
+
+    @media (min-width: 1360px) {
+        .content {
+            padding: var(--s-12) var(--s-35);
+            gap: var(--s-5);
+        }
+
+        .sidebar {
+            width: 20vw;
+        }
+
+        .sidebar-content {
+            padding: var(--s-11) var(--s-8);
+        }
+    }
+</style>

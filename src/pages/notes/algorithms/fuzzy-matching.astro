@@ -1,0 +1,205 @@
+---
+import NotesLayout from "../../../layouts/NotesLayout.astro";
+---
+
+<NotesLayout title="Fuzzy Matching">
+  <h1 class="roboto-bold title">Fuzzy Matching</h1>
+  <p class="roboto-light">
+    Awhile back at work, my senior dev approached me and mentioned that a client
+    of ours was facing some issues. In a nutshell, they sell tickets to events
+    and when the patron arrives at the event. Instead of scanning a ticket,
+    patrons scan their ID which acts as both ID validation and ticket
+    validation. This simplifies the process… but introduced a new problem:
+    patrons sometimes entered details that didn’t exactly match their IDs
+    (nicknames, typos, even intentional variations). Consider some examples:
+  </p>
+  <ul class="roboto-light">
+    <li class="roboto-light">Johnathan vs. John (Nicknames)</li>
+    <li class="roboto-light">
+      2000-01-01 vs. 2001-01-01 (Intentionally entering differing birthdays due
+      to privacy concerns)
+    </li>
+  </ul>
+  <p class="roboto-light">
+    These are obviously the tip of the iceberg in the grand scheme of things.
+    But long story short, we needed a way to account for discrepancies to ensure
+    smooth check-in processes
+  </p>
+  <h2 class="roboto-bold-italic">Enter, "fuzzy matching"</h2>
+  <p class="roboto-light">
+    This post is going to be quite lengthy, so get your snacks out. Here's what
+    we're going to cover, and how I went about implementing fuzzy matching.
+  </p>
+  <ol class="roboto-light">
+    <li>
+      <a href="#problem" style="text-decoration: none;">
+        Understanding the problem
+      </a>
+    </li>
+    <li>
+      <a href="#tries" style="text-decoration: none;">Tries</a>
+    </li>
+    <li>
+      <a href="#implementation" style="text-decoration: none;">
+        Implementing fuzzy matching
+      </a>
+    </li>
+  </ol>
+
+  <h2 id="problem" class="roboto-bold-italic">The "Problem Space"</h2>
+  <p class="roboto-light">
+    Some examples of string matching issues were mentioned above. But to put
+    into perspective, fuzzy matching (I recently learned) is surprisingly common
+    and widely used in areas outside of just ID verification. For example:
+  </p>
+  <ul class="roboto-light">
+    <li>
+      <b>Data Cleaning & Record Linking</b>
+      <ul>
+        <li>
+          Healthcare: Merging duplicate patient records — e.g., "John A. Smith"
+          vs "Jon Smith" vs "J. Smith".
+        </li>
+        <li>
+          Government / Census: Reconciling addresses — e.g., "123 Main Street
+          Apt 2" vs "123 Main St #2".
+        </li>
+      </ul>
+    </li>
+    <li>
+      <b>E-commerce / Retail</b>
+      <ul>
+        <li>Search Autocorrect: "nik shoes" → "Nike shoes".</li>
+        <li>
+          Product Catalog Cleanup: "iPhone 13 Pro Max" vs "Apple iPhone 13
+          ProMax".
+        </li>
+      </ul>
+    </li>
+    <li>
+      <b>Fraud & Finance</b>
+      <ul>
+        <li>
+          Entity Resolution: "Bank of America N.A." vs "B of A National
+          Association".
+        </li>
+        <li>
+          Transaction Monitoring: Matching "José Rodríguez" vs "Jose Rodriguez"
+          vs "J Rodriguez".
+        </li>
+      </ul>
+    </li>
+    <li>
+      <b>Entertainment / Media</b>
+      <ul>
+        <li>Music Libraries: "The Weekend" vs "The Weeknd".</li>
+        <li>Movie/TV Metadata: "Lord of te Rigns" → "Lord of the Rings".</li>
+      </ul>
+    </li>
+    <li>
+      <b>Search Engines & NLP</b>
+      <ul>
+        <li>
+          Autocomplete & “Did you mean?”: Correct user typos in search queries.
+        </li>
+        <li>Spell Correction: "teh" → "the".</li>
+        <li>OCR Post-Processing: Clean up "rn" vs "m", "1" vs "l".</li>
+      </ul>
+    </li>
+    <li>
+      <b>Science & Research</b>
+      <ul>
+        <li>Gene / Protein Names: "TP53" vs "Tumor Protein p53".</li>
+        <li>
+          Bibliographic Databases: "Smith J, 2001" vs "Smith, John (2001)".
+        </li>
+      </ul>
+    </li>
+    <li>
+      <b>Everyday Business Apps</b>
+      <ul>
+        <li>CRM: "Acme Corp." vs "Acme Incorporated".</li>
+        <li>
+          Email Systems: Auto-suggest contacts when typing "Jhn" → "John Doe".
+        </li>
+        <li>
+          Helpdesk / Ticketing: Match tickets with typos to knowledge base
+          articles.
+        </li>
+      </ul>
+    </li>
+  </ul>
+  <p class="roboto-light">
+    Despite all of these though, our goal in our scenario remains the same: to
+    accurately match and link Personal Identifiable Information (PII), even when
+    faced with discrepancies.
+  </p>
+  <h2 class="roboto-bold-italic">Breaking the problem down</h2>
+  <ul class="roboto-light">
+    <li>
+      <b>Not all fields are equal:</b> first names are flexible (nicknames, short
+      forms), while dates of birth are more reliable.
+    </li>
+    <li>
+      <b>Weights matter:</b>
+      <ul>
+        <li>
+          Some fields should influence the match score more heavily than others.
+        </li>
+        <li>How frequently do we see certain names?</li>
+      </ul>
+    </li>
+    <li>
+      <b>Normalization:</b>
+      <ul>
+        <li>
+          Trim whitespace, unify casing, and handle accents/diacritics
+          consistently.
+        </li>
+        <li>
+          "Normalize" street names and addresses (St. -> Street, Apt ->
+          Apartment)
+        </li>
+      </ul>
+    </li>
+    <li>
+      <b>Error likelihood differs:</b> names are prone to typos and nicknames, but
+      birthdays often differ by only a digit or format.
+    </li>
+  </ul>
+  <p class="roboto-light">
+    Keeping these in mind shaped how I approached the implementation: by using
+    tries for efficient lookup, edit distance for handling typos, and weighting
+    fields differently depending on reliability.
+  </p>
+  <h2 id="tries" class="roboto-bold-italic">Tries</h2>
+  <p class="roboto-light">
+    Back-tracking to our original problem, there was actually another issue even
+    before we got to fuzzy matching: OCR errors. Reading ID cards often produced
+    mistakes — confusing <code>i</code> with <code>1</code>, or lowercase L’s
+    with the number <code>1</code>. We needed a way to store strings so that
+    when searching, we could traverse character by character and even swap out
+    characters for their “most likely” alternatives when OCR got it wrong.
+  </p>
+  <p class="roboto-light">
+    This led me towards using a <b>trie</b> as the core data structure for the algorithm.
+    Tries aren’t the most common choice for fuzzy matching (most implementations
+    rely on edit-distance tables or BK-trees), but for our specific use case they
+    made sense:
+  </p>
+  <ul class="roboto-light">
+    <li>They naturally support character-by-character lookups.</li>
+    <li>
+      They make it easy to branch into alternatives when a character is misread.
+    </li>
+    <li>They give us a compact way to store lots of overlapping prefixes.</li>
+  </ul>
+  <p class="roboto-light">
+    In short: originally I was just looking for a way to handle OCR errors, but
+    the trie and OCR correction fueled an idea to use it as a fuzzy matching
+    solution as well.
+  </p>
+  <h2 id="implementation" class="roboto-bold-italic">
+    Implementing fuzzy matching
+  </h2>
+</NotesLayout>

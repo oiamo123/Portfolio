@@ -1,10 +1,9 @@
 ---
-const timelineresponse = await fetch('https://api.goiamo.dev/api/timeline')
-const timeline = await timelineresponse.json();
+import * as timeline from '../../data/timeline.json';
 ---
 <article>
 {
-timeline.map(item => (
+timeline["timeline"].map(item => (
     <div class="info">
       <aside>
         <span>{item.yearmo}</span>
