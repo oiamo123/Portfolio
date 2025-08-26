@@ -325,10 +325,19 @@ h2 {
   font-style: italic;
 }
 
-.content ul {
+.content ul,
+ol {
   font-size: var(--s-4);
   list-style: disc;
   padding-left: var(--s-6);
+}
+
+ol {
+  list-style: decimal;
+}
+
+ol:hover {
+  cursor: pointer;
 }
 
 .content .code ul {
