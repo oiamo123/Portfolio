@@ -16,7 +16,7 @@ import NotesLayout from "../../../layouts/NotesLayout.astro";
   <ul class="roboto-light">
     <li class="roboto-light">Johnathan vs. John (Nicknames)</li>
     <li class="roboto-light">
-      2000-01-01 vs. 2001-01-01 (Intentionally entering differing birthdays due
+      2000-01-01 vs. 2001-01-11 (Intentionally entering differing birthdays due
       to privacy concerns)
     </li>
   </ul>
@@ -27,179 +27,142 @@ import NotesLayout from "../../../layouts/NotesLayout.astro";
   </p>
   <h2 class="roboto-bold-italic">Enter, "fuzzy matching"</h2>
   <p class="roboto-light">
-    This post is going to be quite lengthy, so get your snacks out. Here's what
-    we're going to cover, and how I went about implementing fuzzy matching.
+    Fuzzy matching is a technique used to find strings that are roughly similar.
+    It is particularly useful in scenarios where exact matches are not feasible
+    due to typos, variations in spelling, or different formats. The goal is to
+    identify records that are likely to refer to the same entity, even if they
+    are not identical.
   </p>
-  <ol class="roboto-light">
-    <li>
-      <a href="#problem" style="text-decoration: none;">
-        Understanding the problem
-      </a>
-    </li>
-    <li>
-      <a href="#tries" style="text-decoration: none;">Tries</a>
-    </li>
-    <li>
-      <a href="#implementation" style="text-decoration: none;">
-        Implementing fuzzy matching
-      </a>
-    </li>
-  </ol>
-
   <h2 id="problem" class="roboto-bold-italic">The "Problem Space"</h2>
   <p class="roboto-light">
     Some examples of string matching issues were mentioned above. But to put
-    into perspective, fuzzy matching (I recently learned) is surprisingly common
-    and widely used in areas outside of just ID verification. For example:
+    into perspective, fuzzy matching (I recently learned) is widely used in
+    areas outside of just ID verification. For example:
   </p>
   <ul class="roboto-light">
-    <li>
-      <b>Data Cleaning & Record Linking</b>
-      <ul>
-        <li>
-          Healthcare: Merging duplicate patient records — e.g., "John A. Smith"
-          vs "Jon Smith" vs "J. Smith".
-        </li>
-        <li>
-          Government / Census: Reconciling addresses — e.g., "123 Main Street
-          Apt 2" vs "123 Main St #2".
-        </li>
-      </ul>
-    </li>
-    <li>
-      <b>E-commerce / Retail</b>
-      <ul>
-        <li>Search Autocorrect: "nik shoes" → "Nike shoes".</li>
-        <li>
-          Product Catalog Cleanup: "iPhone 13 Pro Max" vs "Apple iPhone 13
-          ProMax".
-        </li>
-      </ul>
-    </li>
-    <li>
-      <b>Fraud & Finance</b>
-      <ul>
-        <li>
-          Entity Resolution: "Bank of America N.A." vs "B of A National
-          Association".
-        </li>
-        <li>
-          Transaction Monitoring: Matching "José Rodríguez" vs "Jose Rodriguez"
-          vs "J Rodriguez".
-        </li>
-      </ul>
-    </li>
-    <li>
-      <b>Entertainment / Media</b>
-      <ul>
-        <li>Music Libraries: "The Weekend" vs "The Weeknd".</li>
-        <li>Movie/TV Metadata: "Lord of te Rigns" → "Lord of the Rings".</li>
-      </ul>
-    </li>
-    <li>
-      <b>Search Engines & NLP</b>
-      <ul>
-        <li>
-          Autocomplete & “Did you mean?”: Correct user typos in search queries.
-        </li>
-        <li>Spell Correction: "teh" → "the".</li>
-        <li>OCR Post-Processing: Clean up "rn" vs "m", "1" vs "l".</li>
-      </ul>
-    </li>
-    <li>
-      <b>Science & Research</b>
-      <ul>
-        <li>Gene / Protein Names: "TP53" vs "Tumor Protein p53".</li>
-        <li>
-          Bibliographic Databases: "Smith J, 2001" vs "Smith, John (2001)".
-        </li>
-      </ul>
-    </li>
-    <li>
-      <b>Everyday Business Apps</b>
-      <ul>
-        <li>CRM: "Acme Corp." vs "Acme Incorporated".</li>
-        <li>
-          Email Systems: Auto-suggest contacts when typing "Jhn" → "John Doe".
-        </li>
-        <li>
-          Helpdesk / Ticketing: Match tickets with typos to knowledge base
-          articles.
-        </li>
-      </ul>
-    </li>
+    <li>Data Cleaning & Record Linking</li>
+    <li>E-commerce / Retail</li>
+    <li>Fraud & Finance</li>
+    <li>Entertainment / Media</li>
+    <li>Search Engines & NLP</li>
+    <li>Science & Research</li>
+    <li>Everyday Business Apps</li>
   </ul>
   <p class="roboto-light">
-    Despite all of these though, our goal in our scenario remains the same: to
+    Despite all of these though, the goal in our scenario remains the same: to
     accurately match and link Personal Identifiable Information (PII), even when
-    faced with discrepancies.
+    faced with discrepancies such as typos, ocr errors, nickname or other
+    variations.
   </p>
-  <h2 class="roboto-bold-italic">Breaking the problem down</h2>
+  <p class="roboto-light">
+    Fortunately, there are a couple of libraries already in this space such as <a
+      href="https://pypi.org/project/fuzzywuzzy/">FuzzyWuzzy</a
+    > and <a href="https://github.com/rapidfuzz/RapidFuzz">RapidFuzz.</a> There's
+    a few issues with these however for our exact application.
+  </p>
+  <p class="roboto-light">
+    In designing a fuzzy matcher, I had to account for a few key factors that
+    off-the-shelf libraries either didn’t handle or didn’t handle well for our
+    scenario:
+  </p>
   <ul class="roboto-light">
     <li>
-      <b>Not all fields are equal:</b> first names are flexible (nicknames, short
-      forms), while dates of birth are more reliable.
+      <b>Weights matter:</b> Not all fields are equal. First names are flexible (nicknames,
+      short forms) while dates of birth and addresses are more consistent.
     </li>
     <li>
-      <b>Weights matter:</b>
-      <ul>
-        <li>
-          Some fields should influence the match score more heavily than others.
-        </li>
-        <li>How frequently do we see certain names?</li>
-      </ul>
+      <b>Custom scoring:</b> Some fields may be more prone to error, which entails
+      allowable distances and number of edits. For example, first names allow more
+      flexibility while last names follow stricter rules.
     </li>
     <li>
-      <b>Normalization:</b>
-      <ul>
-        <li>
-          Trim whitespace, unify casing, and handle accents/diacritics
-          consistently.
-        </li>
-        <li>
-          "Normalize" street names and addresses (St. -> Street, Apt ->
-          Apartment)
-        </li>
-      </ul>
+      <b>OCR / domain-specific corrections:</b> Some libraries only handle pure string
+      edits. We can explicitly account for common OCR misreads (like '1' vs 'i')
+      and multi-character substitutions.
     </li>
     <li>
-      <b>Error likelihood differs:</b> names are prone to typos and nicknames, but
-      birthdays often differ by only a digit or format.
+      <b>Structured multi-field matching:</b> Libraries often treat inputs as single
+      strings. Our approach can consider multiple fields simultaneously (first name,
+      last name, DOB, etc.) and calculate a combined score.
+    </li>
+    <li>
+      <b>Extensibility:</b> Difficult to add new rules or heuristics, like nicknames,
+      expiry of records, parallel field searches, or next-character prediction, without
+      being constrained by library APIs.
     </li>
   </ul>
   <p class="roboto-light">
-    Keeping these in mind shaped how I approached the implementation: by using
-    tries for efficient lookup, edit distance for handling typos, and weighting
-    fields differently depending on reliability.
-  </p>
-  <h2 id="tries" class="roboto-bold-italic">Tries</h2>
-  <p class="roboto-light">
-    Back-tracking to our original problem, there was actually another issue even
-    before we got to fuzzy matching: OCR errors. Reading ID cards often produced
-    mistakes — confusing <code>i</code> with <code>1</code>, or lowercase L’s
-    with the number <code>1</code>. We needed a way to store strings so that
-    when searching, we could traverse character by character and even swap out
-    characters for their “most likely” alternatives when OCR got it wrong.
+    Originally, before my senior dev approached me, the CEO suggested tackling
+    OCR errors. This sparked the idea for a trie-based fuzzy matcher. Rather
+    than diving too deep into trie mechanics, the concept was straightforward:
+    traverse a trie with a known string (e.g., "J0hn"), and at characters that
+    might be OCR errors, explore possible corrections such as swapping '0' for
+    'o'.
   </p>
   <p class="roboto-light">
-    This led me towards using a <b>trie</b> as the core data structure for the algorithm.
-    Tries aren’t the most common choice for fuzzy matching (most implementations
-    rely on edit-distance tables or BK-trees), but for our specific use case they
-    made sense:
-  </p>
-  <ul class="roboto-light">
-    <li>They naturally support character-by-character lookups.</li>
-    <li>
-      They make it easy to branch into alternatives when a character is misread.
-    </li>
-    <li>They give us a compact way to store lots of overlapping prefixes.</li>
-  </ul>
-  <p class="roboto-light">
-    In short: originally I was just looking for a way to handle OCR errors, but
-    the trie and OCR correction fueled an idea to use it as a fuzzy matching
-    solution as well.
+    During a hackathon, I implemented my trie-based matcher and ran it across
+    our database. It identified roughly 40,000 duplicate entries out of 1
+    million records — outperforming libraries like FuzzyWuzzy and RapidFuzz for
+    the use-case. While the initial focus was OCR correction, the hackathon
+    fueled the basis of using a trie for fuzzy matching as well.
   </p>
   <h2 id="implementation" class="roboto-bold-italic">
     Implementing fuzzy matching
   </h2>
+  <p class="roboto-light">
+    The first thing we need to do is create a trie. Tries are a tree-like data
+    structure that efficiently store and retrieve strings by their prefixes. The
+    key to a trie is it's node:
+  </p>
+  <ul>
+    <li>A trie node represent a single character</li>
+    <li>A trie node contains a map of it's children (the next characters)</li>
+    <li>A trie node indicates if it's the end of a string</li>
+    <li>A tries root node is empty, and only contains children nodes</li>
+  </ul>
+  <p>To get a better idea of the structure:</p>
+  <div class="code">
+    <ul class="tabs">
+      <li class="active">Go</li>
+    </ul>
+    <div class="code-content">
+      <pre
+        class="active"
+        is:raw>
+
+  type TrieNode struct {
+    Char rune
+    Children map[rune]*TrieNode
+    IsEndOfString bool
+  }
+      </pre>
+    </div>
+  </div>
+  <p>
+    Consider now we have the following word to insert into our trie: "John".
+    Going step by step:
+  </p>
+  <ul>
+    <li>1. Start at the root node and grab it's map of children</li>
+    <img src="../../../../public/fuzzy-matching/root.png" />
+    <li>2. Using 'J', check if the current node contains 'J' in it's map</li>
+    <img src="../../../../public/fuzzy-matching/root_with_children_map.png" />
+    <li>
+      3. If it does, move to the child node corresponding to 'J', otherwise
+      create it (in this case, we create it) and assign the value 'J'
+    </li>
+    <img src="../../../../public/fuzzy-matching/root_with_j.png" />
+    <li>4. Move to the node containing 'J'</li>
+    <img src="../../../../public/fuzzy-matching/current_j.png" />
+    <li>
+      5. Repeat steps 2-4 for the remaining characters ('o', 'h', 'n') and mark
+      the end of the string at the last node
+    </li>
+    <img src="../../../../public/fuzzy-matching/current_n.png" />
+  </ul>
+  <p>
+    Now if we follow this process for "Jane", "Jacob" and "Jill", we'd have a
+    structure that looks a little like this:
+  </p>
+  <img src="../../../../public/fuzzy-matching/trie.png" />
 </NotesLayout>
