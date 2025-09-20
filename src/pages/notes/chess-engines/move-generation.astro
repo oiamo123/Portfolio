@@ -53,20 +53,20 @@ import NotesLayout from "../../../layouts/NotesLayout.astro";
     <div class="code-content">
       <pre
         class="active">
-    0  1  2  3  4  5  6  7
-    8  9  10 11 12 13 14 15
-    16 17 18 19 20 21 22 23
-    24 25 26 27 28 29 30 31
-    32 33 34 35 36 37 38 39
-    40 41 42 43 44 45 46 47
-    48 49 50 51 52 53 54 55
     56 57 58 59 60 61 62 63
+    48 49 50 51 52 53 54 55
+    40 41 42 43 44 45 46 47
+    32 33 34 35 36 37 38 39
+    24 25 26 27 28 29 30 31
+    16 17 18 19 20 21 22 23
+    8  9 10 11 12 13 14 15
+    0  1  2  3  4  5  6  7
       </pre>
     </div>
   </div>
   <p class="roboto-light">
-    That means that if we wanted to place a pawn on square 27 for example, we
-    would flip bit 27 to 1:
+    That means that if we wanted to place a pawn on square 35 for example, we
+    would flip bit 35 to 1:
   </p>
   <div class="code">
     <ul class="tabs">
@@ -75,7 +75,7 @@ import NotesLayout from "../../../layouts/NotesLayout.astro";
     <div class="code-content">
       <pre
         class="active">
-    // Our bit representation of a pawn on square 27
+    // Our bit representation of a pawn on square 35
     0 0 0 0 0 0 0 0
     0 0 0 0 0 0 0 0
     0 0 0 0 0 0 0 0
@@ -92,12 +92,12 @@ import NotesLayout from "../../../layouts/NotesLayout.astro";
     board representation in this post too much. I moreso wanted to focus on move
     generation, and with that--move generation for sliding pieces.
   </p>
-  <h2 class="roboto-bold">Not so magic "magic" bit boards</h2>
+  <h2 class="roboto-bold">Almost "magic" bit boards</h2>
   <p class="roboto-light">
     The thing with chess engine is that you want it to be fast. At the end of
     the day, the thing has to evaluate millions of positions in fractions of a
     second. Thankfully, bitwise operations are about as fast as it gets in terms
-    of performance. But that arrises the issue: <span class="roboto-regular"
+    of performance. But that raises the issue: <span class="roboto-regular"
       >"How do we avoid for loops when generating moves for sliding pieces?"
     </span> In other words, how can we slide a piece down it's path, and using only
     bitwise operations, ensure that we stop at the first blocking piece?
@@ -141,8 +141,8 @@ import NotesLayout from "../../../layouts/NotesLayout.astro";
     </div>
   </div>
   <p class="roboto-light">
-    Note* For reference, throught the rest of the post, I'm not going to include
-    friendly pieces I will discuss friendly pieces at the end.
+    Note* For reference, throughout the rest of the post, I'm not going to
+    include friendly pieces I will discuss friendly pieces at the end.
   </p>
   <p class="roboto-light">
     First thing we can do is pre generate all the possible moves depending on
@@ -151,7 +151,7 @@ import NotesLayout from "../../../layouts/NotesLayout.astro";
       >East,
     </span><span class="roboto-regular">South, </span> and <span
       class="roboto-regular"
-      >West. If we were on square 27 for example, the 4 different boards would
+      >West. If we were on square 35 for example, the 4 different boards would
       look like this:</span
     >
   </p>
@@ -205,7 +205,7 @@ import NotesLayout from "../../../layouts/NotesLayout.astro";
     </div>
   </div>
   <p class="roboto-light">
-    And then if we had a rook on square 27, we could combine all of them to get
+    And then if we had a rook on square 35, we could combine all of them to get
     all of our possible moves:
   </p>
   <div class="code">
@@ -215,7 +215,7 @@ import NotesLayout from "../../../layouts/NotesLayout.astro";
     <div class="code-content">
       <pre
         class="active">
-    // Rook moves in rookmoves[27]
+    // Rook moves in rookmoves[35]
     . . . 1 . . . .
     . . . 1 . . . .
     . . . 1 . . . .
@@ -225,7 +225,7 @@ import NotesLayout from "../../../layouts/NotesLayout.astro";
     . . . 1 . . . .
     . . . 1 . . . .        
 
-    // Rook moves in rookmoves[4]
+    // Rook moves in rookmoves[60]
     1 1 1 1 . 1 1 1
     . . . . 1 . . .
     . . . . 1 . . .
@@ -239,7 +239,7 @@ import NotesLayout from "../../../layouts/NotesLayout.astro";
   </div>
   <p class="roboto-light">
     Now that we've gone through, what we can do is we can take our rooks
-    pre-generated moves, get the bitboard for square 27, and & bitwise operate
+    pre-generated moves, get the bitboard for square 35, and & bitwise operate
     them with our opponents pieces. This means that we get all of the blocking
     pieces on our rays:
   </p>
@@ -266,7 +266,7 @@ import NotesLayout from "../../../layouts/NotesLayout.astro";
     The "magic" part in my opinion is that with this information alone, we can
     actually perform a bitwise operation to determine what the closest piece is.
     To make this a little easier to visualize, take our original 64 bit integer
-    and flatten it our, and seperate the blocking pieces for each direction:
+    and flatten it out, and seperate the blocking pieces for each direction:
   </p>
   <div class="code">
     <ul class="tabs">
@@ -373,8 +373,8 @@ import NotesLayout from "../../../layouts/NotesLayout.astro";
     . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1 . . . . . . . 1 . . . . . . . . . . . . . . . . . . . .   
     // Flattened original
     . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1 . . . . . . . 1 . . . . . . . 1 . . . . . . . 1 . . . .    
-    // Mask using left most bit >> 1
-    . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1   
+    // Mask using left most bit
+    1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 . . . . . . . . . . . . . . . . . . . . . . . . . . . .   
     // & mask and original moves
     . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1 . . . . . . . . . . . . . . . . . . . . . . . . . . . .   
 
@@ -397,6 +397,7 @@ import NotesLayout from "../../../layouts/NotesLayout.astro";
     with that said, you would also do the exact same thing for friendly pieces.
     The only difference is that depending on the direction, you'll have to shift
     the bit 1 square closer to the piece by 8 bits for example if you were on a
-    north or south ray. And then either 7 or 9 for east and west rays.
+    north or south ray. And then either 1 for east and west rays, 7 for NE/SE
+    and 9 for NW/SE.
   </p>
 </NotesLayout>
