@@ -1,148 +1,166 @@
 ---
+import type { ImageMetadata } from "astro";
 interface Props {
-	title: string;
-	body: string;
-	href: string;
-	tools: Array<string>;
-	img: string;
+  title: string;
+  body: string;
+  href: string;
+  tools: Array<string>;
+  img: string;
 }
 
 const { img, tools, href, title, body } = Astro.props;
+const images = import.meta.glob<{ default: ImageMetadata }>(
+  "/src/images/*.{jpeg,jpg,png,gif}"
+);
+
+const imagePath = await images[img]();
 ---
+
 <div class="card">
-	<div class="img-container">
-		<h1 class="roboto-medium">{title}</h1>
-		<img src={img} alt="project image">
-	</div>
-	<aside>
-		<div class="tools">
-			{
-				tools.map(tool => <span class="badge">{tool}</span>)
-			}
-		</div>
-		<p class="roboto-light">{body}</p>
-		<a class="btn" href={href}><p>View</p><svg width="48" height="24" viewBox="0 0 48 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-			<path d="M4 12H44M44 12L34 8M44 12L34 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-		  </svg></a>
-	</aside>	
+  <div class="img-container">
+    <h1 class="roboto-medium">{title}</h1>
+    <img src={imagePath.default.src} alt="project image" />
+  </div>
+  <aside>
+    <div class="tools">
+      {tools.map((tool) => <span class="badge">{tool}</span>)}
+    </div>
+    <p class="roboto-light">{body}</p>
+    <a class="btn" href={href}
+      ><p>View</p><svg
+        width="48"
+        height="24"
+        viewBox="0 0 48 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M4 12H44M44 12L34 8M44 12L34 16"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"></path>
+      </svg></a
+    >
+  </aside>
 </div>
 <style>
-	.card {
-		display: flex;
-		flex-direction: column;
-		background-color: var(--card);
-		margin: auto;
-		box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
-		border-radius: var(--s-3);
-	}
+  .card {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--card);
+    margin: auto;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+    border-radius: var(--s-3);
+  }
 
-	.img-container {
-		flex-shrink: 0;
-		height: var(--s-20);
-		overflow: hidden;
-		position: relative;
-		border-radius: var(--s-3) var(--s-3) 0 0;
-	}
+  .img-container {
+    flex-shrink: 0;
+    height: var(--s-20);
+    overflow: hidden;
+    position: relative;
+    border-radius: var(--s-3) var(--s-3) 0 0;
+  }
 
-	.img-container::after {
-		content: '';
-		display: block;
-		position: absolute;
-		top: 0;
-		left: 0;
-		height: 100%;
-		width: 100%;
-	}
+  .img-container::after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+  }
 
-	.card .img-container h1 {
-		position: absolute;
-		bottom: 0%;
-		left: 50%;
-		transform: translateX(-50%);
-		z-index: 1;
-		color: white;
-		font-size: var(--s-4);
-		text-align: center;
-		letter-spacing: 1px;
-	}
+  .card .img-container h1 {
+    position: absolute;
+    bottom: 0%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+    color: white;
+    font-size: var(--s-4);
+    text-align: center;
+    letter-spacing: 1px;
+  }
 
-	img {
-		position: absolute;
-		scale: 1.2;
-		top: 5%;
-		height: 100%;
-	}
+  img {
+    position: absolute;
+    scale: 1.2;
+    top: 5%;
+    height: 100%;
+  }
 
-	.badge {
-		font-size: 9px;
-		letter-spacing: 1px;
-		padding: var(--s-05) var(--s-5);
-	}
+  .badge {
+    font-size: 9px;
+    letter-spacing: 1px;
+    padding: var(--s-05) var(--s-5);
+  }
 
-	aside p {
-		font-size: var(--s-3);
-		letter-spacing: 1px;
-	}
+  aside p {
+    font-size: var(--s-3);
+    letter-spacing: 1px;
+  }
 
-	.btn p {
-		font-size: var(--s-2);
-	}
+  .btn p {
+    font-size: var(--s-2);
+  }
 
-	aside .btn svg {
-		color: var(--font-color);
-		scale: 1;
-	}
+  aside .btn svg {
+    color: var(--font-color);
+    scale: 1;
+  }
 
-	aside .btn:hover svg {
-		color: white;
-	}
+  aside .btn:hover svg {
+    color: white;
+  }
 
-	aside a {
-		align-self: flex-start;
-	}
+  aside a {
+    align-self: flex-start;
+  }
 
-	aside {
-		display: flex;
-		flex-direction: column;
-		padding: var(--s-4);
-		gap: var(--s-4);
-	}
+  aside {
+    display: flex;
+    flex-direction: column;
+    padding: var(--s-4);
+    gap: var(--s-4);
+  }
 
-	@media (min-width: 768px) {
-		.card {
-			height: 100%;
-		}
+  @media (min-width: 768px) {
+    .card {
+      height: 100%;
+    }
 
-		.card aside {
-			padding: var(--s-6);
-			height: 100%;
-			justify-content: space-between;
-		}
+    .card aside {
+      padding: var(--s-6);
+      height: 100%;
+      justify-content: space-between;
+    }
 
-		.badge {
-			font-size: 8px;
-		}
+    .badge {
+      font-size: 8px;
+    }
 
-		.card .img-container h1 {
-			font-size: var(--s-4);
-		}
+    .card .img-container h1 {
+      font-size: var(--s-4);
+    }
 
-		.card p {
-			font-size: var(--s-2);
-		}
-	}
+    .card p {
+      font-size: var(--s-2);
+    }
+  }
 
-	@media (min-width: 1360px) {
-		.badge {
-			font-size: var(--s-2);
-		}
+  @media (min-width: 1360px) {
+    .badge {
+      font-size: var(--s-2);
+    }
 
-		.card p {
-			font-size: var(--s-3);
-		}
+    .card p {
+      font-size: var(--s-3);
+    }
 
-		.card .img-container h1 {
-			font-size: var(--s-5);
-		}
-	}
+    .card .img-container h1 {
+      font-size: var(--s-5);
+    }
+  }
 </style>
