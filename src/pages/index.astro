@@ -1,709 +1,805 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Timeline from '../components/Timeline.astro';
-import * as skills from '../../data/skills.json';
+import Layout from "../layouts/Layout.astro";
+import Timeline from "../components/Timeline.astro";
+import * as skills from "../../data/skills.json";
+import mountainImg from "../images/mountain-img.png";
 ---
+
 <Layout title="Gavin Oiamo | Software Developer Portfolio">
-		<div class="goto-section"></div>
-    <article class="intro-section">
-        <section>
-          <h1 class="typewriter roboto-bold-italic"></h1>
-          <h1 class="roboto-bold">Developer.</h1>
-          <p class="roboto-light">My name is <span class="roboto-medium-italic">Gavin</span> and I'm a developer based out of Calgary, Alberta. I'm passionate about designing and building scalable full-stack projects. I love music, motorcycles and the outdoors.</p>
-        </section>
-        <div>
-          <div class="profile-img-border">
-            <img src="https://res.cloudinary.com/dusakygel/image/upload/v1723140204/mountain-img.jpg" alt="Gavin in the mountains with his motorcycle">
-          </div>
-        </div>
-    </article>
-    <Timeline></Timeline>
-    <article class="skills-section">
-          <img class="mostUsed fade-in" alt="A chat of my most used languages">    
-          <div class="skills fade-in">
-            {
-              skills["skills"].filter(skill => skill.category === "skill").map((skill) => (
-                  <p class="skill">{skill.tool}</p>
-                ))
-            }
-          </div>
-          <p class="roboto-light fade-in">While attending SAIT, I learned and practiced a wide variety of technical and theoretical skills to help me tackle projects. These skills range from languages to project management. On top of what I learned in school, I regularly spend time reading into new technology and best practices to continue to improve my technical skills and build scalable, efficient and secure applications.</p>
-          <p class="roboto-light fade-in">However as with most programs, they only cover so much material. With that being said, during my time as an electrician I coordinated closely with co-workers, management and clients to tackle problems and produce products in a timely manner while balancing cost and performance.</p>
-          <a class="btn fade-in" href="/projects"><p>Projects</p><svg width="48" height="24" viewBox="0 0 48 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M4 12H44M44 12L34 8M44 12L34 16" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg></a>
-    </article>
-    <article id="contact" class="contact-form">
-        <form>
-          <h1 class="roboto-bold fade-in">Feel free to contact me!</h1>
-          <p class="roboto-light fade-in">I am always open to new opportunities, questions or proposals</p>
-          <div class="fade-in">
-            <label for="name">Your name</label>
-            <input type="text" name="name" placeholder="Enter your name">
-          </div>
-          <div class="fade-in">
-            <label for="email">Email address</label>
-            <input type="email" name="email" placeholder="Enter your email address">
-          </div>
-          <div class="fade-in">
-            <label for="message">Your message</label>
-            <textarea name="message" placeholder="Hey, I've got an idea for an application and was thinking you could help me out. When would you be free?"></textarea>
-          </div>
-          <p class="message-response"></p>
-          <button class="btn fade-in" type="submit"><p>Submit</p><svg width="48" height="24" viewBox="0 0 48 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M4 12H44M44 12L34 8M44 12L34 16" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg></button>
-          </form>
-      </article>
+  <div class="goto-section"></div>
+  <article class="intro-section">
+    <section>
+      <h1 class="typewriter roboto-bold-italic"></h1>
+      <h1 class="roboto-bold">Developer.</h1>
+      <p class="roboto-light">
+        My name is <span class="roboto-medium-italic">Gavin</span> and I'm a developer
+        based out of Calgary, Alberta. I'm passionate about designing and building
+        scalable full-stack projects. I love music, motorcycles and the outdoors.
+      </p>
+    </section>
+    <div>
+      <div class="profile-img-border">
+        <img
+          src={mountainImg.src}
+          alt="Gavin in the mountains with his motorcycle"
+        />
+      </div>
+    </div>
+  </article>
+  <Timeline />
+  <article class="skills-section">
+    <img class="mostUsed fade-in" alt="A chat of my most used languages" />
+    <div class="skills fade-in">
+      {
+        skills["skills"]
+          .filter((skill) => skill.category === "skill")
+          .map((skill) => <p class="skill">{skill.tool}</p>)
+      }
+    </div>
+    <p class="roboto-light fade-in">
+      While attending SAIT, I learned and practiced a wide variety of technical
+      and theoretical skills to help me tackle projects. These skills range from
+      languages to project management. On top of what I learned in school, I
+      regularly spend time reading into new technology and best practices to
+      continue to improve my technical skills and build scalable, efficient and
+      secure applications.
+    </p>
+    <p class="roboto-light fade-in">
+      However as with most programs, they only cover so much material. With that
+      being said, during my time as an electrician I coordinated closely with
+      co-workers, management and clients to tackle problems and produce products
+      in a timely manner while balancing cost and performance.
+    </p>
+    <a class="btn fade-in" href="/projects"
+      ><p>Projects</p><svg
+        width="48"
+        height="24"
+        viewBox="0 0 48 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M4 12H44M44 12L34 8M44 12L34 16"
+          stroke="currentColor"
+          stroke-width="1"
+          stroke-linecap="round"
+          stroke-linejoin="round"></path>
+      </svg></a
+    >
+  </article>
+  <article id="contact" class="contact-form">
+    <form>
+      <h1 class="roboto-bold fade-in">Feel free to contact me!</h1>
+      <p class="roboto-light fade-in">
+        I am always open to new opportunities, questions or proposals
+      </p>
+      <div class="fade-in">
+        <label for="name">Your name</label>
+        <input type="text" name="name" placeholder="Enter your name" />
+      </div>
+      <div class="fade-in">
+        <label for="email">Email address</label>
+        <input
+          type="email"
+          name="email"
+          placeholder="Enter your email address"
+        />
+      </div>
+      <div class="fade-in">
+        <label for="message">Your message</label>
+        <textarea
+          name="message"
+          placeholder="Hey, I've got an idea for an application and was thinking you could help me out. When would you be free?"
+        ></textarea>
+      </div>
+      <p class="message-response"></p>
+      <button class="btn fade-in" type="submit"
+        ><p>Submit</p><svg
+          width="48"
+          height="24"
+          viewBox="0 0 48 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M4 12H44M44 12L34 8M44 12L34 16"
+            stroke="currentColor"
+            stroke-width="1"
+            stroke-linecap="round"
+            stroke-linejoin="round"></path>
+        </svg></button
+      >
+    </form>
+  </article>
 </Layout>
 <style>
-
-.contact-form, .skills-section {
-  padding: 0 var(--s-8);
-}
-
-.contact-form, .skills-section {
-  padding-top: var(--s-12);
-}
-
-.contact-form {
-  padding-bottom: var(--s-12);
-}
-
-.goto-section {
-  position: fixed;
-  display: none;
-  top: 50%;
-  left: 2%;
-  transform: translateY(-50%);
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  z-index: 10;
-  gap: var(--s-3);
-  width: 10px;
-  height: var(--s-20);
-  z-index: 1;
-}
-
-.intro-section {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  justify-content: center;
-  padding: 18vh var(--s-8);
-}
-
-.intro-section section {
-  display: flex;
-  flex-direction: column;
-}
-
-.intro-section section h1 {
-  font-size: var(--s-6);
-  text-transform: uppercase;
-}
-
-.intro-section section h1:nth-child(1) {
-  align-self: flex-start;
-  padding-right: 3px;
-  height: var(--s-5);
-  display: flex;
-  align-items: center;
-}
-
-.intro-section > section p {
-  font-size: var(--s-4);
-  letter-spacing: 1.4px;
-  line-height: var(--s-6);
-  margin: var(--s-5) 0;
-}
-
-.title {
-  display: none;
-}
-
-.active {
-  display: inline-block;
-}
-
-.intro-section div {
-  position: relative;
-  align-self: center;
-  max-width: var(--s-30);
-}
-
-.profile-img-border::after {
-  content: '';
-  display: block;
-  height: 100%;
-  width: 100%;
-  border: 1px var(--accent-color) solid;
-  position: absolute;
-  transform: translate(var(--s-4), var(--s-4));
-  top: 0;
-  z-index: -1;
-}
-
-.link {
-  cursor: pointer;
-  overflow: hidden;
-  color: var(--accent-color);
-}
-
-.skills-section {
-  display: grid;
-  grid-template-columns: auto;
-  gap: var(--s-8);
-}
-
-.mostUsed {
-  box-shadow: 0px 0px var(--s-3) rgba(0, 0, 0, 0.1);
-}
-
-.skills {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--s-3);
-}
-
-.skills-section > p:nth-child(3), .skills-section > p:nth-child(4) {
-  font-size: var(--s-3);
-  letter-spacing: 1px;
-}
-
-.skills-section .btn {
-  justify-self: flex-start;
-}
-
-.skill {
-  background-color: var(--accent-color);
-  padding: var(--s-1) var(--s-4);
-  font-size: var(--s-2);
-  letter-spacing: 1px;
-  position: relative;
-  overflow: hidden;
-  transition: 0.1s scale ease-in-out;
-}
-
-.skill:hover {
-  cursor: default;
-  scale: 1.1;
-  color: var(--btn-fonthover);
-}
-
-.skill::before {
-  content: '';
-  position: absolute;
-  display: block;
-  height: 100%;
-  width: 100%;
-  right: 100%;
-  background-color: var(--secondary-color);
-  top: 0%;
-  transition: 0.1s right ease-in;
-  z-index: -1;
-}
-
-.skill:hover::before {
-  right: 0%;
-}
-
-.downloads {
-  display: flex;
-  flex-direction: column;
-}
-
-.downloads > p {
-  letter-spacing: 1px;
-  font-size: var(--s-4);
-}
-
-.contact-form {
-  display: flex;
-  flex-direction: column;
-  gap: var(--s-10);
-}
-
-form {
-  display: flex;
-  flex-direction: column;
-  gap: var(--s-5);
-  transition: display 0.3s ease-in;
-}
-
-form > h1 {
-  font-size: var(--s-6);
-  width: var(--s-75);
-  letter-spacing: 1px;
-}
-
-form > p {
-  font-size: var(--s-4);
-  letter-spacing: 2px;
-}
-
-form div label {
-  font-size: var(--s-2);
-  letter-spacing: 1px;
-}
-
-.contact-form form input:focus, .contact-form textarea:focus {
-  border-bottom: 1.5px solid var(--secondary-color);
-  transition: border-bottom 0.2s ease-in;
-}
-
-.contact-form textarea {
-  resize: none;
-  height: var(--s-11);
-}
-
-.contact-form input, .contact-form textarea {
-  width: var(--s-100);
-  background-color: var(--primary-color);
-  padding: var(--s-1) 0px;
-  border-bottom: 1px solid var(--accent-color);
-  font-size: var(--s-2);
-  letter-spacing: 1px;
-}
-
-.contact-form input:focus, .contact-form textarea:focus {
-  outline: none;
-}
-
-.contact-form input::-webkit-input-placeholder, .contact-form textarea::-webkit-input-placeholder {
-  font-family: "Roboto", sans-serif;
-  font-weight: 200;
-  letter-spacing: 1px;
-  font-size: var(--s-2);
-}
-
-.contact-form input:-ms-input-placeholder, .contact-form textarea::-ms-input-placeholder {
-  font-family: "Roboto", sans-serif;
-  font-weight: 200;
-  letter-spacing: 1px;
-  font-size: var(--s-2);
-}
-
-.contact-form input:-moz-placeholder, .contact-form textarea::-moz-placeholder {
-  font-family: "Roboto", sans-serif;
-  font-weight: 200;
-  letter-spacing: 1px;
-  font-size: var(--s-2);
-}
-
-.contact-form .btn {
-  margin-top: var(--s-6);
-}
-
-@media (min-width: 768px) {
-  .contact-form, .skills-section {
-     padding-left: var(--s-13);
-     padding-right: var(--s-13);
+  .contact-form,
+  .skills-section {
+    padding: 0 var(--s-8);
   }
 
-  .contact-form, .skills-section {
-    padding-top: var(--s-15);
+  .contact-form,
+  .skills-section {
+    padding-top: var(--s-12);
   }
 
   .contact-form {
-    padding-bottom: var(--s-15);
+    padding-bottom: var(--s-12);
+  }
+
+  .goto-section {
+    position: fixed;
+    display: none;
+    top: 50%;
+    left: 2%;
+    transform: translateY(-50%);
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    gap: var(--s-3);
+    width: 10px;
+    height: var(--s-20);
+    z-index: 1;
   }
 
   .intro-section {
-    flex-direction: row;
-    align-items: center;
-    gap: var(--s-5);
-    padding-top: 0;
-    padding-bottom: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    justify-content: center;
+    padding: 18vh var(--s-8);
   }
 
-  .intro-section img {
-    min-width: var(--s-20);
+  .intro-section section {
+    display: flex;
+    flex-direction: column;
   }
 
   .intro-section section h1 {
     font-size: var(--s-6);
+    text-transform: uppercase;
   }
 
-  .intro-section section p {
-    font-size: var(--s-3);
-    line-height: var(--s-5);
-  }
-
-  .skills-section aside p {
-    font-size: var(--s-4);
-    letter-spacing: 1px;
-  }
-
-  .skill {
-    font-size: var(--s-2);
-  }
-
-  .btn p {
-    font-size: var(--s-4);
-  }
-
-  form {
-    gap: var(--s-6);
-  }
-
-  form > h1 {
-    font-size: var(--s-7);
-  }
-
-  form > p {
-    font-size: var(--s-5);
-  }
-
-  form div label {
-    font-size: var(--s-4);
-  }
-
-  form div input, form div textarea {
-    font-size: var(--s-4);
-  }
-
-  form div textarea {
-    height: var(--s-15);
-  }
-
-  .contact-form input::-webkit-input-placeholder, .contact-form textarea::-webkit-input-placeholder {
-    font-size: var(--s-4);
-  }
-
-  .contact-form input:-ms-input-placeholder, .contact-form textarea::-ms-input-placeholder {
-    font-size: var(--s-4);
-  }
-
-  .contact-form input:-moz-placeholder, .contact-form textarea::-moz-placeholder {
-    font-size: var(--s-4);
-  }
-}
-
-@media (min-width: 1024px) {
-  .goto-section {
+  .intro-section section h1:nth-child(1) {
+    align-self: flex-start;
+    padding-right: 3px;
+    height: var(--s-5);
     display: flex;
-  }
-
-  .contact-form, .intro-section, .skills-section {
-     padding-left: var(--s-15);
-     padding-right: var(--s-15);
-  }
-
-  .intro-section {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
     align-items: center;
   }
 
-  .intro-section section, .intro-section > div {
-    width: 50%;
+  .intro-section > section p {
+    font-size: var(--s-4);
+    letter-spacing: 1.4px;
+    line-height: var(--s-6);
+    margin: var(--s-5) 0;
+  }
+
+  .title {
+    display: none;
+  }
+
+  .active {
+    display: inline-block;
   }
 
   .intro-section div {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    position: relative;
+    align-self: center;
+    max-width: var(--s-30);
   }
 
-  .profile-img-border {
-    width: 70%;
+  .profile-img-border::after {
+    content: "";
+    display: block;
+    height: 100%;
+    width: 100%;
+    border: 1px var(--accent-color) solid;
+    position: absolute;
+    transform: translate(var(--s-4), var(--s-4));
+    top: 0;
+    z-index: -1;
   }
 
-  .intro-section section h1:nth-child(1) {
-    height: var(--s-5);
+  .link {
+    cursor: pointer;
+    overflow: hidden;
+    color: var(--accent-color);
   }
 
   .skills-section {
-    grid-template-columns: minmax(auto, 30rem) auto;
-    grid-template-rows: repeat(3, auto);
-    margin: 0 auto;
-    max-width: 1700px;
-    column-gap: var(--s-12);
+    display: grid;
+    grid-template-columns: auto;
+    gap: var(--s-8);
   }
 
   .mostUsed {
-    grid-row: 1 / 3;
-    justify-self: center;
-    align-self: center;
+    box-shadow: 0px 0px var(--s-3) rgba(0, 0, 0, 0.1);
   }
 
   .skills {
-    grid-column: 1 / 2;
-    justify-content: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-3);
+  }
+
+  .skills-section > p:nth-child(3),
+  .skills-section > p:nth-child(4) {
+    font-size: var(--s-3);
+    letter-spacing: 1px;
   }
 
   .skills-section .btn {
-    grid-area: 3 / 2 / 3 / 3;
-    align-self: center;
     justify-self: flex-start;
   }
 
-  .skills-section p:nth-child(3) {
-    grid-area: 1 / 2 / 2 / 3;
-    align-self: center;
+  .skill {
+    background-color: var(--accent-color);
+    padding: var(--s-1) var(--s-4);
+    font-size: var(--s-2);
+    letter-spacing: 1px;
+    position: relative;
+    overflow: hidden;
+    transition: 0.1s scale ease-in-out;
   }
 
-  .skills-section p:nth-child(4) {
-    grid-area: 2 / 2 / 2 / 3;
-    align-self: center;
+  .skill:hover {
+    cursor: default;
+    scale: 1.1;
+    color: var(--btn-fonthover);
   }
 
-  .contact-form {
-    align-items: center;
+  .skill::before {
+    content: "";
+    position: absolute;
+    display: block;
+    height: 100%;
+    width: 100%;
+    right: 100%;
+    background-color: var(--secondary-color);
+    top: 0%;
+    transition: 0.1s right ease-in;
+    z-index: -1;
   }
 
-  .contact-form form, .downloads {
-    max-width: 776.72px;
-  }
-
-  .contact-form textarea {
-    height: var(--s-13);
-  }
-
-  .downloads {
-    justify-content: center;
-  }
-}
-
-@media (min-width: 1360px) {
-  .skills-section, .contact-form {
-    padding-left: var(--s-20);
-    padding-right: var(--s-20);
-  }
-
-  .intro-section {
-    gap: var(--s-10);
-    padding-left: var(--s-30);
-    padding-right: var(--s-30);
-  }
-
-  .intro-section section h1:nth-child(1) {
-    height: var(--s-7);
-    padding-right: 6px;
-  }
-
-  .intro-section section h1 {
-    font-size: var(--s-7);
-    line-height: var(--s-7);
-  }
-
-  .intro-section section p {
-    font-size: var(--s-5);
-    line-height: var(--s-6);
-  }
-
-  .skills-section > p:nth-child(3), .skills-section > p:nth-child(4) {
-    font-size: var(--s-4);
-  }
-
-  .mostUsed {
-    height: auto;
-    max-width: 70%;
-    align-self: center;
-  }
-
-  .contact-form section {
-    gap: var(--s-12);
-  }
-
-  .contact-form section h1 {
-    font-size: var(--s-7);
-  }
-
-  form p:nth-child(2) {
-    font-size: var(--s-5);
+  .skill:hover::before {
+    right: 0%;
   }
 
   .downloads {
-    gap: var(--s-5);
+    display: flex;
+    flex-direction: column;
   }
 
   .downloads > p {
-    font-size: var(--s-5);
+    letter-spacing: 1px;
+    font-size: var(--s-4);
   }
-}
+
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-10);
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-5);
+    transition: display 0.3s ease-in;
+  }
+
+  form > h1 {
+    font-size: var(--s-6);
+    width: var(--s-75);
+    letter-spacing: 1px;
+  }
+
+  form > p {
+    font-size: var(--s-4);
+    letter-spacing: 2px;
+  }
+
+  form div label {
+    font-size: var(--s-2);
+    letter-spacing: 1px;
+  }
+
+  .contact-form form input:focus,
+  .contact-form textarea:focus {
+    border-bottom: 1.5px solid var(--secondary-color);
+    transition: border-bottom 0.2s ease-in;
+  }
+
+  .contact-form textarea {
+    resize: none;
+    height: var(--s-11);
+  }
+
+  .contact-form input,
+  .contact-form textarea {
+    width: var(--s-100);
+    background-color: var(--primary-color);
+    padding: var(--s-1) 0px;
+    border-bottom: 1px solid var(--accent-color);
+    font-size: var(--s-2);
+    letter-spacing: 1px;
+  }
+
+  .contact-form input:focus,
+  .contact-form textarea:focus {
+    outline: none;
+  }
+
+  .contact-form input::-webkit-input-placeholder,
+  .contact-form textarea::-webkit-input-placeholder {
+    font-family: "Roboto", sans-serif;
+    font-weight: 200;
+    letter-spacing: 1px;
+    font-size: var(--s-2);
+  }
+
+  .contact-form input:-ms-input-placeholder,
+  .contact-form textarea::-ms-input-placeholder {
+    font-family: "Roboto", sans-serif;
+    font-weight: 200;
+    letter-spacing: 1px;
+    font-size: var(--s-2);
+  }
+
+  .contact-form input:-moz-placeholder,
+  .contact-form textarea::-moz-placeholder {
+    font-family: "Roboto", sans-serif;
+    font-weight: 200;
+    letter-spacing: 1px;
+    font-size: var(--s-2);
+  }
+
+  .contact-form .btn {
+    margin-top: var(--s-6);
+  }
+
+  @media (min-width: 768px) {
+    .contact-form,
+    .skills-section {
+      padding-left: var(--s-13);
+      padding-right: var(--s-13);
+    }
+
+    .contact-form,
+    .skills-section {
+      padding-top: var(--s-15);
+    }
+
+    .contact-form {
+      padding-bottom: var(--s-15);
+    }
+
+    .intro-section {
+      flex-direction: row;
+      align-items: center;
+      gap: var(--s-5);
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+
+    .intro-section img {
+      min-width: var(--s-20);
+    }
+
+    .intro-section section h1 {
+      font-size: var(--s-6);
+    }
+
+    .intro-section section p {
+      font-size: var(--s-3);
+      line-height: var(--s-5);
+    }
+
+    .skills-section aside p {
+      font-size: var(--s-4);
+      letter-spacing: 1px;
+    }
+
+    .skill {
+      font-size: var(--s-2);
+    }
+
+    .btn p {
+      font-size: var(--s-4);
+    }
+
+    form {
+      gap: var(--s-6);
+    }
+
+    form > h1 {
+      font-size: var(--s-7);
+    }
+
+    form > p {
+      font-size: var(--s-5);
+    }
+
+    form div label {
+      font-size: var(--s-4);
+    }
+
+    form div input,
+    form div textarea {
+      font-size: var(--s-4);
+    }
+
+    form div textarea {
+      height: var(--s-15);
+    }
+
+    .contact-form input::-webkit-input-placeholder,
+    .contact-form textarea::-webkit-input-placeholder {
+      font-size: var(--s-4);
+    }
+
+    .contact-form input:-ms-input-placeholder,
+    .contact-form textarea::-ms-input-placeholder {
+      font-size: var(--s-4);
+    }
+
+    .contact-form input:-moz-placeholder,
+    .contact-form textarea::-moz-placeholder {
+      font-size: var(--s-4);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .goto-section {
+      display: flex;
+    }
+
+    .contact-form,
+    .intro-section,
+    .skills-section {
+      padding-left: var(--s-15);
+      padding-right: var(--s-15);
+    }
+
+    .intro-section {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .intro-section section,
+    .intro-section > div {
+      width: 50%;
+    }
+
+    .intro-section div {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .profile-img-border {
+      width: 70%;
+    }
+
+    .intro-section section h1:nth-child(1) {
+      height: var(--s-5);
+    }
+
+    .skills-section {
+      grid-template-columns: minmax(auto, 30rem) auto;
+      grid-template-rows: repeat(3, auto);
+      margin: 0 auto;
+      max-width: 1700px;
+      column-gap: var(--s-12);
+    }
+
+    .mostUsed {
+      grid-row: 1 / 3;
+      justify-self: center;
+      align-self: center;
+    }
+
+    .skills {
+      grid-column: 1 / 2;
+      justify-content: center;
+    }
+
+    .skills-section .btn {
+      grid-area: 3 / 2 / 3 / 3;
+      align-self: center;
+      justify-self: flex-start;
+    }
+
+    .skills-section p:nth-child(3) {
+      grid-area: 1 / 2 / 2 / 3;
+      align-self: center;
+    }
+
+    .skills-section p:nth-child(4) {
+      grid-area: 2 / 2 / 2 / 3;
+      align-self: center;
+    }
+
+    .contact-form {
+      align-items: center;
+    }
+
+    .contact-form form,
+    .downloads {
+      max-width: 776.72px;
+    }
+
+    .contact-form textarea {
+      height: var(--s-13);
+    }
+
+    .downloads {
+      justify-content: center;
+    }
+  }
+
+  @media (min-width: 1360px) {
+    .skills-section,
+    .contact-form {
+      padding-left: var(--s-20);
+      padding-right: var(--s-20);
+    }
+
+    .intro-section {
+      gap: var(--s-10);
+      padding-left: var(--s-30);
+      padding-right: var(--s-30);
+    }
+
+    .intro-section section h1:nth-child(1) {
+      height: var(--s-7);
+      padding-right: 6px;
+    }
+
+    .intro-section section h1 {
+      font-size: var(--s-7);
+      line-height: var(--s-7);
+    }
+
+    .intro-section section p {
+      font-size: var(--s-5);
+      line-height: var(--s-6);
+    }
+
+    .skills-section > p:nth-child(3),
+    .skills-section > p:nth-child(4) {
+      font-size: var(--s-4);
+    }
+
+    .mostUsed {
+      height: auto;
+      max-width: 70%;
+      align-self: center;
+    }
+
+    .contact-form section {
+      gap: var(--s-12);
+    }
+
+    .contact-form section h1 {
+      font-size: var(--s-7);
+    }
+
+    form p:nth-child(2) {
+      font-size: var(--s-5);
+    }
+
+    .downloads {
+      gap: var(--s-5);
+    }
+
+    .downloads > p {
+      font-size: var(--s-5);
+    }
+  }
 </style>
 <script type="module">
-const typewriter = document.querySelector(`.typewriter`)
-const titles = ["Frontend", "Backend", "Full-stack", "Embedded"]
-const articles = document.querySelectorAll(`article`)
-const nameInput = document.querySelector('input[name="name"]')
-const emailInput = document.querySelector('input[name="email"]')
-const messageInput = document.querySelector('textarea[name="message"]')
-const header = document.querySelector('header')
+  const typewriter = document.querySelector(`.typewriter`);
+  const titles = ["Frontend", "Backend", "Full-stack", "Embedded"];
+  const articles = document.querySelectorAll(`article`);
+  const nameInput = document.querySelector('input[name="name"]');
+  const emailInput = document.querySelector('input[name="email"]');
+  const messageInput = document.querySelector('textarea[name="message"]');
+  const header = document.querySelector("header");
 
-let sectionButtons;
-let curTitle = 0;
+  let sectionButtons;
+  let curTitle = 0;
 
-const typing = function(title) {
-    const time = 1200 / title.length
+  const typing = function (title) {
+    const time = 1200 / title.length;
 
     let char = 0;
     const int = setInterval(() => {
-      typewriter.textContent += title[char]
-      char++
+      typewriter.textContent += title[char];
+      char++;
 
       if (typewriter.textContent.length === title.length) {
         clearInterval(int);
-        waiting(title)
+        waiting(title);
       }
     }, time);
-}
+  };
 
-const waiting = async function(title) {
-    await setTimeout(() => {removing(title)}, 2000)
-}
+  const waiting = async function (title) {
+    await setTimeout(() => {
+      removing(title);
+    }, 2000);
+  };
 
-const removing = function(title) {
-    const time = 1200 / title.length
+  const removing = function (title) {
+    const time = 1200 / title.length;
 
-    let titlelength = title.length
+    let titlelength = title.length;
     const int = setInterval(() => {
-      titlelength--
-      typewriter.textContent = title.substring(0, titlelength)
+      titlelength--;
+      typewriter.textContent = title.substring(0, titlelength);
 
       if (typewriter.textContent.length === 0) {
         clearInterval(int);
-        curTitle++
+        curTitle++;
         if (curTitle === titles.length) curTitle = 0;
-        typing(titles[curTitle])
+        typing(titles[curTitle]);
       }
-    }, time)
-}
+    }, time);
+  };
 
-const blinker = function () {
+  const blinker = function () {
     setInterval(() => {
-        typewriter.style.borderRight = typewriter.style.borderRight === '2px solid var(--font-color)' ? 'none': '2px solid var(--font-color)'
-      }, 520)
-}
+      typewriter.style.borderRight =
+        typewriter.style.borderRight === "2px solid var(--font-color)"
+          ? "none"
+          : "2px solid var(--font-color)";
+    }, 520);
+  };
 
-const setBorderBottom = function(color) {
-  nameInput.style.borderBottomColor = color;
-  emailInput.style.borderBottomColor = color; 
-  messageInput.style.borderBottomColor = color;
-}
+  const setBorderBottom = function (color) {
+    nameInput.style.borderBottomColor = color;
+    emailInput.style.borderBottomColor = color;
+    messageInput.style.borderBottomColor = color;
+  };
 
-// submit button on form
-document.querySelector('button[type="submit"]').addEventListener(`click`, async (e) => {
-  e.preventDefault();
+  // submit button on form
+  document
+    .querySelector('button[type="submit"]')
+    .addEventListener(`click`, async (e) => {
+      e.preventDefault();
 
-  const messageResponse = document.querySelector(`.message-response`)  
-  messageResponse.textContent = `Just a moment...`
+      const messageResponse = document.querySelector(`.message-response`);
+      messageResponse.textContent = `Just a moment...`;
 
-  // fire up grecaptcha and get token
-  await grecaptcha.enterprise.ready(async () => {
-    const token = await grecaptcha.enterprise.execute('6LfFhCUqAAAAAM9bDteptB1xCa4GPfVAq2-rNIMx', {action: 'LOGIN'});
+      // fire up grecaptcha and get token
+      await grecaptcha.enterprise.ready(async () => {
+        const token = await grecaptcha.enterprise.execute(
+          "6LfFhCUqAAAAAM9bDteptB1xCa4GPfVAq2-rNIMx",
+          { action: "LOGIN" }
+        );
 
-    // input values
-    const name = nameInput.value;
-    const email = emailInput.value;
-    const message = messageInput.value;
+        // input values
+        const name = nameInput.value;
+        const email = emailInput.value;
+        const message = messageInput.value;
 
-    fetch("http://localhost:3000/api/mail", 
-      { method: 'POST', 
-        headers: { 'Content-Type': 'application/json' }, 
-        body: JSON.stringify({ name, email, message, token })
-      }).then(res => res.json())
-      .then(data => {
-      
-      // set border bottom
-      setBorderBottom(`#8cb0bf`)
-
-      // shows invalid inputs
-      if (!data.message) {
-        data.forEach(error => {
-          const elements = document.getElementsByName(`${error.path}`)
-          messageResponse.textContent = "Please fix any issues";
-
-          elements.forEach(e => {
-            const input = e
-            input.value = "";
-            input.setAttribute("placeholder", error.message);
-            input.style.borderBottomColor = `#FF0000`;
-          })
+        fetch("http://localhost:3000/api/mail", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, email, message, token }),
         })
-      // show message and clear inputs
-      } else if (data.message === "Email successfully sent") {
-        messageResponse.innerHTML = `${data.message} <ion-icon name="checkmark-done-circle-outline"></ion-icon>`
-        nameInput.value = "";
-        emailInput.value = "";
-        messageInput.value = "";
-      } else {
-        messageResponse.innerHTML = `${data.message} <ion-icon name="close-circle-outline"></ion-icon>`
-        nameInput.value = "";
-        emailInput.value = "";
-        messageInput.value = "";
+          .then((res) => res.json())
+          .then((data) => {
+            // set border bottom
+            setBorderBottom(`#8cb0bf`);
+
+            // shows invalid inputs
+            if (!data.message) {
+              data.forEach((error) => {
+                const elements = document.getElementsByName(`${error.path}`);
+                messageResponse.textContent = "Please fix any issues";
+
+                elements.forEach((e) => {
+                  const input = e;
+                  input.value = "";
+                  input.setAttribute("placeholder", error.message);
+                  input.style.borderBottomColor = `#FF0000`;
+                });
+              });
+              // show message and clear inputs
+            } else if (data.message === "Email successfully sent") {
+              messageResponse.innerHTML = `${data.message} <ion-icon name="checkmark-done-circle-outline"></ion-icon>`;
+              nameInput.value = "";
+              emailInput.value = "";
+              messageInput.value = "";
+            } else {
+              messageResponse.innerHTML = `${data.message} <ion-icon name="close-circle-outline"></ion-icon>`;
+              nameInput.value = "";
+              emailInput.value = "";
+              messageInput.value = "";
+            }
+          });
+      });
+    });
+
+  const setSectionButton = function () {
+    const yScreen = window.scrollY;
+    // Clear previous highlights
+    sectionButtons.forEach((button) =>
+      button.classList.remove("current-section")
+    );
+
+    articles.forEach((article) => {
+      if (
+        article.offsetTop <= yScreen &&
+        article.offsetTop + article.offsetHeight >= yScreen
+      ) {
+        const button = document.querySelector(
+          `.goto-section-button[section="${article.getAttribute("section")}"]`
+        );
+        if (button) {
+          button.classList.add("current-section"); // Highlight the button
+        }
       }
-    })
-  });
-})
+    });
+  };
 
-const setSectionButton = function() {
-  const yScreen = window.scrollY;
-  // Clear previous highlights
-  sectionButtons.forEach(button => button.classList.remove("current-section"));
-
-  articles.forEach(article => {
-    if (article.offsetTop <= yScreen && (article.offsetTop + article.offsetHeight) >= yScreen) {
-      const button = document.querySelector(`.goto-section-button[section="${article.getAttribute("section")}"]`);
-     	if (button) {
-       	button.classList.add("current-section"); // Highlight the button
-     	}
- 		}
- 	});
-};
-
-articles.forEach((article, i) => {
-	document.querySelector(`.goto-section`).insertAdjacentHTML("beforeend", `
+  articles.forEach((article, i) => {
+    document.querySelector(`.goto-section`).insertAdjacentHTML(
+      "beforeend",
+      `
 		<span class="goto-section-button" section="${i}"></span>
-	`)
+	`
+    );
 
-	article.setAttribute("section", `${i}`)
-});
+    article.setAttribute("section", `${i}`);
+  });
 
-let prevScrollPos = window.scrollY;
-document.addEventListener(`scroll`, () => {
-  setSectionButton()
+  let prevScrollPos = window.scrollY;
+  document.addEventListener(`scroll`, () => {
+    setSectionButton();
 
-  const currentScrollPos = window.scrollY;
-  if (prevScrollPos > currentScrollPos) {
-    header.style.top = "0px"
-  } else {
-    header.style.top = "-100%"
-  }
+    const currentScrollPos = window.scrollY;
+    if (prevScrollPos > currentScrollPos) {
+      header.style.top = "0px";
+    } else {
+      header.style.top = "-100%";
+    }
 
-  prevScrollPos = currentScrollPos
-})
+    prevScrollPos = currentScrollPos;
+  });
 
-document.addEventListener("DOMContentLoaded", () => {
-  // set typing animation
-  blinker()
-  if (titles.length > 0) {
-      
-    //typing animation
-    let curTitle = 0;
-    typing(titles[curTitle]);
-  }
+  document.addEventListener("DOMContentLoaded", () => {
+    // set typing animation
+    blinker();
+    if (titles.length > 0) {
+      //typing animation
+      let curTitle = 0;
+      typing(titles[curTitle]);
+    }
 
-  sectionButtons = document.querySelectorAll('.goto-section-button'); 
-	setSectionButton()
+    sectionButtons = document.querySelectorAll(".goto-section-button");
+    setSectionButton();
 
-	sectionButtons.forEach(button => {
-		button.addEventListener(`click`, () => {
-			const article = document.querySelector(`article[section="${button.getAttribute("section")}"]`)
+    sectionButtons.forEach((button) => {
+      button.addEventListener(`click`, () => {
+        const article = document.querySelector(
+          `article[section="${button.getAttribute("section")}"]`
+        );
 
-			const { top } = article.getBoundingClientRect()
-			window.scrollTo({
-				top: window.scrollY + top + 1,
-				left: 0,
-				behavior: "smooth"
-			})
-		})
-	})
-})
-
+        const { top } = article.getBoundingClientRect();
+        window.scrollTo({
+          top: window.scrollY + top + 1,
+          left: 0,
+          behavior: "smooth",
+        });
+      });
+    });
+  });
 </script>

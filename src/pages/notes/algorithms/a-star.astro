@@ -1,5 +1,10 @@
 ---
 import NotesLayout from "../../../layouts/NotesLayout.astro";
+import img1 from "../../../images/a-star1.png";
+import img2 from "../../../images/a-star2.png";
+import img3 from "../../../images/a-star3.png";
+import img4 from "../../../images/a-star4.png";
+import img5 from "../../../images/a-star5.png";
 ---
 
 <NotesLayout title="Data Structures | Breadth First Search">
@@ -42,11 +47,7 @@ import NotesLayout from "../../../layouts/NotesLayout.astro";
     you're using a heuristic. Similarly, in A*, heuristics help algorithms focus
     on promising paths first, avoiding unnecessary exploration.
   </p>
-
-  <img
-    src="https://res.cloudinary.com/dusakygel/image/upload/v1734684238/Screenshot_2024-12-20_014232_xwceqy.png"
-  />
-
+  <img src={img1.src} />
   <p class="roboto-light">
     As you can see in my poorly drawn photo above, the issue with Dijkstra's is
     that it explores all possible paths whether or not the search is headed in
@@ -54,11 +55,7 @@ import NotesLayout from "../../../layouts/NotesLayout.astro";
     potential routes. However we know that the bottom and right addresses are
     actually closer.
   </p>
-
-  <img
-    src="https://res.cloudinary.com/dusakygel/image/upload/v1734684238/Screenshot_2024-12-20_014002_jbeqxo.png"
-  />
-
+  <img src={img2.src} />
   <p class="roboto-light">
     We could apply a heuristic (this particular one is known as the
     <span class="italic">"Manhatten Distance"</span>) by using the (current x -
@@ -67,7 +64,6 @@ import NotesLayout from "../../../layouts/NotesLayout.astro";
     - 5) + (1 - 6) = -7, whereas the bottom address that we explore would be
     located at 3rd and 3rd which would sum to (3 - 5) + (3 - 6) = -5.
   </p>
-
   <p class="roboto-light">
     One thing to note though, is that we use the
     <span class="bold">absolute value</span> meaning that the -5 and -7 become 5
@@ -79,9 +75,7 @@ import NotesLayout from "../../../layouts/NotesLayout.astro";
     So now we have a way to calculate which address is actually closer to McDonalds.
     There are other heuristics but today we'll give Manhattan Distance a go.
   </p>
-
   <h2 class="roboto-bold">Applying the heuristic:</h2>
-
   <div class="code">
     <ul class="tabs">
       <li class="active">Java</li>
@@ -151,15 +145,9 @@ import NotesLayout from "../../../layouts/NotesLayout.astro";
     second would have an accumulated value of ((3 - 6) + (3 - 5)) + 1 which
     would be 8 and 6 respectively.
   </p>
-  <img
-    src="https://res.cloudinary.com/dusakygel/image/upload/v1734815934/Screenshot_2024-12-21_135924_kqo05m.png"
-  />
-  <img
-    src="https://res.cloudinary.com/dusakygel/image/upload/v1734815934/Screenshot_2024-12-21_140604_vxwnf4.png"
-  />
-  <img
-    src="https://res.cloudinary.com/dusakygel/image/upload/v1734816417/Screenshot_2024-12-21_142627_oyhzqg.png"
-  />
+  <img src={img3.src} />
+  <img src={img4.src} />
+  <img src={img5.src} />
   <p class="roboto-light" is:raw>
     With the calculated values, we can put the addresses into a <span
     class="bold">min-heap</span> and use the calculated value in the comparator.
