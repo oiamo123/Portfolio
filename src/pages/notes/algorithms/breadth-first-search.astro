@@ -1,5 +1,10 @@
 ---
 import NotesLayout from "../../../layouts/NotesLayout.astro";
+import img1 from "../../../images/bfs1.png";
+import img2 from "../../../images/bfs2.png";
+import img3 from "../../../images/bfs3.png";
+import img4 from "../../../images/bfs4.png";
+import img5 from "../../../images/bfs5.png";
 ---
 
 <NotesLayout title="Data Structures | Breadth First Search">
@@ -40,20 +45,17 @@ import NotesLayout from "../../../layouts/NotesLayout.astro";
     that processes the oldest data first. Taking a look at this tree:
   </p>
   <img
-    src="https://res.cloudinary.com/dusakygel/image/upload/v1734915009/Screenshot_2024-12-22_170342_m2dwrk.png"
+    src={img1.src}
     alt="A tree with nodes 1 through 7 in a hierarchical structure"
   />
   <p>Starting off, we want to add the starting node (1) to a queue.</p>
-  <img
-    src="https://res.cloudinary.com/dusakygel/image/upload/v1734915009/Screenshot_2024-12-22_171109_vqcppb.png"
-    alt="Queue initialized with node 1"
-  />
+  <img src={img2.src} alt="Queue initialized with node 1" />
   <p class="roboto-light">
     We can then pull the first item from the queue (1) and add it's neighbours
     into the queue (2, 3).
   </p>
   <img
-    src="https://res.cloudinary.com/dusakygel/image/upload/v1734915009/Screenshot_2024-12-22_171205_rwoyzk.png"
+    src={img3.src}
     alt="Queue with node 1 gone and it's neighbours added, 2 and 3"
   />
   <p class="roboto-light">
@@ -61,7 +63,7 @@ import NotesLayout from "../../../layouts/NotesLayout.astro";
     queue.
   </p>
   <img
-    src="https://res.cloudinary.com/dusakygel/image/upload/v1734915009/Screenshot_2024-12-22_171342_wztdty.png"
+    src={img4.src}
     alt="Queue with node 2 gone and it's neighbours added, 4 and 5"
   />
   <p class="roboto-light">
@@ -69,7 +71,7 @@ import NotesLayout from "../../../layouts/NotesLayout.astro";
     the queue.
   </p>
   <img
-    src="https://res.cloudinary.com/dusakygel/image/upload/v1734915009/Screenshot_2024-12-22_171508_lqya2t.png"
+    src={img5.src}
     alt="Queue with node 3 gone and it's neighbours added, 6 and 7"
   />
   <p class="roboto-light">

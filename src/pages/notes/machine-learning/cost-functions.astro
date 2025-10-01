@@ -1,5 +1,9 @@
 ---
 import NotesLayout from "../../../layouts/NotesLayout.astro";
+import img1 from "../../../images/lr2.png";
+import img2 from "../../../images/cf1.png";
+import img3 from "../../../images/lr1.png";
+import img4 from "../../../images/cf2.png";
 ---
 
 <NotesLayout title="Machine Learning | Cost Functions">
@@ -20,10 +24,7 @@ import NotesLayout from "../../../layouts/NotesLayout.astro";
     Going back to my linear-regression post, we were using this graph to predict
     the area of a city based on its population.
   </p>
-  <img
-    src="https://res.cloudinary.com/dusakygel/image/upload/v1734927660/Screenshot_2024-12-22_212045_li3u2i.png"
-    alt=""
-  />
+  <img src={img1.src} alt="" />
   <p class="roboto-light">Examining it in more detail:</p>
   <ul class="roboto-light">
     <li>x-axis: Population</li>
@@ -37,10 +38,7 @@ import NotesLayout from "../../../layouts/NotesLayout.astro";
     actual data points. The lower the cost, the better our model is at making
     accurate predictions.
   </p>
-  <img
-    src="https://res.cloudinary.com/dusakygel/image/upload/v1735173023/Screenshot_2024-12-25_173016_dvrfyd.png"
-    alt=""
-  />
+  <img src={img2.src} alt="" />
   <p class="roboto-light">
     As you can see in this graph, the cost is the difference between the actual
     data and the predicted value which is represented by the navy blue lines.
@@ -50,10 +48,7 @@ import NotesLayout from "../../../layouts/NotesLayout.astro";
     Before we jump into the cost formula, I wanted to show another method of
     representing the data above which could be a chart such as this one
   </p>
-  <img
-    src="https://res.cloudinary.com/dusakygel/image/upload/v1734927444/Screenshot_2024-12-22_194531_y0wlcs.png"
-    alt=""
-  />
+  <img src={img3.src} alt="" />
   <p class="roboto-light">Essentially what we have are 2 arrays of data</p>
   <ul class="roboto-light">
     <li>x (population): [4366508, 337318, 879277, 1133193, 2712205, ...]</li>
@@ -77,10 +72,7 @@ import NotesLayout from "../../../layouts/NotesLayout.astro";
     with the only difference being that we square cost<sup>i</sup> and that it has
     some additional notation.
   </p>
-  <img
-    src="https://res.cloudinary.com/dusakygel/image/upload/v1735179927/Screenshot_2024-12-25_192447_oclsek.png"
-    alt=""
-  />
+  <img src={img4.src} alt="" />
   <ul class="roboto-light">
     <li>J(w, b): The calculated cost of the current model</li>
     <li>m: Number of data-points</li>
