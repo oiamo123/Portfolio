@@ -3,42 +3,42 @@
     {
       "id": "1",
       "body": "A chess engine developed in C++ to improve my understanding of C++, low level programming and algorithm optimization",
-      "img": "../src/images/chess-engine.png",
+      "img": "/src/images/chess-engine.png",
       "href": "https://github.com/oiamo123/Chess-Engine",
       "title": "C++ Chess engine"
     },
     {
       "id": "2",
       "body": "A trie based fuzzy matcher written in Go that provides per field parameters such as search depth",
-      "img": "../src/images/fuzzy-matcher.png",
+      "img": "/src/images/fuzzy-matcher.png",
       "href": "https://github.com/oiamo123/Fuzzy-Matcher",
       "title": "Trie-Based Fuzzy Matcher"
     },
     {
       "id": "3",
       "body": "My portfolio. Built using Astro, MongoDB and Nodejs. Learned and implemented features such as recaptcha and encryption/decryption",
-      "img": "../src/images/portfolio.png",
+      "img": "/src/images/portfolio.png",
       "href": "https://github.com/oiamo123/Portfolio",
       "title": "Portfolio"
     },
     {
       "id": "4",
       "body": "An Android app using Jetpack Compose and Kotlin to manage agents in the 'Travel Experts' database. Supports full CRUD functionality.",
-      "img": "../src/images/agents-app.png",
+      "img": "/src/images/agents-app.png",
       "href": "https://github.com/oiamo123/Agents-App-Android",
       "title": "Android App"
     },
     {
       "id": "5",
       "body": "Web app focused on security, with XSS and SQL Injection protection, authentication, and authorization. Built with Sequelize and data sanitization.",
-      "img": "../src/images/security-project.png",
+      "img": "/src/images/security-project.png",
       "href": "https://github.com/oiamo123/security_project/blob/main/README.md",
       "title": "Security Project"
     },
     {
       "id": "6",
       "body": "A project I built that demonstrates my knowledge of data structures and algorithms, featuring a custom implementation of Dijkstra’s Algorithm and a hand-made Priority Queue with an optional comparator.",
-      "img": "../src/images/knights-travails.png",
+      "img": "/src/images/knights-travails.png",
       "href": "https://oiamo123.github.io/Knights-Travails/",
       "title": "Knights Travails"
     }
