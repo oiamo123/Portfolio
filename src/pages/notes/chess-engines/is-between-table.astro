@@ -1,0 +1,341 @@
+---
+import NotesLayout from "../../../layouts/NotesLayout.astro";
+---
+
+<NotesLayout title="Chess Engines | Is Between Tables">
+  <h1 class="roboto-bold">Chess Engine "Between Tables"</h1>
+  <p class="roboto-light">
+    I recently wrote up on how I though of an idea to grab the right-most and
+    left-most bit for sliding piece generation, however in my research, I also
+    discovered "Between tables". The concept is powerful and allows you to do an
+    O(1) lookup for the ray between to squares, which results in you only having
+    to check if there's pieces between the 2 squares to verify whether or not
+    the move is legal.
+  </p>
+  <p class="roboto-light">Consider we have the following position:</p>
+  <div class="code">
+    <ul class="tabs">
+      <li class="active">Binary</li>
+    </ul>
+    <div class="code-content">
+      <pre
+        class="active">
+    . . . . . . . .
+    . . . . . . . k
+    . . . . . . p .
+    . . . . . . . .
+    . . . . . . . .
+    . . . Q . . P .
+    . . . . . . . .
+    . . . . K . . .
+      </pre>
+    </div>
+  </div>
+  <p class="roboto-light">
+    Let's assume that in this position at the moment, white is to play.
+    Typically what you would do is generate all of the legal moves for example
+    to see where the queen could go to a little something like this:
+  </p>
+  <div class="code">
+    <ul class="tabs">
+      <li class="active">Binary</li>
+    </ul>
+    <div class="code-content">
+      <pre
+        class="active">
+    . . . 1 . . . .
+    . . . 1 . . . .
+    . . . 1 . . . .
+    . . . 1 . . . .
+    . . . 1 . . . .
+    1 1 1 Q 1 1 1 1
+    . . . 1 . . . .
+    . . . 1 . . . .
+      </pre>
+    </div>
+  </div>
+  <p class="roboto-light">
+    And then from here, we could determine which squares we could go to by
+    either:
+  </p>
+  <ol class="roboto-light">
+    <li>Finding left most & right most bit</li>
+    <li>Looping over each ray until each piece</li>
+  </ol>
+  <p class="roboto-light">
+    Or alternatively we could also use the precomputed tables for:
+  </p>
+  <ol class="roboto-light">
+    <li>Determining pinned pieces</li>
+    <li>Calculating threatened squares</li>
+    <li>Determining if the king is in check</li>
+  </ol>
+  <p class="roboto-light">
+    Etc etc. But this process is quite lengthy. For example if we were only
+    using the precomputed tables without the to and from squares to check if a
+    piece is pinned, we would have to:
+  </p>
+  <ol class="roboto-light">
+    <li>Make the move</li>
+    <li>Re-generate all of the rays for all sliding pieces</li>
+    <li>Check if the king is in check</li>
+    <li>If yes undo the move</li>
+  </ol>
+  <p class="roboto-light">Or if were keeping a table of pinned pieces:</p>
+  <ol class="roboto-light">
+    <li>Make the move</li>
+    <li>Get each ray for that piece type ie NE, E, SE, S etc</li>
+    <li>Loop over each ray</li>
+    <li>Check if the opponent king is on that ray</li>
+    <li>Check if the number of pieces > 1</li>
+  </ol>
+  <p class="roboto-light">
+    Alternatively, we can generate a lookup table. The goal is to create a table
+    that given a certain type of sliding piece, the from square, and the to
+    square, we can get all of the squares that it could move to between those 2
+    points. This provides us with a lot of advantages. A table would look a
+    little something like this:
+  </p>
+  <div class="code">
+    <ul class="tabs">
+      <li class="active">Binary</li>
+    </ul>
+    <div class="code-content">
+      <pre
+        class="active">
+    // for the rook
+    // a1 to a8 -> between[rook][a1][a8]
+    . . . . . . . .
+    1 . . . . . . .
+    1 . . . . . . .
+    1 . . . . . . .
+    1 . . . . . . .
+    1 . . . . . . .
+    1 . . . . . . .
+    . . . . . . . .
+
+    // a1 to h8 -> between[rook][a1][h8]
+    . . . . . . . .
+    . . . . . . . .
+    . . . . . . . .
+    . . . . . . . .
+    . . . . . . . .
+    . . . . . . . .
+    . . . . . . . .
+    . 1 1 1 1 1 1 .
+
+    // a1 to a7 -> between[rook][a1][a7]
+    . . . . . . . .
+    . . . . . . . .
+    1 . . . . . . .
+    1 . . . . . . .
+    1 . . . . . . .
+    1 . . . . . . .
+    1 . . . . . . .
+    . . . . . . . .
+
+    // a1 to h7 -> between[rook][a1][h7]
+    . . . . . . . .
+    . . . . . . . .
+    . . . . . . . .
+    . . . . . . . .
+    . . . . . . . .
+    . . . . . . . .
+    . . . . . . . .
+    . 1 1 1 1 1 . .
+
+    // a1 to a6 -> between[rook][a1][a6]
+    . . . . . . . .
+    . . . . . . . .
+    . . . . . . . .
+    1 . . . . . . .
+    1 . . . . . . .
+    1 . . . . . . .
+    1 . . . . . . .
+    . . . . . . . .
+
+    // a1 to h6 -> between[rook][a1][h6]
+    . . . . . . . .
+    . . . . . . . .
+    . . . . . . . .
+    . . . . . . . .
+    . . . . . . . .
+    . . . . . . . .
+    . . . . . . . .
+    . 1 1 1 1 . . .
+      </pre>
+    </div>
+  </div>
+  <p class="roboto-light">
+    So on and so forth. But this becomes quite powerful. Because now
+    backtracking to our initial position at the top with white to move, say
+    we're given from D3 -> H3, to check legality using our "between" table, all
+    we need to do is ensure that there are no pieces between the to and from
+    squares and that that piece, from, to combination has a valid set of moves.
+  </p>
+  <div class="code">
+    <ul class="tabs">
+      <li class="active">C++</li>
+    </ul>
+    <div class="code-content">
+      <pre
+        class="active">
+
+    uint64_t moves = 0ULL;
+    moves |= between[piece][from][to];
+    if (!(moves) || moves & allPieces) return false;
+
+      </pre>
+    </div>
+  </div>
+  <p class="roboto-light">
+    This also comes with a whole other set of powerful tactics. For example
+    determing pinned pieces now becomes:
+  </p>
+  <div class="code">
+    <ul class="tabs">
+      <li class="active">C++</li>
+    </ul>
+    <div class="code-content">
+      <pre
+        class="active"
+        is:raw>
+
+    // remove any old pins
+    opponent.pinnedPieces &= ~(between[piece][from][opponent.kingPosition] & opponent.allPieces);
+    
+    // add new pins
+    uint64_t blockers = between[piece][to][opponent.kingPosition] & opponent.allPieces;
+    if (blockers && ((blockers & (blockers - 1)) == 0)) {
+        opponent.pinnedPieces |= blockers;
+    }
+
+      </pre>
+    </div>
+  </div>
+  <p class="roboto-light">
+    The great thing with the pinned pieces is that now when we check if a move
+    is legal or not, the first thing we can do is check if the from square &
+    friendly.pinnedPieces, and early exit rather than going through all the move
+    logic, making the move, checking if it creates new threats and then undoing
+    the move.
+  </p>
+  <p class="roboto-light">
+    One thing to note however is that it does use quite a bit of memory, mind
+    you it can be simplified down to instead of between tables for the bishop,
+    rook and queen, just the rook and bishop for example. Another thing to be
+    more memory conservative is that with this, we can now completely get rid of
+    the pre-computed tables for sliding pieces. This also comes at a cost
+    though, since in order to determine checks, we'd need to keep track of the
+    locations of the opponents sliding pieces. For reference, here's my
+    implementation:
+  </p>
+  <div class="code">
+    <ul class="tabs">
+      <li class="active">C++</li>
+    </ul>
+    <div class="code-content">
+      <pre
+        class="active"
+        is:raw>
+
+    // helpers
+    bool Utils::sameRank(const uint8_t from, const uint8_t to) {
+        // same file example
+        // from = a1 = 0, to = h1 = 7
+        //     0 / 8 = 0     7 / 8 = 0 (integer division is absolute value)
+        return (from / 8) == (to / 8);
+    }
+
+    bool Utils::sameFile(const uint8_t from, const uint8_t to) {
+        // same file example
+        // from = a1 = 0, to = a8 = 56
+        //     0 % 8 = 0     56 % 8 = 0 
+        return (from % 8) == (to % 8);
+    }
+
+    bool Utils::sameDiagonal(const uint8_t from, const uint8_t to) {
+        // Same diagonal example
+        // from = a1 = 0, to = h8 = 63
+        
+        // (0 / 8 = 0) - (0 % 8 = 0) = 0   (63 / 8 = 7) - (63 % 8 = 7) = 0 -> squares are on right diagonal
+        bool d1 = (from / 8 - from % 8) == (to / 8 - to % 8)
+
+        // (0 / 8 = 0) + (0 % 8 = 0) = 0   (63 / 8 = 7) + (63 % 8 = 7) = 14 -> squares aren't on left diagonal
+        bool d2 = (from / 8 + from % 8) == (to / 8 + to % 8)
+
+        return d1 || d2;
+    }
+
+    // marks each square between the from and to squares
+    uint64_t MoveGenerator::rayBetween(uint8_t from, uint8_t to) {
+        // ray between example 
+        // from = a1 = 0, to = h1 = 7
+        uint64_t mask = 0ULL;
+
+        // get the to and from ranks and files
+        int fromRank = from / 8; // 0 / 8 = 0 
+        int fromFile = from % 8; // 0 % 8 = 0 
+        int toRank   = to / 8;   // 7 / 8 = 0 
+        int toFile   = to % 8;   // 7 % 8 = 7 
+
+        // direction calculations
+        int dRank = (toRank > fromRank) ? 1 : (toRank < fromRank ? -1 : 0); // 0 -> 0 
+        int dFile = (toFile > fromFile) ? 1 : (toFile < fromFile ? -1 : 0); // 7 > 0 -> 7
+
+        // early exit
+        // (dRank == 0 && dFile == 0) -> false, because dFile = 1
+        // (dRank != 0 && dFile != 0 && ...) -> false, because dRank = 0
+        if ((dRank == 0 && dFile == 0) || (dRank != 0 && dFile != 0 && abs(toRank - fromRank) != abs(toFile - fromFile))) {
+            return 0ULL;
+        }
+
+        int r = fromRank + dRank; // 0 + 0 = 0
+        int f = fromFile + dFile; // 0 + 1 = 1
+        while (r != toRank || f != toFile) {
+            int sq = r * 8 + f; 
+            if (sq == to) break; // safety, would break at sq = 7
+            mask |= 1ULL << sq; // adds squares 1..6 to the mask
+            r += dRank; // stays 0
+            f += dFile; // increments 1..6
+        }
+
+        return mask;
+    }
+
+    // generates the between table
+    array<array<array<uint64_t, 64>, 64>, 3> MoveGenerator::generateBetweenTable() {
+        // a1 -> a8 example
+        // init the between table
+        array<array<array<uint64_t, 64>, 64>, 3> bt{};
+
+        // loop over each square (from)
+        for (uint8_t from = 0; from < 64; from++) {
+            // loop over each square (to)
+            for (uint8_t to = 0; to < 64; to++) {
+                if (from == to) continue;
+                uint64_t mask = 0ULL;
+
+                // for bishop / queen moves
+                if (Utils::sameDiagonal(from, to)) { // would be ignored, a1 -> a8 isn't on a diagonal
+                    mask = rayBetween(from, to);
+                    bt[(uint8_t)PieceType::Bishop - 2][from][to] = mask;
+                    bt[(uint8_t)PieceType::Queen - 2][from][to] = mask;
+                }
+
+                // for rook / queen moves
+                if (Utils::sameRank(from, to) || Utils::sameFile(from, to)) { // a1 -> a8 is on the same file
+                    mask = rayBetween(from, to); // -> would go into rayBetween for a1 -> a8
+                    bt[(uint8_t)PieceType::Rook - 2][from][to] = mask;
+                    bt[(uint8_t)PieceType::Queen - 2][from][to] = mask;
+                }
+            }
+        }
+
+        return bt;
+    }
+
+      </pre>
+    </div>
+  </div>
+</NotesLayout>
